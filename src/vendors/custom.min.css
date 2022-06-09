@@ -5195,3 +5195,8 @@ ul.notifications {
   color: #5e6974 !important;
   padding-right: 20px;
 }
+
+.paginate_button .curPage {
+  font-weight: bold;
+  color: #0056b3;
+}

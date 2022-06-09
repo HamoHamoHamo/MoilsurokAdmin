@@ -21,7 +21,7 @@ export function Pagination({
             href="#"
             aria-controls="datatable"
             data-dt-idx="0"
-            tabindex="0"
+            tabIndex="0"
             onClick={() => {
               paginate(currentPage > 1 ? currentPage - 1 : currentPage);
             }}
@@ -29,26 +29,33 @@ export function Pagination({
             {"<"}
           </a>
         </li>
-        {pageNumbers.map((number) => (
-          <li key={number} class="paginate_button active">
+        {pageNumbers.map((number) => {
+          let classList = '';
+          if(number === currentPage){
+            classList = "curPage";
+          }
+          return(
+            <li key={number} class="paginate_button">
             <a
               href="#"
               onClick={() => paginate(number)}
               aria-controls="datatable"
               data-dt-idx="1"
-              tabindex="0"
+              tabIndex="0"
+              class={classList}
             >
               {number}
             </a>
           </li>
-        ))}
+          )          
+        })}
 
         <li class="paginate_button next" id="datatable_next">
           <a
             href="#"
             aria-controls="datatable"
             data-dt-idx="7"
-            tabindex="0"
+            tabIndex="0"
             onClick={() => {
               paginate(currentPage > 1 ? currentPage - 1 : currentPage);
             }}
@@ -62,6 +69,7 @@ export function Pagination({
 }
 
 export function DataTable() {
+
   const [posts, setPosts] = useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
   ]);
