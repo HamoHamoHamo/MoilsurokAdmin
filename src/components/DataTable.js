@@ -68,25 +68,24 @@ export function Pagination({
   );
 }
 
-export function DataTable() {
-
-  const [posts, setPosts] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
-  ]);
+export function DataTable({ header, tableDatas, dataList }) {
+  const [th, setTh] = useState('');
+  useEffect(() => {
+    // console.log("DATALIST", dataList);
+    
+  }, [])
+  // const [posts, setPosts] = useState([
+  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
+  // ]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
-  function currentPosts(tmp) {
-    let currentPosts = 0;
-    currentPosts = tmp.slice(indexOfFirst, indexOfLast);
-    return currentPosts;
-  }
+
 
   return (
     <div class="">
-      {/* <Posts posts={currentPosts(posts)}></Posts> */}
       <div class="row">
         <div class="col-md-12 col-sm-12 ">
           <div class="x_panel">
@@ -110,35 +109,15 @@ export function DataTable() {
                           <th>
                             <input type="checkbox" id="check-all" />
                           </th>
-                          {/* 테이블 헤더 값 받아서 변할수 있게 해주기 */}
-                          <th>Name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Age</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                          <th>Salary</th>
-                          <th>Salary</th>
-                          <th>Salary</th>
-                          <th>Salary</th>
+                          {header && header.map((text, idx) => <th key={idx}>{text}</th>)}
+                          
                         </tr>
                       </thead>
-
                       <tbody>
-                        {currentPosts(posts).map((data) => (
-                          <tr>
-                            <td>
-                              <input type="checkbox" id="check-all" />
-                            </td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                          </tr>
-                        ))}
+                        {tableDatas && tableDatas(dataList)}
+
                       </tbody>
+                      
                     </table>
                   </div>
                 </div>
@@ -146,7 +125,7 @@ export function DataTable() {
               <div class="row">
                 <Pagination
                   postsPerPage={postsPerPage}
-                  totalPosts={posts.length}
+                  totalPosts={dataList.length}
                   paginate={setCurrentPage}
                   currentPage={currentPage}
                 ></Pagination>
