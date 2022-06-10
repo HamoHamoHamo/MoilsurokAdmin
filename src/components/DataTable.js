@@ -1,15 +1,12 @@
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useRef } from "react";
+import { firestore, TEAM, USER } from "../utils/Firebase";
 
-export function Pagination({
-  postsPerPage,
-  totalPosts,
-  paginate,
-  currentPage,
-}) {
+export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
+  const lastPage = pageNumbers[pageNumbers.length-1];
   return (
     <div
       class="dataTables_paginate paging_simple_numbers"
@@ -57,7 +54,7 @@ export function Pagination({
             data-dt-idx="7"
             tabIndex="0"
             onClick={() => {
-              paginate(currentPage > 1 ? currentPage - 1 : currentPage);
+              paginate(currentPage < lastPage ? currentPage + 1 : currentPage);
             }}
           >
             {">"}
@@ -68,34 +65,83 @@ export function Pagination({
   );
 }
 
-export function DataTable({ header, tableDatas, dataList }) {
-  const [th, setTh] = useState('');
-  useEffect(() => {
-    // console.log("DATALIST", dataList);
-    
-  }, [])
-  // const [posts, setPosts] = useState([
-  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
-  // ]);
+export function DataTable({ title, header, tableDatas, dataList, setDataList }) {
+  const [checkList, setCheckList] = useState([]);
+  const [idList, setIdList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
 
+  const checkAllBtn = useRef();
+  useEffect(() => {
+    console.log("DATALIST", dataList);
+    let list = [];
+    currentDatas(dataList).map((a, i) => list[i] = a.id);
+    setIdList(list);
+  }, [currentPage])
+  
+  
+  console.log("IDXLIST", idList)
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
+  function currentDatas(tmp) {
+    let current = 0;
+    current = tmp.slice(indexOfFirst, indexOfLast);
+    return current;
+  }
+  const paginate = (page) => {
+    checkAllBtn.current.checked = false;
+    setCheckList([]);
+    setCurrentPage(page)
+  }
+  const checkAll = (e) => {
+    setCheckList(e.target.checked ? idList : []);
+  }
 
+  const checkEach = (e, id) => {
+    console.log("CHECKLIST", checkList);
+    if (e.target.checked) {
+      setCheckList([...checkList, id]);
+    } else {
+      setCheckList(checkList.filter((checkedId) => checkedId !== id));
+    }
+  }
+  const onClickDel = () => {
+    console.log("CLICK");
+    if(window.confirm("삭제하시겠습니까?")){
+      console.log("CHECKLISTSSSDEL", checkList);
+      if (checkList == ''){
+        window.alert("삭제할 항목을 골라 주세요");
+        return
+      };
+      checkList.map((id) => {
+        USER.doc(id).delete().then(() => {
+          window.location.reload();
+        });
+      })
+    }
+  }
 
   return (
     <div class="">
+      {/* <Posts posts={currentPosts(posts)}></Posts> */}
       <div class="row">
         <div class="col-md-12 col-sm-12 ">
           <div class="x_panel">
             <div class="x_title">
               <h2>
-                Default Example <small>Users</small>
+                {title} 목록
               </h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div id="datatable_filter" class="dataTables_filter"><label><input type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" /></label></div>
+                </div>
+                <div class="col-sm-6">
+                  <button class="btn btn-primary pull-right" onClick={onClickDel}>삭제</button>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-sm-12">
                   <div class="card-box table-responsive">
@@ -107,14 +153,14 @@ export function DataTable({ header, tableDatas, dataList }) {
                       <thead>
                         <tr>
                           <th>
-                            <input type="checkbox" id="check-all" />
+                            <input ref={checkAllBtn} onChange={checkAll} type="checkbox" id="check-all" />
                           </th>
                           {header && header.map((text, idx) => <th key={idx}>{text}</th>)}
                           
                         </tr>
                       </thead>
                       <tbody>
-                        {tableDatas && tableDatas(dataList)}
+                        {tableDatas && tableDatas(currentDatas(dataList), checkList, checkEach)}
 
                       </tbody>
                       
@@ -123,12 +169,17 @@ export function DataTable({ header, tableDatas, dataList }) {
                 </div>
               </div>
               <div class="row">
-                <Pagination
-                  postsPerPage={postsPerPage}
-                  totalPosts={dataList.length}
-                  paginate={setCurrentPage}
-                  currentPage={currentPage}
-                ></Pagination>
+                <div class="col-sm-5 ">
+                  <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {(currentPage-1) * postsPerPage + 1} to {currentPage * postsPerPage > dataList.length ? dataList.length : currentPage * postsPerPage} of {dataList.length} entries</div>
+                </div>
+                <div class="col-sm-7 ">
+                  <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={dataList.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                  ></Pagination>
+                </div>
               </div>
             </div>
           </div>
