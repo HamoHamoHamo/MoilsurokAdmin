@@ -1,10 +1,16 @@
 const HOME = "/";
 const DATAS_USER = "/datas/user";
+const DATAS_USER_DETAIL = "/datas/user/:id";
 const DATAS_NOTICE = "/datas/notice";
+const DATAS_NOTICE_DETAIL = "/datas/notice/:id";
 const DATAS_SCHEDULE = "/datas/schedule";
+const DATAS_SCHEDULE_DETAIL = "/datas/schedule/:id";
 const DATAS_QUESTION = "/datas/question";
+const DATAS_QUESTION_DETAIL = "/datas/question/:id";
 const DATAS_ANSWER = "/datas/answer";
+const DATAS_ANSWER_DETAIL = "/datas/answer/:id";
 const DATAS_PROFILE = "/datas/profile";
+const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
 const REQ_USER = "/req/user";
 const REQ_PROFILE = "/req/profile";
@@ -17,11 +23,53 @@ const CREATE_SCHEDULE = "/create/schedule";
 const routes = {
   home: HOME,
   datasUser: DATAS_USER,
+  datasUserDetail : (id) => {
+    if(id) {
+      return `/datas/user/${id}`;
+    } else {
+      return DATAS_USER_DETAIL;
+    }
+  },
   datasNotice: DATAS_NOTICE,
+  datasNoticeDetail : (id) => {
+    if(id) {
+      return `/datas/notice/${id}`;
+    } else {
+      return DATAS_NOTICE_DETAIL;
+    }
+  },
   datasSchedule: DATAS_SCHEDULE,
+  datasScheduleDetail : (id) => {
+    if(id) {
+      return `/datas/schedule/${id}`;
+    } else {
+      return DATAS_SCHEDULE_DETAIL;
+    }
+  },
   datasQuestion: DATAS_QUESTION,
+  datasQuestionDetail : (id) => {
+    if(id) {
+      return `/datas/question/${id}`;
+    } else {
+      return DATAS_QUESTION_DETAIL;
+    }
+  },
   datasAnswer: DATAS_ANSWER,
+  datasAnswerDetail : (id) => {
+    if(id) {
+      return `/datas/answer/${id}`;
+    } else {
+      return DATAS_ANSWER_DETAIL;
+    }
+  },
   datasProfile: DATAS_PROFILE,
+  datasProfileDetail : (id) => {
+    if(id) {
+      return `/datas/profile/${id}`;
+    } else {
+      return DATAS_PROFILE_DETAIL;
+    }
+  },
 
   reqUser: REQ_USER,
   reqProfile: REQ_PROFILE,

@@ -65,17 +65,18 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   );
 }
 
-export function DataTable({ title, header, tableDatas, dataList, setDataList }) {
+export function DataTable({ title, header, tableDatas, dataList, setDataList, search }) {
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
-
+  const searchInput = useRef();
   const checkAllBtn = useRef();
   useEffect(() => {
-    console.log("DATALIST", dataList);
     let list = [];
-    currentDatas(dataList).map((a, i) => list[i] = a.id);
+    
+    currentDatas(dataList).map((a, i) => a ? list[i] = a.id : null);
+    
     setIdList(list);
   }, [currentPage])
   
@@ -105,14 +106,14 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList }) 
       setCheckList(checkList.filter((checkedId) => checkedId !== id));
     }
   }
-  const onClickDel = () => {
-    console.log("CLICK");
+  const onClickDel = (e) => {
+    e.preventDefault();
+    if (checkList == ''){
+      window.alert("삭제할 항목을 골라 주세요");
+      return
+    };
     if(window.confirm("삭제하시겠습니까?")){
       console.log("CHECKLISTSSSDEL", checkList);
-      if (checkList == ''){
-        window.alert("삭제할 항목을 골라 주세요");
-        return
-      };
       checkList.map((id) => {
         USER.doc(id).delete().then(() => {
           window.location.reload();
@@ -134,14 +135,23 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList }) 
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div id="datatable_filter" class="dataTables_filter"><label><input type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" /></label></div>
-                </div>
-                <div class="col-sm-6">
-                  <button class="btn btn-primary pull-right" onClick={onClickDel}>삭제</button>
-                </div>
-              </div>
+              <form class="row">
+                {/* <div class="row"> */}
+                  <div class="col-sm-2">
+                    <div id="datatable_filter" class="dataTables_filter">
+                      <label>
+                        <input ref={searchInput} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" style={{left: '-40px'}}>
+                    <input type="submit" class="btn btn-secondary" value="검색"/>
+                  </div>
+                  <div class="col-sm-6">
+                    <button class="btn btn-primary pull-right" onClick={onClickDel}>삭제</button>
+                  </div>
+                {/* </div> */}
+              </form>
               <div class="row">
                 <div class="col-sm-12">
                   <div class="card-box table-responsive">

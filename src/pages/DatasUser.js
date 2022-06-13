@@ -1,7 +1,9 @@
 import react, { useState, useEffect, useRef } from "react";
 import { Pagination, DataTable } from "../components/DataTable";
 import { firestore, TEAM, USER } from "../utils/Firebase";
-import readXlsxFile from 'read-excel-file'
+import readXlsxFile from 'read-excel-file';
+import { Link, useLocation } from 'react-router-dom';
+import routes from "../utils/Routes";
 
 
 export default function DatasUser() {
@@ -9,10 +11,12 @@ export default function DatasUser() {
   //   readXlsxFile(e.target.files[0]).then((rows) => {
   //   console.log(rows);
   // })};
-  
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
   const [dataList, setDataList] = useState([]);
+  const search = location.search.split('=')[1];
+
   const header = [
     '이름',
     '기수',
@@ -24,37 +28,35 @@ export default function DatasUser() {
     '수정시간'
   ]
   useEffect(() => {
-    
-    // const test = [1,2,3,4,5,6,7,8,10];
-    // test.map(() => {user.add({modifiedDate: "222222"})});
+    // 데이터 추가하기
+    // USER.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"})
     let list = []
     let id = []
-    // 수정 날짜 기준 오름차순으로 정렬
-    USER.orderBy("modifiedDate", "asc").get().then((docs) => {
-      // 반복문으로 docuemnt 하나씩 확인
+    USER.orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){
-          // document의 데이터
-          // console.log("DATA", doc.data());
-          // document의 id
-          // console.log("DOC", doc.id);
           list.push(doc.data());
           id.push(doc.id);
         }
       });
       setLoading(true);
       setIdList(id);
-      setDataList(list.map((data, idx) => Object.entries(data).reduce((acc, [key, val], i) => {
-        // console.log("KEY", key, "\nval", val, "\nacc", acc);
-        if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
-          acc = {
-            ...acc,
-            [key]: val
-          }
+      setDataList(list.map((data, idx) => {
+        if(!search || Object.values(data).includes(search)){
+          return(
+            Object.entries(data).reduce((acc, [key, val], i) => {
+              // console.log("KEY", key, "\nval", val, "\nacc", acc);
+              if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
+                acc = {
+                  ...acc,
+                  [key]: val
+                }
+              }
+              return acc;
+            }, {id: id[idx]})
+          )  
         }
-        return acc;
-      }, {id: id[idx]})
-      ));
+      }));
     });
   }, []);
   
@@ -63,33 +65,36 @@ export default function DatasUser() {
   }
   const tableDatas = (dataList, checkList, checkEach) => (
     dataList.map((obj, i) => {
-      const {
-        year,
-        name,
-        phoneNum,
-        birthdate,
-        email,
-        company,
-        check,
-        modifiedDate,
-        id,
-      } = obj
-      console.log("IDDDD", id);
-      return(
-        <tr key={i}>
-          <td>
-            <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
-          </td>
-          <td>{name}</td>
-          <td>{year}</td>
-          <td>{birthdate}</td>
-          <td>{phoneNum}</td>
-          <td>{email}</td>
-          <td>{company}</td>
-          <td>{check}</td>
-          <td>{modifiedDate}</td>
-        </tr>
-      )
+      if (obj) {
+        const {
+          year,
+          name,
+          phoneNum,
+          birthdate,
+          email,
+          company,
+          check,
+          modifiedDate,
+          id,
+        } = obj
+        console.log("IDDDD", id);
+        return(
+          <tr key={i}>
+            <td>
+              <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
+            </td>
+            <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{birthdate}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{phoneNum}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{email}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{check}</Link></td>
+            <td><Link to={routes.datasUserDetail(id)}>{modifiedDate}</Link></td>
+          </tr>
+        )
+      }
+      
     })
   )
   
@@ -98,7 +103,7 @@ export default function DatasUser() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} setDataList={setDataList}></DataTable>}
+      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} setDataList={setDataList} search={search}></DataTable>}
     </>
     );
 }
