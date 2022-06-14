@@ -5,7 +5,6 @@ import readXlsxFile from 'read-excel-file';
 import { Link, useLocation } from 'react-router-dom';
 import routes from "../utils/Routes";
 
-
 export default function DatasUser() {
   // const onUploadFile = (e) => {
   //   readXlsxFile(e.target.files[0]).then((rows) => {
@@ -15,8 +14,7 @@ export default function DatasUser() {
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
   const [dataList, setDataList] = useState([]);
-  const search = decodeURI(location.search).split('=')[1];
-  
+  const [search, setSearch] = useState('');
 
   const header = [
     '이름',
@@ -30,7 +28,8 @@ export default function DatasUser() {
   ]
   useEffect(() => {
     // 데이터 추가하기
-    // USER.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"})
+    // const a = [1,2,3,4,5,6,7,8,1,];
+    // a.map(() => {USER.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"}) });
     let list = []
     let id = []
     USER.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -42,33 +41,35 @@ export default function DatasUser() {
       });
       setLoading(true);
       setIdList(id);
-      setDataList(list.map((data, idx) => {
-        if(!search || Object.values(data).includes(search)){
-          console.log("data")
-          return(
-            Object.entries(data).reduce((acc, [key, val], i) => {
-              // console.log("KEY", key, "\nval", val, "\nacc", acc);
-              if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
-                acc = {
-                  ...acc,
-                  [key]: val
-                }
-              }
-              return acc;
-            }, {id: id[idx]})
-          )  
-        }
-      }));
+      setDataList(list.reduce((acc0, data, idx) => {
+        let c = false;
+        const res = Object.entries(data).reduce((acc, [key, val], i) => {
+          if(!search || val.includes(search)){
+            c = true;
+          }
+          // console.log("KEY", key, "\nval", val, "\nacc", acc);
+          if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
+            acc = {
+              ...acc,
+              [key]: val
+            }
+          }
+          return acc;
+        }, {'id': id[idx]})
+        return c ? acc0.concat(res) : acc0;
+      }, []));
     });
-  }, []);
+  }, [search]);
   
   if(loading){
     console.log("table data", dataList);
+    
   }
   const tableDatas = (dataList, checkList, checkEach) => (
     dataList.map((obj, i) => {
       if (obj) {
         const {
+          id,
           year,
           name,
           phoneNum,
@@ -77,7 +78,6 @@ export default function DatasUser() {
           company,
           check,
           modifiedDate,
-          id,
         } = obj
         console.log("IDDDD", id);
         return(
@@ -96,16 +96,12 @@ export default function DatasUser() {
           </tr>
         )
       }
-      
     })
   )
-  
-    
-
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} setDataList={setDataList} search={search}></DataTable>}
+      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
     </>
-    );
+  );
 }

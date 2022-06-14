@@ -65,26 +65,28 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   );
 }
 
-export function DataTable({ title, header, tableDatas, dataList, setDataList, search }) {
+export function DataTable({ title, header, tableDatas, dataList, search, setSearch }) {
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
-  const [searchValue, setSearchValue] = useState(search);
   const searchInput = useRef();
   const checkAllBtn = useRef();
   useEffect(() => {
     let list = [];
+    console.log("DATALIST", dataList);
     
     currentDatas(dataList).map((a, i) => a ? list[i] = a.id : null);
+    
     
     setIdList(list);
   }, [currentPage])
   
   
-  console.log("IDXLIST", idList)
+  // console.log("IDXLIST", idList)
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
+  
   function currentDatas(tmp) {
     let current = 0;
     current = tmp.slice(indexOfFirst, indexOfLast);
@@ -122,8 +124,11 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
       })
     }
   }
-  const onChangeSearch = (e) => {
-    setSearchValue(e.target.value);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSearch(searchInput.current.value);
+    
   }
 
   return (
@@ -139,12 +144,12 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-              <form class="row" acceptCharset="utf-8">
+              <form class="row" onSubmit={onSubmit}>
                 {/* <div class="row"> */}
                   <div class="col-sm-2">
                     <div id="datatable_filter" class="dataTables_filter">
                       <label>
-                        <input ref={searchInput} name="search" type="search" class="form-control input-sm" onChange={onChangeSearch} value={searchValue} placeholder="검색하기" aria-controls="datatable" />
+                        <input ref={searchInput} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
                       </label>
                     </div>
                   </div>
@@ -174,7 +179,7 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
                         </tr>
                       </thead>
                       <tbody>
-                        {tableDatas && tableDatas(currentDatas(dataList), checkList, checkEach)}
+                        {dataList !== undefined && tableDatas(currentDatas(dataList), checkList, checkEach)}
 
                       </tbody>
                       
@@ -184,7 +189,7 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
               </div>
               <div class="row">
                 <div class="col-sm-5 ">
-                  <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {(currentPage-1) * postsPerPage + 1} to {currentPage * postsPerPage > dataList.length ? dataList.length : currentPage * postsPerPage} of {dataList.length} entries</div>
+                  <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {dataList.length > 0 ? (currentPage-1) * postsPerPage + 1 : 0} to {currentPage * postsPerPage > dataList.length ? dataList.length : currentPage * postsPerPage} of {dataList.length} entries</div>
                 </div>
                 <div class="col-sm-7 ">
                   <Pagination

@@ -21,6 +21,11 @@ firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const TEAM = firestore.collection("teams").doc('FxRFio9hTwGqAsU5AIZd');
 const USER = TEAM.collection('User');
-// 필요한 곳에서 사용할 수 있도록 내보내기
-export { firestore, TEAM, USER };
+const NOTICE = TEAM.collection('Notice');
+const SCHEDULE = TEAM.collection('Schedule');
+const QUESTION = TEAM.collection('Question');
+const ANSWER = TEAM.collection('Answer');
+const PROFILE = TEAM.collection('Profile');
 
+// 필요한 곳에서 사용할 수 있도록 내보내기
+export { firestore, TEAM, USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE };

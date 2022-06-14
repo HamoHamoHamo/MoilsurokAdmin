@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import "../vendors/bootstrap/dist/js/bootstrap.min.js";
 import styles from "./AppLayout.module.css";
 import routes from "../utils/Routes";
+// import { Link } from 'react-router-dom'; 사이드바 애니메이션 꼬여서 안씀
 
 import $ from "jquery";
 window.jQuery = $;
