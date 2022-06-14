@@ -15,7 +15,8 @@ export default function DatasUser() {
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
   const [dataList, setDataList] = useState([]);
-  const search = location.search.split('=')[1];
+  const search = decodeURI(location.search).split('=')[1];
+  
 
   const header = [
     '이름',
@@ -43,6 +44,7 @@ export default function DatasUser() {
       setIdList(id);
       setDataList(list.map((data, idx) => {
         if(!search || Object.values(data).includes(search)){
+          console.log("data")
           return(
             Object.entries(data).reduce((acc, [key, val], i) => {
               // console.log("KEY", key, "\nval", val, "\nacc", acc);

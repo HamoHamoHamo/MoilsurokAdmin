@@ -70,6 +70,7 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
   const [idList, setIdList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
+  const [searchValue, setSearchValue] = useState(search);
   const searchInput = useRef();
   const checkAllBtn = useRef();
   useEffect(() => {
@@ -121,6 +122,9 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
       })
     }
   }
+  const onChangeSearch = (e) => {
+    setSearchValue(e.target.value);
+  }
 
   return (
     <div class="">
@@ -135,12 +139,12 @@ export function DataTable({ title, header, tableDatas, dataList, setDataList, se
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-              <form class="row">
+              <form class="row" acceptCharset="utf-8">
                 {/* <div class="row"> */}
                   <div class="col-sm-2">
                     <div id="datatable_filter" class="dataTables_filter">
                       <label>
-                        <input ref={searchInput} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
+                        <input ref={searchInput} name="search" type="search" class="form-control input-sm" onChange={onChangeSearch} value={searchValue} placeholder="검색하기" aria-controls="datatable" />
                       </label>
                     </div>
                   </div>
