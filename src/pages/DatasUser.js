@@ -62,7 +62,7 @@ export default function DatasUser() {
   }, [search]);
   
   if(loading){
-    console.log("table data", dataList);
+    // console.log("table data", dataList);
     
   }
   const tableDatas = (dataList, checkList, checkEach) => (
@@ -79,7 +79,7 @@ export default function DatasUser() {
           check,
           modifiedDate,
         } = obj
-        console.log("IDDDD", id);
+        // console.log("IDDDD", id);
         return(
           <tr key={i}>
             <td>
@@ -101,7 +101,7 @@ export default function DatasUser() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
+      {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={USER}></DataTable>}
     </>
   );
 }

@@ -86,7 +86,7 @@ export default function DatasNotice() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"공지사항"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
+      {loading && <DataTable title={"공지사항"}collection={NOTICE} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
     </>
     );
 }

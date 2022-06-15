@@ -1,5 +1,4 @@
 import react, { useState, useEffect, useRef } from "react";
-import { firestore, TEAM, USER } from "../utils/Firebase";
 
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   const pageNumbers = [];
@@ -65,7 +64,7 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   );
 }
 
-export function DataTable({ title, header, tableDatas, dataList, search, setSearch }) {
+export function DataTable({ title, header, tableDatas, dataList, search, setSearch, collection }) {
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,7 +117,7 @@ export function DataTable({ title, header, tableDatas, dataList, search, setSear
     if(window.confirm("삭제하시겠습니까?")){
       console.log("CHECKLISTSSSDEL", checkList);
       checkList.map((id) => {
-        USER.doc(id).delete().then(() => {
+        collection.doc(id).delete().then(() => {
           window.location.reload();
         });
       })

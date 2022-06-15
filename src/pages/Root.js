@@ -2,7 +2,7 @@ import React from "react";
 import AppLayout from "../components/AppLayout";
 import DataTable from "../components/DataTable";
 import { Route, Routes } from "react-router-dom";
-import DataDetail, { UserDataDetail } from "../components/DataDetail";
+import DataDetail from "../components/DataDetail";
 import routes from "../utils/Routes";
 
 import Home from "./Home";
@@ -26,17 +26,17 @@ function Root() {
         <Route path={routes.home} element={<Home />} />
 
         <Route path={routes.datasUser} element={<DatasUser />} />
-        <Route path={routes.datasUserDetail()} element={<UserDataDetail />} />
+        <Route path={routes.datasUserDetail()} element={<DataDetail kinds={"user"} />} />
         <Route path={routes.datasNotice} element={<DatasNotice />} />
-        <Route path={routes.datasNoticeDetail()} element={<DataDetail />} />
+        <Route path={routes.datasNoticeDetail()} element={<DataDetail kinds={"notice"} />} />
         <Route path={routes.datasSchedule} element={<DatasSchedule />} />
-        <Route path={routes.datasScheduleDetail()} element={<DataDetail />} />
+        <Route path={routes.datasScheduleDetail()} element={<DataDetail kinds={"schedule"} />} />
         <Route path={routes.datasQuestion} element={<DatasQuestion />} />
-        <Route path={routes.datasQuestionDetail()} element={<DataDetail />} />
+        <Route path={routes.datasQuestionDetail()} element={<DataDetail kinds={"question"} />} />
         <Route path={routes.datasAnswer} element={<DatasAnswer />} />
-        <Route path={routes.datasAnswerDetail()} element={<DataDetail />} />
+        <Route path={routes.datasAnswerDetail()} element={<DataDetail kinds={"answer"} />} />
         <Route path={routes.datasProfile} element={<DatasProfile />} />
-        <Route path={routes.datasProfileDetail()} element={<DataDetail />} />
+        <Route path={routes.datasProfileDetail()} element={<DataDetail kinds={"profile"} />} />
 
         <Route path={routes.reqUser} element={<ReqUser />} />
         <Route path={routes.reqProfile} element={<ReqProfile />} />
