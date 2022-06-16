@@ -1,6 +1,6 @@
-import react, { useState, useEffect, useRef } from "react";
-import { Pagination, DataTable } from "../components/DataTable";
-import { firestore, TEAM, USER } from "../utils/Firebase";
+import { useState, useEffect } from "react";
+import { DataTable } from "../components/DataTable";
+import { USER } from "../utils/Firebase";
 import readXlsxFile from 'read-excel-file';
 import { Link, useLocation } from 'react-router-dom';
 import routes from "../utils/Routes";
@@ -10,9 +10,8 @@ export default function DatasUser() {
   //   readXlsxFile(e.target.files[0]).then((rows) => {
   //   console.log(rows);
   // })};
-  const location = useLocation();
+  
   const [loading, setLoading] = useState(false);
-  const [idList, setIdList] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -40,7 +39,6 @@ export default function DatasUser() {
         }
       });
       setLoading(true);
-      setIdList(id);
       setDataList(list.reduce((acc0, data, idx) => {
         let c = false;
         const res = Object.entries(data).reduce((acc, [key, val], i) => {
@@ -82,7 +80,7 @@ export default function DatasUser() {
         // console.log("IDDDD", id);
         return(
           <tr key={i}>
-            <td>
+            <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
@@ -102,6 +100,7 @@ export default function DatasUser() {
     <>
       {!loading && <div>Loading</div>}
       {loading && <DataTable title={"회원"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={USER}></DataTable>}
+
     </>
   );
 }

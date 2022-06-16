@@ -70,7 +70,7 @@ export default function DatasNotice() {
         console.log("IDDDD", id);
         return(
           <tr key={i}>
-            <td>
+            <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasNoticeDetail(id)}>{title}</Link></td>

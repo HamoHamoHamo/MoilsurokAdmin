@@ -1,7 +1,6 @@
-import react, { useState, useEffect, useRef } from "react";
-import { Pagination, DataTable } from "../components/DataTable";
-import { firestore, QUESTION } from "../utils/Firebase";
-import readXlsxFile from 'read-excel-file';
+import { useState, useEffect } from "react";
+import { DataTable } from "../components/DataTable";
+import { QUESTION } from "../utils/Firebase";
 import { Link, useLocation } from 'react-router-dom';
 import routes from "../utils/Routes";
 
@@ -72,7 +71,7 @@ export default function DatasQuestion() {
         // console.log("IDDDD", id);
         return(
           <tr key={i}>
-            <td>
+            <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasQuestionDetail(id)}>{title}</Link></td>
