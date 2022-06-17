@@ -4,7 +4,8 @@ export default function AnswerDetail({ datas, onChange, back, onSubmit, collecti
     content,
     creator,
     question,
-    modifiedDate
+    modifiedDate,
+    pubDate,
   } = datas;
   return (
     <form
@@ -61,7 +62,7 @@ export default function AnswerDetail({ datas, onChange, back, onSubmit, collecti
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+        <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -70,6 +71,19 @@ export default function AnswerDetail({ datas, onChange, back, onSubmit, collecti
             readOnly="readOnly"
             class="form-control"
             value={modifiedDate}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">등록시간</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="pubDate"
+            type="text"
+            readOnly="readOnly"
+            class="form-control"
+            value={pubDate}
           />
         </div>
       </div>

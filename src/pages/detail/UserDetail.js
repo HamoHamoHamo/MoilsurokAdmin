@@ -1,40 +1,29 @@
-export default function UserDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+export default function UserDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
+    year,
+    name,
     birthdate,
-    check,
-    comPosition,
-    comAdr,
-    comTel,
+    phoneNum,
+    email,
     company,
     department,
-    email,
+    comPosition,
+    comTel,
+    comAdr,
     faxNum,
-    modifiedDate,
-    name,
-    phoneNum,
     sector,
-    year,
+    check,
+    pubDate,
+    modifiedDate,
     files,
     filenames
-  } = datas;
+    } = datas;
   return (
     <form
       method="post"
       onSubmit={onSubmit}
       class="form-horizontal form-label-left"
     >
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="year"
-            type="text"
-            class="form-control"
-            value={year}
-          />
-        </div>
-      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">
@@ -44,6 +33,18 @@ export default function UserDataDetail({ datas, onChange, back, onSubmit, collec
             type="text"
             class="form-control"
             value={name}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">기수</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="year"
+            type="text"
+            class="form-control"
+            value={year}
           />
         </div>
       </div>
@@ -220,7 +221,7 @@ export default function UserDataDetail({ datas, onChange, back, onSubmit, collec
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+        <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -229,6 +230,19 @@ export default function UserDataDetail({ datas, onChange, back, onSubmit, collec
             readOnly="readOnly"
             class="form-control"
             value={modifiedDate}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">등록시간</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="pubDate"
+            type="text"
+            readOnly="readOnly"
+            class="form-control"
+            value={pubDate}
           />
         </div>
       </div>

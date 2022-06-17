@@ -1,4 +1,4 @@
-export default function QuestionDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+export default function QuestionDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
     title,
     content,
@@ -6,8 +6,8 @@ export default function QuestionDataDetail({ datas, onChange, back, onSubmit, co
     files,
     filenames,
     check,
-    date,
     modifiedDate,
+    pubDate,
   } = datas;
   return (
     <form
@@ -69,8 +69,8 @@ export default function QuestionDataDetail({ datas, onChange, back, onSubmit, co
                 onChange={onChange}
                 name="check"
                 type="radio"
-                checked={check === "y"}
-                value="y"
+                checked={check === "O"}
+                value="O"
                 id="optionsRadios1"
               />{" "}
               O
@@ -82,8 +82,8 @@ export default function QuestionDataDetail({ datas, onChange, back, onSubmit, co
                 onChange={onChange}
                 name="check"
                 type="radio"
-                checked={check === "n"}
-                value="n"
+                checked={check === "X"}
+                value="X"
                 id="optionsRadios2"
               />{" "}
               X
@@ -104,7 +104,7 @@ export default function QuestionDataDetail({ datas, onChange, back, onSubmit, co
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+        <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -113,6 +113,19 @@ export default function QuestionDataDetail({ datas, onChange, back, onSubmit, co
             readOnly="readOnly"
             class="form-control"
             value={modifiedDate}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">등록시간</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="pubDate"
+            type="text"
+            readOnly="readOnly"
+            class="form-control"
+            value={pubDate}
           />
         </div>
       </div>

@@ -1,11 +1,12 @@
-export default function NoticeDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+export default function NoticeDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
     title,
     content,
     creator,
     files,
-    modifiedDate,
     filenames,
+    modifiedDate,
+    pubDate,
   } = datas;
   return (
     <form
@@ -50,7 +51,7 @@ export default function NoticeDataDetail({ datas, onChange, back, onSubmit, coll
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">이미지</label>
+        <label class="control-label col-md-3 col-sm-3 ">파일</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -71,7 +72,7 @@ export default function NoticeDataDetail({ datas, onChange, back, onSubmit, coll
         </div>
       ))}
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+        <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -80,6 +81,19 @@ export default function NoticeDataDetail({ datas, onChange, back, onSubmit, coll
             readOnly="readOnly"
             class="form-control"
             value={modifiedDate}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">등록시간</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="pubDate"
+            type="text"
+            readOnly="readOnly"
+            class="form-control"
+            value={pubDate}
           />
         </div>
       </div>

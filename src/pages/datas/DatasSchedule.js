@@ -17,11 +17,12 @@ export default function DatasSchedule() {
     '작성자',
     '내용',
     '수정시간',
+    '등록시간',
   ]
   useEffect(() => {
     // 데이터 추가하기
     // const a = [1,2,3,4,5,6,7,8,9,1];
-    // a.map(() => {SCHEDULE.add({modifiedDate: "2022-02-11 10:10", creator: "유저" , title: "기수", content: "내용ㅇㅇ"})})
+    // a.map(() => {SCHEDULE.add({date: "2202022-23", pubDate: "2022-05-22", modifiedDate: "2022-02-11 10:10", creator: "유저" , title: "기수", content: "내용ㅇㅇ"})})
     let list = []
     let id = []
     SCHEDULE.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -40,7 +41,7 @@ export default function DatasSchedule() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'filenames' || key === 'date' || key === 'title' || key === 'content' || key === 'creator' || key === 'pubDate' || key === 'modifiedDate') {
+          if(key === 'pubDate' || key === 'filenames' || key === 'date' || key === 'title' || key === 'content' || key === 'creator' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
@@ -66,18 +67,21 @@ export default function DatasSchedule() {
           content,
           creator,
           modifiedDate,
+          filenames,
+          pubDate,
         } = obj
         // console.log("IDDDD", id);
         return(
           <tr key={i}>
             <td style={{width: '2%'}}>
-              <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
+              <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
             <td style={{width: '10%'}}><Link to={routes.datasScheduleDetail(id)}>{date}</Link></td>
             <td><Link to={routes.datasScheduleDetail(id)}>{title}</Link></td>
             <td><Link to={routes.datasScheduleDetail(id)}>{creator}</Link></td>
             <td style={{width: '20%'}}><Link to={routes.datasScheduleDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
             <td><Link to={routes.datasScheduleDetail(id)}>{modifiedDate}</Link></td>
+            <td><Link to={routes.datasScheduleDetail(id)}>{pubDate}</Link></td>
           </tr>
         )
       }

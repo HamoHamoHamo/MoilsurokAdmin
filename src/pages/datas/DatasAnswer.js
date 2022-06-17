@@ -17,11 +17,12 @@ export default function DatasAnswer() {
     '문의',
     '작성자',
     '수정시간',
+    '작성시간',
   ]
   useEffect(() => {
     // 데이터 추가하기
     // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {ANSWER.add({modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", question: "문의링크" }) });
+    // a.map(() => {ANSWER.add({pubDate: "20123-234", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", question: "문의링크" }) });
     let list = []
     let id = []
     ANSWER.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -40,7 +41,7 @@ export default function DatasAnswer() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'question' || key === 'modifiedDate') {
+          if(key === 'pubDate' || key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'question' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
@@ -67,18 +68,21 @@ export default function DatasAnswer() {
           creator,
           question,
           modifiedDate,
+          pubDate,
+          filenames,
         } = obj
         // console.log("IDDDD", id);
         return(
           <tr key={i}>
             <td style={{width: '2%'}}>
-              <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
+              <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasAnswerDetail(id)}>{title}</Link></td>
             <td style={{width: '20%'}}><Link to={routes.datasAnswerDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{question}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{creator}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{modifiedDate}</Link></td>
+            <td><Link to={routes.datasAnswerDetail(id)}>{pubDate}</Link></td>
           </tr>
         )
       }

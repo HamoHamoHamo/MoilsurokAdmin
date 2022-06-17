@@ -15,12 +15,13 @@ export default function DatasNotice() {
     '제목',
     '작성자',
     '내용',
-    '작성시간',
     '수정시간',
+    '등록시간',
   ]
   useEffect(() => {
     // 데이터 추가하기
-    // NOTICE.add({modifiedDate: "2022-02-11 10:10", title: "기수", creator: "이름", images: ["이미지주소", "222"], content: "내용ㅇㅇ"});
+    // const a = [1, 2, 3, 4, 5, 6, 7, 8, 1,];
+    // a.map(() => {NOTICE.add({pubDate: "202222", modifiedDate: "2022-02-11 10:10", title: "기수", creator: "이름", content: "내용ㅇㅇ"})});
     let list = []
     let id = []
     NOTICE.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -39,7 +40,7 @@ export default function DatasNotice() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'pubDate' || key === 'modifiedDate') {
+          if(key === 'pubDate' || key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
@@ -65,12 +66,13 @@ export default function DatasNotice() {
           creator,
           pubDate,
           modifiedDate,
+          filenames,
         } = obj
         console.log("IDDDD", id);
         return(
           <tr key={i}>
             <td style={{width: '2%'}}>
-              <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
+              <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasNoticeDetail(id)}>{title}</Link></td>
             <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
