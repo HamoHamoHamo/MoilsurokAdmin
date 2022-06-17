@@ -1,4 +1,5 @@
-import react, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { storage } from "../utils/Firebase";
 
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
   const pageNumbers = [];
@@ -67,20 +68,25 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }){
 export function DataTable({ title, header, tableDatas, dataList, search, setSearch, collection }) {
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
+  const [filenameList, setFilenameList] = useState([]);
+  const [checkFilenameList, setCheckFilenameList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(15);
   const searchInput = useRef();
   const checkAllBtn = useRef();
   useEffect(() => {
     let list = [];
+    let flist = [];
     console.log("DATALIST", dataList);
     
-    currentDatas(dataList).map((a, i) => a ? list[i] = a.id : null);
+    currentDatas(dataList).map((a, i) => {
+      list[i] = a ? a.id : null;
+      flist[i] = a.filenames ? a.filenames : '';
+    });
     
-    
+    setFilenameList(flist);
     setIdList(list);
-  }, [currentPage])
-  
+  }, [currentPage]);
   
   // console.log("IDXLIST", idList)
   const indexOfLast = currentPage * postsPerPage;
@@ -98,25 +104,36 @@ export function DataTable({ title, header, tableDatas, dataList, search, setSear
   }
   const checkAll = (e) => {
     setCheckList(e.target.checked ? idList : []);
+    setCheckFilenameList(e.target.checked ? filenameList : []);
   }
 
-  const checkEach = (e, id) => {
+  const checkEach = (e, id, flist) => {
     console.log("CHECKLIST", checkList);
     if (e.target.checked) {
       setCheckList([...checkList, id]);
+      setCheckFilenameList([...checkFilenameList, flist]);
     } else {
       setCheckList(checkList.filter((checkedId) => checkedId !== id));
+      setCheckFilenameList(checkFilenameList.filter((cfList) => cfList !== flist));
     }
   }
   const onClickDel = (e) => {
     e.preventDefault();
+    console.log("DELELELELTEL", checkList, "CHIFILE", checkFilenameList[0]);
     if (checkList == ''){
       window.alert("삭제할 항목을 골라 주세요");
       return
     };
     if(window.confirm("삭제하시겠습니까?")){
-      console.log("CHECKLISTSSSDEL", checkList);
-      checkList.map((id) => {
+      checkList.map((id, i) => {
+        console.log("III", i);
+        if(checkFilenameList[i]){
+          console.log("CHEKCFILIST", checkFilenameList[i]);
+          checkFilenameList[i].map((file) => {
+            const ref = storage.ref().child(file);
+            ref.delete();
+          })
+        }
         collection.doc(id).delete().then(() => {
           window.location.reload();
         });

@@ -1,11 +1,10 @@
-import react, { useState, useEffect, useRef } from "react";
-import { Pagination, DataTable } from "../components/DataTable";
-import { firestore, TEAM, SCHEDULE } from "../utils/Firebase";
-import readXlsxFile from 'read-excel-file';
+import { useState, useEffect } from "react";
+import { DataTable } from "../../components/DataTable";
+import { NOTICE } from "../../utils/Firebase";
 import { Link, useLocation } from 'react-router-dom';
-import routes from "../utils/Routes";
+import routes from "../../utils/Routes";
 
-export default function DatasSchedule() {
+export default function DatasNotice() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
@@ -13,19 +12,18 @@ export default function DatasSchedule() {
   const [search, setSearch] = useState('');
 
   const header = [
-    '날짜',
     '제목',
     '작성자',
     '내용',
+    '작성시간',
     '수정시간',
   ]
   useEffect(() => {
     // 데이터 추가하기
-    // const a = [1,2,3,4,5,6,7,8,9,1];
-    // a.map(() => {SCHEDULE.add({modifiedDate: "2022-02-11 10:10", creator: "유저" , title: "기수", content: "내용ㅇㅇ"})})
+    // NOTICE.add({modifiedDate: "2022-02-11 10:10", title: "기수", creator: "이름", images: ["이미지주소", "222"], content: "내용ㅇㅇ"});
     let list = []
     let id = []
-    SCHEDULE.orderBy("modifiedDate", "desc").get().then((docs) => {
+    NOTICE.orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){
           list.push(doc.data());
@@ -41,7 +39,7 @@ export default function DatasSchedule() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'date' || key === 'title' || key === 'content' || key === 'creator' || key === 'pubDate' || key === 'modifiedDate') {
+          if(key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'pubDate' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
@@ -62,23 +60,23 @@ export default function DatasSchedule() {
       if (obj) {
         const {
           id,
-          date,
           title,
           content,
           creator,
+          pubDate,
           modifiedDate,
         } = obj
-        // console.log("IDDDD", id);
+        console.log("IDDDD", id);
         return(
           <tr key={i}>
             <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
             </td>
-            <td style={{width: '10%'}}><Link to={routes.datasScheduleDetail(id)}>{date}</Link></td>
-            <td><Link to={routes.datasScheduleDetail(id)}>{title}</Link></td>
-            <td><Link to={routes.datasScheduleDetail(id)}>{creator}</Link></td>
-            <td style={{width: '20%'}}><Link to={routes.datasScheduleDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
-            <td><Link to={routes.datasScheduleDetail(id)}>{modifiedDate}</Link></td>
+            <td><Link to={routes.datasNoticeDetail(id)}>{title}</Link></td>
+            <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
+            <td style={{width: '20%'}}><Link to={routes.datasNoticeDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
+            <td><Link to={routes.datasNoticeDetail(id)}>{pubDate}</Link></td>
+            <td><Link to={routes.datasNoticeDetail(id)}>{modifiedDate}</Link></td>
           </tr>
         )
       }
@@ -87,7 +85,7 @@ export default function DatasSchedule() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"일정"} collection={SCHEDULE} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
+      {loading && <DataTable title={"공지사항"}collection={NOTICE} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
     </>
     );
 }

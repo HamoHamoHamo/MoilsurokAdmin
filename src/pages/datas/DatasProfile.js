@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { DataTable } from "../components/DataTable";
-import { PROFILE } from "../utils/Firebase";
+import { DataTable } from "../../components/DataTable";
+import { PROFILE } from "../../utils/Firebase";
 import { Link } from 'react-router-dom';
-import routes from "../utils/Routes";
+import routes from "../../utils/Routes";
 
 export default function DatasProfile() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export default function DatasProfile() {
     '전화번호',
     '이메일',
     '회사명',
-    '승인여부',
+    '수정승인완료',
     '수정시간'
   ]
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function DatasProfile() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
+          if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val

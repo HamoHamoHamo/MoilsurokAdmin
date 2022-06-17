@@ -1,4 +1,10 @@
-import react, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import AnswerDetail from "../pages/detail/AnswerDetail"
+import NoticeDetail from "../pages/detail/NoticeDetail"
+import ProfileDetail from "../pages/detail/ProfileDetail"
+import QuestionDetail from "../pages/detail/QuestionDetail"
+import ScheduleDetail from "../pages/detail/ScheduleDetail"
+import UserDetail from "../pages/detail/UserDetail"
 import {
   USER,
   NOTICE,
@@ -9,6 +15,8 @@ import {
   storage,
 } from "../utils/Firebase";
 import { useParams, useNavigate } from "react-router-dom";
+import {v4 as uuidv4} from 'uuid';
+
 
 export default function DataDetail({ kinds }) {
   const { id } = useParams();
@@ -52,22 +60,22 @@ export default function DataDetail({ kinds }) {
   console.log("DATA", datas)
 
   if (kinds === "user") {
-    HandleDetail = UserDataDetail;
+    HandleDetail = UserDetail;
     title = "회원 데이터"
   } else if (kinds === "notice") {
-    HandleDetail = NoticeDataDetail;
+    HandleDetail = NoticeDetail;
     title = "공지사항 데이터"
   } else if (kinds === "schedule") {
-    HandleDetail = ScheduleDataDetail;
+    HandleDetail = ScheduleDetail;
     title = "일정 데이터"
   } else if (kinds === "question") {
-    HandleDetail = QuestionDataDetail;
+    HandleDetail = QuestionDetail;
     title = "문의 데이터"
   } else if (kinds === "answer") {
-    HandleDetail = AnswerDataDetail;
+    HandleDetail = AnswerDetail;
     title = "답변 데이터"
   } else if (kinds === "profile") {
-    HandleDetail = ProfileDataDetail;
+    HandleDetail = ProfileDetail;
     title = "프로필 수정 데이터"
   }
   
@@ -90,35 +98,40 @@ export default function DataDetail({ kinds }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const { uploadFiles: files } = datas
-    let filenames = [];
-
-    const fileList = files && await Promise.all(
-      Object.entries(files).map(async([key, file], i) => {
-        const filename = `files/${kinds}/${file.name}`;
-        const storageUrl = storage.ref().child(filename)
-        filenames.push(filename);
-        try {
-          await storageUrl.put(file)
-          const downloadUrl = await storageUrl.getDownloadURL()
-          console.log("DOWNLAOTDURL", downloadUrl);
-          return downloadUrl;
-        } catch(err) {
-          console.log("ERROR", err);
-        }
-        
-      }, [])
-    );
-    const udatas = {
-      ...datas,
-      files: datas.files ? [...datas.files, ...fileList] : fileList,
-      filenames: datas.filenames ? [...datas.filenames, ...filenames] : filenames
-    };
-    console.log("FILELISTS", udatas.files);
+    let udatas = {};
+    if(files){
+      let filenames = [];
+  
+      const fileList = files && await Promise.all(
+        Object.entries(files).map(async([key, file], i) => {
+          const filename = `files/${kinds}/${uuidv4()}_${file.name}`;
+          const storageUrl = storage.ref().child(filename)
+          filenames.push(filename);
+          try {
+            await storageUrl.put(file)
+            const downloadUrl = await storageUrl.getDownloadURL()
+            console.log("DOWNLAOTDURL", downloadUrl);
+            return downloadUrl;
+          } catch(err) {
+            console.log("ERROR", err);
+          }
+          
+        }, [])
+      );
+      console.log("DATAAASSS", datas);
+      udatas = {
+        ...datas,
+        files: datas.files ? [...datas.files, ...fileList] : fileList,
+        filenames: datas.filenames ? [...datas.filenames, ...filenames] : filenames
+      };
+    } else {
+      udatas = datas;
+    }
+    // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      console.log("SDFSFDATAS", udatas);
+      // console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas).then(navigate(-1));
-      console.log("UPDATE RESULT", update);
     } catch(err) {
       console.log('ERROR', err);
     }
@@ -183,7 +196,7 @@ export default function DataDetail({ kinds }) {
   }
 }
 
-export function DataDetailForm({ children, title, onClickDel }) {
+function DataDetailForm({ children, title, onClickDel }) {
   return (
     <div>
       <div class="row">
@@ -210,586 +223,586 @@ export function DataDetailForm({ children, title, onClickDel }) {
   );
 }
 
-function UserDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  const {
-    birthdate,
-    check,
-    comPosition,
-    comAdr,
-    comTel,
-    company,
-    department,
-    email,
-    faxNum,
-    modifiedDate,
-    name,
-    phoneNum,
-    sector,
-    year,
-    files,
-    filenames
-  } = datas;
-  return (
-    <form
-      method="post"
-      onSubmit={onSubmit}
-      class="form-horizontal form-label-left"
-    >
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="year"
-            type="text"
-            class="form-control"
-            value={year}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">이름</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="name"
-            type="text"
-            class="form-control"
-            value={name}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="birthdate"
-            type="text"
-            class="form-control"
-            value={birthdate}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="phoneNum"
-            type="text"
-            class="form-control"
-            value={phoneNum}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">이메일</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="email"
-            type="text"
-            class="form-control"
-            value={email}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">회사명</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="company"
-            type="text"
-            class="form-control"
-            value={company}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">부서</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="department"
-            type="text"
-            class="form-control"
-            value={department}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">직위</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comPosition"
-            type="text"
-            class="form-control"
-            value={comPosition}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">근무처 전화</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comTel"
-            type="text"
-            class="form-control"
-            value={comTel}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comAdr"
-            type="text"
-            class="form-control"
-            value={comAdr}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">팩스 번호</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="faxNum"
-            type="text"
-            class="form-control"
-            value={faxNum}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
-        <div class="col-md-4 col-sm-4 ">
-        <input
-            onChange={onChange}
-            name="files"
-            type="file"
-            class="form-control"
-            multiple
-          />
-        </div>
-      </div>
-      {files && files.map((img, i) => (
-        <div class="form-group row" key={`files${i}`}>
-          <label class="control-label col-md-3 col-sm-3 "></label>
-          <div class="col-md-4 col-sm-4 ">
-            <a href={img} target="_blank">{filenames[i]}</a>
-            <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
-          </div>
-        </div>
-      ))}
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">업종</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="sector"
-            type="text"
-            class="form-control"
-            value={sector}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">승인완료</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "y"}
-                value="y"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "n"}
-                value="n"
-                id="optionsRadios2"
-              />{" "}
-              X
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="modifiedDate"
-            type="text"
-            readOnly="readOnly"
-            class="form-control"
-            value={modifiedDate}
-          />
-        </div>
-      </div>
-      <div class="ln_solid">
-        <div class="form-group">
-          <div class="col-md-6" style={{ marginTop: "20px" }}>
-            <button type="submit" class="btn btn-success">
-              수정
-            </button>
-            <button type="reset" class="btn btn-secondary" onClick={back}>
-              취소
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
-}
+// function UserDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   const {
+//     birthdate,
+//     check,
+//     comPosition,
+//     comAdr,
+//     comTel,
+//     company,
+//     department,
+//     email,
+//     faxNum,
+//     modifiedDate,
+//     name,
+//     phoneNum,
+//     sector,
+//     year,
+//     files,
+//     filenames
+//   } = datas;
+//   return (
+//     <form
+//       method="post"
+//       onSubmit={onSubmit}
+//       class="form-horizontal form-label-left"
+//     >
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">기수</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="year"
+//             type="text"
+//             class="form-control"
+//             value={year}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">이름</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="name"
+//             type="text"
+//             class="form-control"
+//             value={name}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="birthdate"
+//             type="text"
+//             class="form-control"
+//             value={birthdate}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="phoneNum"
+//             type="text"
+//             class="form-control"
+//             value={phoneNum}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">이메일</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="email"
+//             type="text"
+//             class="form-control"
+//             value={email}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">회사명</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="company"
+//             type="text"
+//             class="form-control"
+//             value={company}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">부서</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="department"
+//             type="text"
+//             class="form-control"
+//             value={department}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">직위</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="comPosition"
+//             type="text"
+//             class="form-control"
+//             value={comPosition}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">근무처 전화</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="comTel"
+//             type="text"
+//             class="form-control"
+//             value={comTel}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="comAdr"
+//             type="text"
+//             class="form-control"
+//             value={comAdr}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">팩스 번호</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="faxNum"
+//             type="text"
+//             class="form-control"
+//             value={faxNum}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
+//         <div class="col-md-4 col-sm-4 ">
+//         <input
+//             onChange={onChange}
+//             name="files"
+//             type="file"
+//             class="form-control"
+//             multiple
+//           />
+//         </div>
+//       </div>
+//       {files && files.map((img, i) => (
+//         <div class="form-group row" key={`files${i}`}>
+//           <label class="control-label col-md-3 col-sm-3 "></label>
+//           <div class="col-md-4 col-sm-4 ">
+//             <a href={img} target="_blank">{filenames[i]}</a>
+//             <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
+//           </div>
+//         </div>
+//       ))}
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">업종</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="sector"
+//             type="text"
+//             class="form-control"
+//             value={sector}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">승인완료</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <div class="radio">
+//             <label>
+//               <input
+//                 onChange={onChange}
+//                 name="check"
+//                 type="radio"
+//                 checked={check === "y"}
+//                 value="y"
+//                 id="optionsRadios1"
+//               />{" "}
+//               O
+//             </label>
+//           </div>
+//           <div class="radio">
+//             <label>
+//               <input
+//                 onChange={onChange}
+//                 name="check"
+//                 type="radio"
+//                 checked={check === "n"}
+//                 value="n"
+//                 id="optionsRadios2"
+//               />{" "}
+//               X
+//             </label>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="modifiedDate"
+//             type="text"
+//             readOnly="readOnly"
+//             class="form-control"
+//             value={modifiedDate}
+//           />
+//         </div>
+//       </div>
+//       <div class="ln_solid">
+//         <div class="form-group">
+//           <div class="col-md-6" style={{ marginTop: "20px" }}>
+//             <button type="submit" class="btn btn-success">
+//               수정
+//             </button>
+//             <button type="reset" class="btn btn-secondary" onClick={back}>
+//               취소
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </form>
+//   );
+// }
 
-function NoticeDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  const {
-    title,
-    content,
-    creator,
-    files,
-    modifiedDate,
-    filenames,
-  } = datas;
-  return (
-    <form
-      method="post"
-      onSubmit={onSubmit}
-      class="form-horizontal form-label-left"
-    >
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">제목</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="title"
-            type="text"
-            class="form-control"
-            value={title}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">내용</label>
-        <div class="col-md-4 col-sm-4 ">
-          <textarea
-            onChange={onChange}
-            name="content"
-            type="text"
-            class="form-control"
-            value={content}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">작성자</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="creator"
-            type="text"
-            class="form-control"
-            value={creator}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">이미지</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="files"
-            type="file"
-            class="form-control"
-            multiple
-          />
-        </div>
-      </div>
-      {files && files.map((img, i) => (
-        <div class="form-group row" key={`files${i}`}>
-          <label class="control-label col-md-3 col-sm-3 "></label>
-          <div class="col-md-4 col-sm-4 ">
-            <a href={img} target="_blank">{filenames[i]}</a>
-            <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
-          </div>
-        </div>
-      ))}
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="modifiedDate"
-            type="text"
-            readOnly="readOnly"
-            class="form-control"
-            value={modifiedDate}
-          />
-        </div>
-      </div>
-      <div class="ln_solid">
-        <div class="form-group">
-          <div class="col-md-6" style={{ marginTop: "20px" }}>
-            <button type="submit" class="btn btn-success">
-              수정
-            </button>
-            <button type="reset" class="btn btn-secondary" onClick={back}>
-              취소
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
-}
+// function NoticeDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   const {
+//     title,
+//     content,
+//     creator,
+//     files,
+//     modifiedDate,
+//     filenames,
+//   } = datas;
+//   return (
+//     <form
+//       method="post"
+//       onSubmit={onSubmit}
+//       class="form-horizontal form-label-left"
+//     >
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">제목</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="title"
+//             type="text"
+//             class="form-control"
+//             value={title}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">내용</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <textarea
+//             onChange={onChange}
+//             name="content"
+//             type="text"
+//             class="form-control"
+//             value={content}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">작성자</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="creator"
+//             type="text"
+//             class="form-control"
+//             value={creator}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">이미지</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="files"
+//             type="file"
+//             class="form-control"
+//             multiple
+//           />
+//         </div>
+//       </div>
+//       {files && files.map((img, i) => (
+//         <div class="form-group row" key={`files${i}`}>
+//           <label class="control-label col-md-3 col-sm-3 "></label>
+//           <div class="col-md-4 col-sm-4 ">
+//             <a href={img} target="_blank">{filenames[i]}</a>
+//             <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
+//           </div>
+//         </div>
+//       ))}
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="modifiedDate"
+//             type="text"
+//             readOnly="readOnly"
+//             class="form-control"
+//             value={modifiedDate}
+//           />
+//         </div>
+//       </div>
+//       <div class="ln_solid">
+//         <div class="form-group">
+//           <div class="col-md-6" style={{ marginTop: "20px" }}>
+//             <button type="submit" class="btn btn-success">
+//               수정
+//             </button>
+//             <button type="reset" class="btn btn-secondary" onClick={back}>
+//               취소
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </form>
+//   );
+// }
 
-function ScheduleDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  const {
-    date,
-    title,
-    content,
-    creator,
-    modifiedDate,
-  } = datas;
-  return (
-    <form
-      method="post"
-      onSubmit={onSubmit}
-      class="form-horizontal form-label-left"
-    >
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">날짜</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="date"
-            type="text"
-            class="form-control"
-            value={date}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">제목</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="title"
-            type="text"
-            class="form-control"
-            value={title}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">내용</label>
-        <div class="col-md-4 col-sm-4 ">
-          <textarea
-            onChange={onChange}
-            name="content"
-            type="text"
-            class="form-control"
-            value={content}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">작성자</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="creator"
-            type="text"
-            class="form-control"
-            value={creator}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="modifiedDate"
-            type="text"
-            readOnly="readOnly"
-            class="form-control"
-            value={modifiedDate}
-          />
-        </div>
-      </div>
-      <div class="ln_solid">
-        <div class="form-group">
-          <div class="col-md-6" style={{ marginTop: "20px" }}>
-            <button type="submit" class="btn btn-success">
-              수정
-            </button>
-            <button type="reset" class="btn btn-secondary" onClick={back}>
-              취소
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
-}
+// function ScheduleDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   const {
+//     date,
+//     title,
+//     content,
+//     creator,
+//     modifiedDate,
+//   } = datas;
+//   return (
+//     <form
+//       method="post"
+//       onSubmit={onSubmit}
+//       class="form-horizontal form-label-left"
+//     >
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">날짜</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="date"
+//             type="text"
+//             class="form-control"
+//             value={date}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">제목</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="title"
+//             type="text"
+//             class="form-control"
+//             value={title}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">내용</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <textarea
+//             onChange={onChange}
+//             name="content"
+//             type="text"
+//             class="form-control"
+//             value={content}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">작성자</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="creator"
+//             type="text"
+//             class="form-control"
+//             value={creator}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="modifiedDate"
+//             type="text"
+//             readOnly="readOnly"
+//             class="form-control"
+//             value={modifiedDate}
+//           />
+//         </div>
+//       </div>
+//       <div class="ln_solid">
+//         <div class="form-group">
+//           <div class="col-md-6" style={{ marginTop: "20px" }}>
+//             <button type="submit" class="btn btn-success">
+//               수정
+//             </button>
+//             <button type="reset" class="btn btn-secondary" onClick={back}>
+//               취소
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </form>
+//   );
+// }
 
-function QuestionDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  const {
-    title,
-    content,
-    creator,
-    files,
-    filenames,
-    check,
-    date,
-    modifiedDate,
-  } = datas;
-  return (
-    <form
-      method="post"
-      onSubmit={onSubmit}
-      class="form-horizontal form-label-left"
-    >
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">제목</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="title"
-            type="text"
-            class="form-control"
-            value={title}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">내용</label>
-        <div class="col-md-4 col-sm-4 ">
-          <textarea
-            onChange={onChange}
-            name="content"
-            type="text"
-            class="form-control"
-            value={content}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">파일</label>
-        <div class="col-md-4 col-sm-4 ">
-        <input
-            onChange={onChange}
-            name="files"
-            type="file"
-            class="form-control"
-            multiple
-          />
-        </div>
-      </div>
-      {files && files.map((img, i) => (
-        <div class="form-group row" key={`files${i}`}>
-          <label class="control-label col-md-3 col-sm-3 "></label>
-          <div class="col-md-4 col-sm-4 ">
-            <a href={img} target="_blank">{filenames[i]}</a>
-            <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
-          </div>
-        </div>
-      ))}
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">답변완료</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "y"}
-                value="y"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "n"}
-                value="n"
-                id="optionsRadios2"
-              />{" "}
-              X
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">작성자</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="creator"
-            type="text"
-            class="form-control"
-            value={creator}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="modifiedDate"
-            type="text"
-            readOnly="readOnly"
-            class="form-control"
-            value={modifiedDate}
-          />
-        </div>
-      </div>
-      <div class="ln_solid">
-        <div class="form-group">
-          <div class="col-md-6" style={{ marginTop: "20px" }}>
-            <button type="submit" class="btn btn-success">
-              수정
-            </button>
-            <button type="reset" class="btn btn-secondary" onClick={back}>
-              취소
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
-}
+// function QuestionDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   const {
+//     title,
+//     content,
+//     creator,
+//     files,
+//     filenames,
+//     check,
+//     date,
+//     modifiedDate,
+//   } = datas;
+//   return (
+//     <form
+//       method="post"
+//       onSubmit={onSubmit}
+//       class="form-horizontal form-label-left"
+//     >
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">제목</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="title"
+//             type="text"
+//             class="form-control"
+//             value={title}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">내용</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <textarea
+//             onChange={onChange}
+//             name="content"
+//             type="text"
+//             class="form-control"
+//             value={content}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">파일</label>
+//         <div class="col-md-4 col-sm-4 ">
+//         <input
+//             onChange={onChange}
+//             name="files"
+//             type="file"
+//             class="form-control"
+//             multiple
+//           />
+//         </div>
+//       </div>
+//       {files && files.map((img, i) => (
+//         <div class="form-group row" key={`files${i}`}>
+//           <label class="control-label col-md-3 col-sm-3 "></label>
+//           <div class="col-md-4 col-sm-4 ">
+//             <a href={img} target="_blank">{filenames[i]}</a>
+//             <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
+//           </div>
+//         </div>
+//       ))}
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">답변완료</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <div class="radio">
+//             <label>
+//               <input
+//                 onChange={onChange}
+//                 name="check"
+//                 type="radio"
+//                 checked={check === "y"}
+//                 value="y"
+//                 id="optionsRadios1"
+//               />{" "}
+//               O
+//             </label>
+//           </div>
+//           <div class="radio">
+//             <label>
+//               <input
+//                 onChange={onChange}
+//                 name="check"
+//                 type="radio"
+//                 checked={check === "n"}
+//                 value="n"
+//                 id="optionsRadios2"
+//               />{" "}
+//               X
+//             </label>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">작성자</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="creator"
+//             type="text"
+//             class="form-control"
+//             value={creator}
+//           />
+//         </div>
+//       </div>
+//       <div class="form-group row ">
+//         <label class="control-label col-md-3 col-sm-3 ">수정날짜</label>
+//         <div class="col-md-4 col-sm-4 ">
+//           <input
+//             onChange={onChange}
+//             name="modifiedDate"
+//             type="text"
+//             readOnly="readOnly"
+//             class="form-control"
+//             value={modifiedDate}
+//           />
+//         </div>
+//       </div>
+//       <div class="ln_solid">
+//         <div class="form-group">
+//           <div class="col-md-6" style={{ marginTop: "20px" }}>
+//             <button type="submit" class="btn btn-success">
+//               수정
+//             </button>
+//             <button type="reset" class="btn btn-secondary" onClick={back}>
+//               취소
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </form>
+//   );
+// }
 
-function AnswerDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  return <div></div>;
-}
+// function AnswerDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   return <div></div>;
+// }
 
-function ProfileDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
-  return <div></div>;
-}
+// function ProfileDataDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+//   return <div></div>;
+// }

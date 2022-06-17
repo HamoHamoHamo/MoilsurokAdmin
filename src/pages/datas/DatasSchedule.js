@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { DataTable } from "../components/DataTable";
-import { QUESTION } from "../utils/Firebase";
+import { DataTable } from "../../components/DataTable";
+import { SCHEDULE } from "../../utils/Firebase";
 import { Link, useLocation } from 'react-router-dom';
-import routes from "../utils/Routes";
+import routes from "../../utils/Routes";
 
-export default function DatasQuestion() {
+export default function DatasSchedule() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
@@ -12,19 +12,19 @@ export default function DatasQuestion() {
   const [search, setSearch] = useState('');
 
   const header = [
+    '날짜',
     '제목',
-    '내용',
     '작성자',
-    '답변완료',
+    '내용',
     '수정시간',
   ]
   useEffect(() => {
     // 데이터 추가하기
-    // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {QUESTION.add({date: "2022-02-11 10:10", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", check: "y" }) });
+    // const a = [1,2,3,4,5,6,7,8,9,1];
+    // a.map(() => {SCHEDULE.add({modifiedDate: "2022-02-11 10:10", creator: "유저" , title: "기수", content: "내용ㅇㅇ"})})
     let list = []
     let id = []
-    QUESTION.orderBy("modifiedDate", "desc").get().then((docs) => {
+    SCHEDULE.orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){
           list.push(doc.data());
@@ -40,32 +40,31 @@ export default function DatasQuestion() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'title' || key === 'content' || key === 'creator' || key === 'check' || key === 'modifiedDate') {
+          if(key === 'filenames' || key === 'date' || key === 'title' || key === 'content' || key === 'creator' || key === 'pubDate' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
             }
           }
           return acc;
-        }, {'id': id[idx]})
+        }, {id: id[idx]})
         return c ? acc0.concat(res) : acc0;
       }, []));
     });
   }, [search]);
   
   if(loading){
-    // console.log("table data", dataList);
-    
+    console.log("table data", dataList);
   }
   const tableDatas = (dataList, checkList, checkEach) => (
     dataList.map((obj, i) => {
       if (obj) {
         const {
           id,
+          date,
           title,
           content,
           creator,
-          check,
           modifiedDate,
         } = obj
         // console.log("IDDDD", id);
@@ -74,11 +73,11 @@ export default function DatasQuestion() {
             <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
             </td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{title}</Link></td>
-            <td style={{width: '20%'}}><Link to={routes.datasQuestionDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{creator}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{check}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{modifiedDate}</Link></td>
+            <td style={{width: '10%'}}><Link to={routes.datasScheduleDetail(id)}>{date}</Link></td>
+            <td><Link to={routes.datasScheduleDetail(id)}>{title}</Link></td>
+            <td><Link to={routes.datasScheduleDetail(id)}>{creator}</Link></td>
+            <td style={{width: '20%'}}><Link to={routes.datasScheduleDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
+            <td><Link to={routes.datasScheduleDetail(id)}>{modifiedDate}</Link></td>
           </tr>
         )
       }
@@ -87,7 +86,7 @@ export default function DatasQuestion() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"문의"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={QUESTION}></DataTable>}
+      {loading && <DataTable title={"일정"} collection={SCHEDULE} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch}></DataTable>}
     </>
-  );
+    );
 }

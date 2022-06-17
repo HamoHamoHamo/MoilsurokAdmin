@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { DataTable } from "../components/DataTable";
-import { USER } from "../utils/Firebase";
+import { DataTable } from "../../components/DataTable";
+import { USER } from "../../utils/Firebase";
 import readXlsxFile from 'read-excel-file';
 import { Link, useLocation } from 'react-router-dom';
-import routes from "../utils/Routes";
+import routes from "../../utils/Routes";
 
 export default function DatasUser() {
   // const onUploadFile = (e) => {
@@ -22,13 +22,13 @@ export default function DatasUser() {
     '전화번호',
     '이메일',
     '회사명',
-    '승인여부',
+    '승인완료',
     '수정시간'
   ]
   useEffect(() => {
     // 데이터 추가하기
-    // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {USER.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"}) });
+    const a = [1,2,3,4,5,6,7,8,1,];
+    a.map(() => {USER.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "O"}) });
     let list = []
     let id = []
     USER.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -46,7 +46,7 @@ export default function DatasUser() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
+          if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
@@ -68,6 +68,7 @@ export default function DatasUser() {
       if (obj) {
         const {
           id,
+          filenames,
           year,
           name,
           phoneNum,
@@ -81,7 +82,7 @@ export default function DatasUser() {
         return(
           <tr key={i}>
             <td style={{width: '2%'}}>
-              <input type="checkbox" onChange={(e) => checkEach(e, id)} checked={checkList.includes(id)}/>
+              <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
             <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>

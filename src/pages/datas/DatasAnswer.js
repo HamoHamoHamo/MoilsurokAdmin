@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { DataTable } from "../components/DataTable";
-import { ANSWER } from "../utils/Firebase";
+import { DataTable } from "../../components/DataTable";
+import { ANSWER } from "../../utils/Firebase";
 import { Link, useLocation } from 'react-router-dom';
-import routes from "../utils/Routes";
+import routes from "../../utils/Routes";
 
 export default function DatasAnswer() {
   const location = useLocation();
@@ -40,7 +40,7 @@ export default function DatasAnswer() {
             c = true;
           }
           // console.log("KEY", key, "\nval", val, "\nacc", acc);
-          if(key === 'title' || key === 'content' || key === 'creator' || key === 'question' || key === 'modifiedDate') {
+          if(key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'question' || key === 'modifiedDate') {
             acc = {
               ...acc,
               [key]: val
