@@ -22,7 +22,7 @@ export default function DatasProfile() {
   useEffect(() => {
     // 데이터 추가하기
     // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {PROFILE.add({modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"}) });
+    // a.map(() => {PROFILE.add({date: "2022-05-21 10:11", modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", picture: "사진링크", sector: "it", check: "y"}) });
     let list = []
     let id = []
     PROFILE.orderBy("modifiedDate", "desc").get().then((docs) => {
@@ -93,7 +93,7 @@ export default function DatasProfile() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"문의"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={PROFILE}></DataTable>}
+      {loading && <DataTable title={"프로필 수정"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={PROFILE}></DataTable>}
     </>
   );
 }
