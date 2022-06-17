@@ -13,8 +13,8 @@ export default function DatasNotice() {
 
   const header = [
     '제목',
-    '작성자',
     '내용',
+    '작성자',
     '수정시간',
     '등록시간',
   ]
@@ -75,8 +75,8 @@ export default function DatasNotice() {
               <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
             <td><Link to={routes.datasNoticeDetail(id)}>{title}</Link></td>
-            <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
             <td style={{width: '20%'}}><Link to={routes.datasNoticeDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
+            <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
             <td><Link to={routes.datasNoticeDetail(id)}>{pubDate}</Link></td>
             <td><Link to={routes.datasNoticeDetail(id)}>{modifiedDate}</Link></td>
           </tr>

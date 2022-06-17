@@ -26,7 +26,7 @@ function AppLayout({ children }) {
       setTitle("문의목록");
       
     } else if (pathname.startsWith("/create/")) {
-      setTitle("작성");
+      setTitle("데이터 생성");
     }
 
     var CURRENT_URL = window.location.href.split("#")[0].split("?")[0],
@@ -245,7 +245,7 @@ function AppLayout({ children }) {
                     </li>
                     <li ref={sideCreate}>
                       <a>
-                        작성 <span class="fa fa-chevron-down"></span>
+                        데이터 생성 <span class="fa fa-chevron-down"></span>
                       </a>
                       <ul class="nav child_menu">
                         <li>
@@ -253,6 +253,9 @@ function AppLayout({ children }) {
                         </li>
                         <li>
                           <a href={routes.createSchedule}>일정 작성</a>
+                        </li>
+                        <li>
+                          <a href={routes.createAnswer}>답변 작성</a>
                         </li>
                       </ul>
                     </li>

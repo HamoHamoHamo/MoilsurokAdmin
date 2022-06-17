@@ -6,8 +6,7 @@ import DataDetail from "../components/DataDetail";
 import routes from "../utils/Routes";
 
 import Home from "./Home";
-import CreateNotice from "./CreateNotice";
-import CreateSchedule from "./CreateSchedule";
+import DataCreateForm from "../components/DataCreate";
 import DatasAnswer from "./datas/DatasAnswer";
 import DatasNotice from "./datas/DatasNotice";
 import DatasQuestion from "./datas/DatasQuestion";
@@ -43,8 +42,9 @@ function Root() {
 
         <Route path={routes.question} element={<Question />} />
 
-        <Route path={routes.createNotice} element={<CreateNotice />} />
-        <Route path={routes.createSchedule} element={<CreateSchedule />} />
+        <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
+        <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
+        <Route path={routes.createAnswer} element={<DataCreateForm kinds={"answer"} />} />
       </Routes>
     </AppLayout>
   );

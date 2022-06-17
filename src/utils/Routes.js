@@ -19,6 +19,7 @@ const QUESTION = "/question";
 
 const CREATE_NOTICE = "/create/notice";
 const CREATE_SCHEDULE = "/create/schedule";
+const CREATE_ANSWER = "/create/answer";
 
 const routes = {
   home: HOME,
@@ -78,6 +79,7 @@ const routes = {
 
   createNotice: CREATE_NOTICE,
   createSchedule: CREATE_SCHEDULE,
+  createAnswer: CREATE_ANSWER,
 };
 
 export default routes;
