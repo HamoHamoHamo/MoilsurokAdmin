@@ -4,7 +4,7 @@ import { QUESTION } from "../../utils/Firebase";
 import { Link, useLocation } from 'react-router-dom';
 import routes from "../../utils/Routes";
 
-export default function DatasQuestion() {
+export default function Question() {
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
   const [search, setSearch] = useState('');
@@ -23,7 +23,7 @@ export default function DatasQuestion() {
     // a.map(() => {QUESTION.add({pubDate: "2022-02-11 10:10", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", check: "O" }) });
     let list = [];
     let id = [];
-    QUESTION.orderBy("modifiedDate", "desc").get().then((docs) => {
+    QUESTION.where("check", "==", "X").orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){
           list.push(doc.data());
@@ -74,12 +74,12 @@ export default function DatasQuestion() {
             <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{title}</Link></td>
-            <td style={{width: '20%'}}><Link to={routes.datasQuestionDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{creator}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{check}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{modifiedDate}</Link></td>
-            <td><Link to={routes.datasQuestionDetail(id)}>{pubDate}</Link></td>
+            <td><Link to={routes.answerQuestion(id)}>{title}</Link></td>
+            <td style={{width: '20%'}}><Link to={routes.answerQuestion(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
+            <td><Link to={routes.answerQuestion(id)}>{creator}</Link></td>
+            <td><Link to={routes.answerQuestion(id)}>{check}</Link></td>
+            <td><Link to={routes.answerQuestion(id)}>{modifiedDate}</Link></td>
+            <td><Link to={routes.answerQuestion(id)}>{pubDate}</Link></td>
           </tr>
         )
       }

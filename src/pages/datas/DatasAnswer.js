@@ -12,7 +12,6 @@ export default function DatasAnswer() {
   const [search, setSearch] = useState('');
 
   const header = [
-    '제목',
     '내용',
     '문의',
     '작성자',
@@ -77,9 +76,8 @@ export default function DatasAnswer() {
             <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
-            <td><Link to={routes.datasAnswerDetail(id)}>{title}</Link></td>
             <td style={{width: '20%'}}><Link to={routes.datasAnswerDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
-            <td><Link to={routes.datasAnswerDetail(id)}>{question}</Link></td>
+            <td><Link to={routes.datasAnswerDetail(id)}>{title}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{creator}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{modifiedDate}</Link></td>
             <td><Link to={routes.datasAnswerDetail(id)}>{pubDate}</Link></td>
@@ -91,7 +89,7 @@ export default function DatasAnswer() {
   return (
     <>
       {!loading && <div>Loading</div>}
-      {loading && <DataTable title={"문의"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={ANSWER}></DataTable>}
+      {loading && <DataTable title={"답변"} header={header} tableDatas={tableDatas} dataList={dataList} search={search} setSearch={setSearch} collection={ANSWER}></DataTable>}
     </>
   );
 }

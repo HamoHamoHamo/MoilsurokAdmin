@@ -1,3 +1,5 @@
+import routes from "../../utils/Routes";
+
 export default function AnswerDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
     title,
@@ -39,14 +41,8 @@ export default function AnswerDetail({ datas, onChange, back, onSubmit, collecti
       </div>
 			<div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">문의</label>
-        <div class="col-md-4 col-sm-4 ">
-          <textarea
-            onChange={onChange}
-            name="content"
-            type="text"
-            class="form-control"
-            value={question}
-          />
+        <div class="col-md-4 col-sm-4 " style={{display: "flex", alignItems: "center"}}>
+          <a href={routes.datasQuestionDetail(question)}>문의 보기</a>
         </div>
       </div>
       <div class="form-group row ">

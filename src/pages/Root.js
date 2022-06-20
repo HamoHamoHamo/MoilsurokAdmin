@@ -12,11 +12,12 @@ import DatasQuestion from "./datas/DatasQuestion";
 import DatasSchedule from "./datas/DatasSchedule";
 import DatasProfile from "./datas/DatasProfile";
 import DatasUser from "./datas/DatasUser";
-import Question from "./Question";
+import Question from "./question/Question";
 import ReqProfile from "./req/ReqProfile";
 import ReqUser from "./req/ReqUser";
 import ReqProfileDetail from "./req/ReqProfileDetail";
 import ReqUserDetail from "./req/ReqUserDetail";
+import AnswerQuestion from "./question/AnswerQuestion";
 
 function Root() {
   return (
@@ -43,6 +44,7 @@ function Root() {
         <Route path={routes.reqProfileDetail()} element={<ReqProfileDetail />} />
 
         <Route path={routes.question} element={<Question />} />
+        <Route path={routes.answerQuestion()} element={<AnswerQuestion />} />
 
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />

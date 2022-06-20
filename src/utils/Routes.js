@@ -18,6 +18,7 @@ const REQ_USER_DETAIL = "/req/user/:id";
 const REQ_PROFILE_DETAIL = "/req/profile/:id";
 
 const QUESTION = "/question";
+const ANSWER_QUESTION = "/question/:id";
 
 const CREATE_USER = "/create/user";
 const CREATE_NOTICE = "/create/notice";
@@ -91,8 +92,15 @@ const routes = {
       return REQ_PROFILE_DETAIL;
     }
   },
-  
+
   question: QUESTION,
+  answerQuestion : (id) => {
+    if(id) {
+      return `/question/${id}`;
+    } else {
+      return ANSWER_QUESTION;
+    }
+  },
 
   createNotice: CREATE_NOTICE,
   createSchedule: CREATE_SCHEDULE,
