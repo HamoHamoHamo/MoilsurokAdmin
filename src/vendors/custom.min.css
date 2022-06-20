@@ -5207,3 +5207,7 @@ ul.notifications {
   font-size: 20px;
   margin: 0 30px 0 30px;
 }
+
+.calendarFontSize{
+  font-size: 14px;
+}
