@@ -173,7 +173,7 @@ export function DataTable({ title, header, tableDatas, dataList, search, setSear
                     <input type="submit" class="btn btn-secondary" value="검색"/>
                   </div>
                   <div class="col-sm-6">
-                    <button class="btn btn-primary pull-right" onClick={onClickDel}>삭제</button>
+                    <button class="btn btn-danger pull-right" onClick={onClickDel}>삭제</button>
                   </div>
                 {/* </div> */}
               </form>

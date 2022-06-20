@@ -1,3 +1,5 @@
+import routes from "../../utils/Routes";
+
 export default function ProfileDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
     birthdate,
@@ -16,7 +18,8 @@ export default function ProfileDetail({ datas, onChange, back, onSubmit, collect
     year,
     pubDate,
     files,
-    filenames
+    filenames,
+    user
   } = datas;
   return (
     <form
@@ -24,6 +27,12 @@ export default function ProfileDetail({ datas, onChange, back, onSubmit, collect
       onSubmit={onSubmit}
       class="form-horizontal form-label-left"
     >
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">회원정보</label>
+        <div class="col-md-4 col-sm-4 " style={{display: "flex", alignItems: "center"}}>
+          <a href={routes.datasUserDetail(user)}>회원정보 보기</a>
+        </div>
+      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">

@@ -4,7 +4,7 @@ import { PROFILE } from "../../utils/Firebase";
 import { Link } from 'react-router-dom';
 import routes from "../../utils/Routes";
 
-export default function DatasProfile() {
+export default function ReqProfile() {
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
   const [search, setSearch] = useState('');
@@ -23,10 +23,10 @@ export default function DatasProfile() {
   useEffect(() => {
     // 데이터 추가하기
     // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {PROFILE.add({pubDate: "2022-05-21 10:11", modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", sector: "it", check: "O", user: "32fWCLVfhkLbq9KYKCfj"}) });
+    // a.map(() => {PROFILE.add({pubDate: "2022-05-21 10:11", modifiedDate: "2022-02-11 10:10", year: "기수", name: "이름", birthdate: "20220505", phoneNum: "01012341234", email: "test@naver.com", company: "킹버스", department: "제품개발부서", comPosition: "직위", comTel: "022332323", comAdr: "수원시 매송고색로", faxNum: "1234213", sector: "it", check: "X"}) });
     let list = []
     let id = []
-    PROFILE.orderBy("modifiedDate", "desc").get().then((docs) => {
+    PROFILE.where("check", "==", "X").orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){
           list.push(doc.data());
@@ -80,15 +80,15 @@ export default function DatasProfile() {
             <td style={{width: '2%'}}>
               <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
             </td>
-            <td><Link to={routes.datasProfileDetail(id)}>{name}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{year}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{birthdate}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{phoneNum}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{email}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{company}</Link></td>
-            <td style={{width: "7%"}}><Link to={routes.datasProfileDetail(id)}>{check}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{modifiedDate}</Link></td>
-            <td><Link to={routes.datasProfileDetail(id)}>{pubDate}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{name}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{year}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{birthdate}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{phoneNum}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{email}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{company}</Link></td>
+            <td style={{width: "7%"}}><Link to={routes.reqProfileDetail(id)}>{check}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{modifiedDate}</Link></td>
+            <td><Link to={routes.reqProfileDetail(id)}>{pubDate}</Link></td>
           </tr>
         )
       }

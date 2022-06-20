@@ -97,6 +97,7 @@ export default function DataDetail({ kinds }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log("AAAAAAA");
     const { uploadFiles: files } = datas
     let udatas = {};
     if(files){
@@ -130,7 +131,7 @@ export default function DataDetail({ kinds }) {
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      // console.log("SDFSFDATAS", udatas);
+      console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas).then(navigate(-1));
     } catch(err) {
       console.log('ERROR', err);
@@ -207,7 +208,7 @@ function DataDetailForm({ children, title, onClickDel }) {
 
               <button
                 type="reset"
-                class="navbar-right panel_toolbox btn btn-primary navbar-right"
+                class="navbar-right panel_toolbox btn btn-danger navbar-right"
                 onClick={onClickDel}
               >
                 삭제

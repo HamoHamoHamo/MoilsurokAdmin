@@ -1,28 +1,7 @@
 import { useEffect, useState } from "react"
 import { QUESTION } from "../../utils/Firebase"
 
-export default function CreateAnswer({ onChange, inputs}) {
-  const [qList, setQList] = useState([]);
-  const [qIdList, setQIdList] = useState([]);
-
-  useEffect(() => {
-    let list = [];
-    let id = [];
-    QUESTION.orderBy("modifiedDate", "desc").get().then((docs) => {
-      docs.forEach((doc) => {
-        if(doc.exists){
-          list.push(doc.data());
-          id.push(doc.id);
-        }
-      });
-    });
-    console.log("LIST", list);
-    setQList(list);
-    setQIdList(id);
-  }, [])
-
-  console.log("AAAAA", qList);
-
+export default function CreateUser({ onChange, inputs}) {
   return (
     <>
       <div class="form-group row ">

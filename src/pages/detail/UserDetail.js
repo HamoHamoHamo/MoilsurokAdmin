@@ -164,7 +164,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             name="files"
             type="file"
             class="form-control"
-            multiple
           />
         </div>
       </div>

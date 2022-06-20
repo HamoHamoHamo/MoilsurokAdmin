@@ -14,6 +14,8 @@ const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
 const REQ_USER = "/req/user";
 const REQ_PROFILE = "/req/profile";
+const REQ_USER_DETAIL = "/req/user/:id";
+const REQ_PROFILE_DETAIL = "/req/profile/:id";
 
 const QUESTION = "/question";
 
@@ -74,8 +76,22 @@ const routes = {
   },
 
   reqUser: REQ_USER,
+  reqUserDetail : (id) => {
+    if(id) {
+      return `/req/user/${id}`;
+    } else {
+      return REQ_USER_DETAIL;
+    }
+  },
   reqProfile: REQ_PROFILE,
-
+  reqProfileDetail : (id) => {
+    if(id) {
+      return `/req/profile/${id}`;
+    } else {
+      return REQ_PROFILE_DETAIL;
+    }
+  },
+  
   question: QUESTION,
 
   createNotice: CREATE_NOTICE,

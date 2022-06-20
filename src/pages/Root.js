@@ -1,6 +1,5 @@
 import React from "react";
 import AppLayout from "../components/AppLayout";
-import DataTable from "../components/DataTable";
 import { Route, Routes } from "react-router-dom";
 import DataDetail from "../components/DataDetail";
 import routes from "../utils/Routes";
@@ -14,9 +13,10 @@ import DatasSchedule from "./datas/DatasSchedule";
 import DatasProfile from "./datas/DatasProfile";
 import DatasUser from "./datas/DatasUser";
 import Question from "./Question";
-import ReqProfile from "./ReqProfile";
-import ReqUser from "./ReqUser";
-
+import ReqProfile from "./req/ReqProfile";
+import ReqUser from "./req/ReqUser";
+import ReqProfileDetail from "./req/ReqProfileDetail";
+import ReqUserDetail from "./req/ReqUserDetail";
 
 function Root() {
   return (
@@ -39,6 +39,8 @@ function Root() {
 
         <Route path={routes.reqUser} element={<ReqUser />} />
         <Route path={routes.reqProfile} element={<ReqProfile />} />
+        <Route path={routes.reqUserDetail()} element={<ReqUserDetail />} />
+        <Route path={routes.reqProfileDetail()} element={<ReqProfileDetail />} />
 
         <Route path={routes.question} element={<Question />} />
 
