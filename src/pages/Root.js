@@ -44,7 +44,7 @@ function Root() {
 
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
-        <Route path={routes.createAnswer} element={<DataCreateForm kinds={"answer"} />} />
+        <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
       </Routes>
     </AppLayout>
   );

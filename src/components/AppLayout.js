@@ -227,6 +227,22 @@ function AppLayout({ children }) {
                         </li>
                       </ul>
                     </li>
+                    <li ref={sideCreate}>
+                      <a>
+                        데이터 생성 <span class="fa fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href={routes.createUser}>회원</a>
+                        </li>
+                        <li>
+                          <a href={routes.createNotice}>공지사항</a>
+                        </li>
+                        <li>
+                          <a href={routes.createSchedule}>일정</a>
+                        </li>
+                      </ul>
+                    </li>
                     <li ref={sideReq}>
                       <a>
                         요청승인 <span class="fa fa-chevron-down"></span>
@@ -243,22 +259,7 @@ function AppLayout({ children }) {
                     <li ref={sideQst}>
                       <a href={routes.question}>문의목록</a>
                     </li>
-                    <li ref={sideCreate}>
-                      <a>
-                        데이터 생성 <span class="fa fa-chevron-down"></span>
-                      </a>
-                      <ul class="nav child_menu">
-                        <li>
-                          <a href={routes.createNotice}>공지사항 작성</a>
-                        </li>
-                        <li>
-                          <a href={routes.createSchedule}>일정 작성</a>
-                        </li>
-                        <li>
-                          <a href={routes.createAnswer}>답변 작성</a>
-                        </li>
-                      </ul>
-                    </li>
+                    
                     <li>
                       <a class="logout" href="#">
                         로그아웃

@@ -23,8 +23,8 @@ export default function DatasQuestion() {
     // 데이터 추가하기
     // const a = [1,2,3,4,5,6,7,8,1,];
     // a.map(() => {QUESTION.add({pubDate: "2022-02-11 10:10", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", check: "O" }) });
-    let list = []
-    let id = []
+    let list = [];
+    let id = [];
     QUESTION.orderBy("modifiedDate", "desc").get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.exists){

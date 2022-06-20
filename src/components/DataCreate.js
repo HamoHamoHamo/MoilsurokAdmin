@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
-import CreateAnswer from "../pages/create/CreateAnswer";
+import CreateUser from "../pages/create/CreateUser";
 import CreateSchedule from "../pages/create/CreateSchedule";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {
   NOTICE,
   SCHEDULE,
-  ANSWER,
+  USER,
   storage,
 } from "../utils/Firebase";
 import routes from "../utils/Routes";
@@ -23,10 +23,10 @@ export default function DataCreateForm({ children, kinds}) {
     HandleCreate = CreateNotice;
     title = "공지사항";
     collection = NOTICE;
-  } else if(kinds === "answer") {
-    HandleCreate = CreateAnswer;
-    title = "답변";
-    collection = ANSWER;
+  } else if(kinds === "user") {
+    HandleCreate = CreateUser;
+    title = "회원";
+    collection = USER;
   } else if(kinds === "schedule") {
     HandleCreate = CreateSchedule;
     title = "일정";
