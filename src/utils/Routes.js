@@ -1,4 +1,5 @@
 const HOME = "/";
+const LOGIN = "/login";
 const DATAS_USER = "/datas/user";
 const DATAS_USER_DETAIL = "/datas/user/:id";
 const DATAS_NOTICE = "/datas/notice";
@@ -27,6 +28,7 @@ const CREATE_ANSWER = "/create/answer";
 
 const routes = {
   home: HOME,
+  login: LOGIN,
   datasUser: DATAS_USER,
   datasUserDetail : (id) => {
     if(id) {

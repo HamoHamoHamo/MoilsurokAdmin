@@ -4135,7 +4135,7 @@ a.hiddenanchor {
 .login_wrapper {
   right: 0px;
   margin: 0px auto;
-  margin-top: 5%;
+  margin-top: 10%;
   max-width: 350px;
   position: relative;
 }
@@ -4214,7 +4214,8 @@ form:after {
   padding: 25px 0 0;
   position: relative;
   text-align: center;
-  text-shadow: 0 1px 0 #fff;
+  /* text-shadow: 0 1px 0 #fff; */
+  color: white;
   min-width: 280px;
 }
 .login_content a,

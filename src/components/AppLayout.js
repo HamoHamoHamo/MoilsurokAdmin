@@ -4,30 +4,45 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./AppLayout.module.css";
 import routes from "../utils/Routes";
 // import { Link } from 'react-router-dom'; 사이드바 애니메이션 꼬여서 안씀
+import { Outlet, useNavigate } from "react-router-dom";
+import { auth } from "../utils/Firebase";
 
 import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
 global.jQuery = $;
 
-function AppLayout({ children }) {
+function AppLayout() {
+  const pathname = window.location.pathname;
+  const [loggedIn, setLoggedIn] = useState(false);
+
   useEffect(() => {
-    const pathname = window.location.pathname;
     if (pathname === "/") {
       setTitle("일정");
-      
+
     } else if (pathname.startsWith("/datas/")) {
       setTitle("데이터 목록");
-      
+
     } else if (pathname.startsWith("/req/")) {
       setTitle("요청승인");
-      
+
     } else if (pathname.startsWith("/question/")) {
       setTitle("문의목록");
-      
+
     } else if (pathname.startsWith("/create/")) {
       setTitle("데이터 생성");
     }
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true);
+        console.log("LOGGED IN");
+      } else {
+        setLoggedIn(false);
+        console.log("LOGGED OUT");
+        alert("로그인 해주세요")
+        navigate(routes.login);
+      }
+    })
 
     var CURRENT_URL = window.location.href.split("#")[0].split("?")[0],
       $BODY = $("body"),
@@ -120,31 +135,31 @@ function AppLayout({ children }) {
       //   .find('a[href="' + CURRENT_URL + '"]')
       //   .parent("li")
       //   .addClass("current-page");
-      if(pathname === routes.home) {
+      if (pathname === routes.home) {
         $SIDEBAR_MENU
-        .find("a")
-        .filter(function () {
-          return this.href == CURRENT_URL;
-        })
-        .parent("li")
-        .addClass("active");
+          .find("a")
+          .filter(function () {
+            return this.href == CURRENT_URL;
+          })
+          .parent("li")
+          .addClass("active");
       }
-      else{
+      else {
         $SIDEBAR_MENU
-        .find("a")
-        .filter(function () {
-          return this.href == CURRENT_URL;
-        })
-        .parent("li")
-        .addClass("current-page")
-        .parents("ul")
-        .slideDown(function () {
-          setContentHeight();
-        })
-        .parent()
-        .addClass("active");
+          .find("a")
+          .filter(function () {
+            return this.href == CURRENT_URL;
+          })
+          .parent("li")
+          .addClass("current-page")
+          .parents("ul")
+          .slideDown(function () {
+            setContentHeight();
+          })
+          .parent()
+          .addClass("active");
       }
-      
+
 
       // // recompute content when resizing
       // $(window).smartresize(function () {
@@ -163,8 +178,10 @@ function AppLayout({ children }) {
       }
     }
     init_sidebar();
-    
+
   }, []);
+
+
   const [title, setTitle] = useState("");
   const sideHome = useRef();
   const sideDatas = useRef();
@@ -172,6 +189,11 @@ function AppLayout({ children }) {
   const sideQst = useRef();
   const sideCreate = useRef();
 
+  let navigate = useNavigate();
+  const logout = () => {
+    auth.signOut();
+    navigate(routes.login);
+  }
   return (
     <>
       <div class="container body">
@@ -259,9 +281,9 @@ function AppLayout({ children }) {
                     <li ref={sideQst}>
                       <a href={routes.question}>문의목록</a>
                     </li>
-                    
+
                     <li>
-                      <a class="logout" href="#">
+                      <a class="logout" href="#" onClick={logout}>
                         로그아웃
                       </a>
                     </li>
@@ -287,7 +309,7 @@ function AppLayout({ children }) {
 
           {/* <!-- page content --> */}
           <div class="right_col" role="main">
-            {children}
+            <Outlet />
           </div>
           {/* <!-- /page content --> */}
 

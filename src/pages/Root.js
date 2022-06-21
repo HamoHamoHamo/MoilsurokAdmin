@@ -18,13 +18,15 @@ import ReqUser from "./req/ReqUser";
 import ReqProfileDetail from "./req/ReqProfileDetail";
 import ReqUserDetail from "./req/ReqUserDetail";
 import AnswerQuestion from "./question/AnswerQuestion";
+import Login from "./Login";
 
 function Root() {
   return (
-    <AppLayout>
-      <Routes>
+    <Routes>
+      <Route path={routes.login} element={<Login />} />
+      <Route element={<AppLayout/>}>
         <Route path={routes.home} element={<Home />} />
-
+      
         <Route path={routes.datasUser} element={<DatasUser />} />
         <Route path={routes.datasUserDetail()} element={<DataDetail kinds={"user"} />} />
         <Route path={routes.datasNotice} element={<DatasNotice />} />
@@ -49,8 +51,9 @@ function Root() {
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
         <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
-      </Routes>
-    </AppLayout>
+
+      </Route>
+    </Routes>
   );
 }
 

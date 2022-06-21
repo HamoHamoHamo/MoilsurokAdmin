@@ -5,7 +5,6 @@ import { Link, useLocation } from 'react-router-dom';
 import routes from "../../utils/Routes";
 
 export default function DatasSchedule() {
-  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [idList, setIdList] = useState([]);
   const [dataList, setDataList] = useState([]);
