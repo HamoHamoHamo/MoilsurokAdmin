@@ -19,6 +19,7 @@ import ReqProfileDetail from "./req/ReqProfileDetail";
 import ReqUserDetail from "./req/ReqUserDetail";
 import AnswerQuestion from "./question/AnswerQuestion";
 import Login from "./Login";
+import { DataTable } from "../components/DataTable";
 
 function Root() {
   return (
@@ -27,7 +28,7 @@ function Root() {
       <Route element={<AppLayout/>}>
         <Route path={routes.home} element={<Home />} />
       
-        <Route path={routes.datasUser} element={<DatasUser />} />
+        <Route path={routes.datasUser} element={<DataTable kinds={"user"} />} />
         <Route path={routes.datasUserDetail()} element={<DataDetail kinds={"user"} />} />
         <Route path={routes.datasNotice} element={<DatasNotice />} />
         <Route path={routes.datasNoticeDetail()} element={<DataDetail kinds={"notice"} />} />

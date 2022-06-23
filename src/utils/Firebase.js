@@ -31,7 +31,8 @@ const SCHEDULE = TEAM.collection('Schedule');
 const QUESTION = TEAM.collection('Question');
 const ANSWER = TEAM.collection('Answer');
 const PROFILE = TEAM.collection('Profile');
+const COUNTER = TEAM.collection('Counter');
 
 // 필요한 곳에서 사용할 수 있도록 내보내기
-export { storage, firestore, auth, TEAM, USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE };
+export { storage, firestore, auth, TEAM, USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, COUNTER };
 
