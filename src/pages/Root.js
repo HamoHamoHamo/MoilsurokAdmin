@@ -6,15 +6,6 @@ import routes from "../utils/Routes";
 
 import Home from "./Home";
 import DataCreateForm from "../components/DataCreate";
-import DatasAnswer from "./datas/DatasAnswer";
-import DatasNotice from "./datas/DatasNotice";
-import DatasQuestion from "./datas/DatasQuestion";
-import DatasSchedule from "./datas/DatasSchedule";
-import DatasProfile from "./datas/DatasProfile";
-import DatasUser from "./datas/DatasUser";
-import Question from "./question/Question";
-import ReqProfile from "./req/ReqProfile";
-import ReqUser from "./req/ReqUser";
 import ReqProfileDetail from "./req/ReqProfileDetail";
 import ReqUserDetail from "./req/ReqUserDetail";
 import AnswerQuestion from "./question/AnswerQuestion";
@@ -30,23 +21,23 @@ function Root() {
       
         <Route path={routes.datasUser} element={<DataTable kinds={"user"} />} />
         <Route path={routes.datasUserDetail()} element={<DataDetail kinds={"user"} />} />
-        <Route path={routes.datasNotice} element={<DatasNotice />} />
+        <Route path={routes.datasNotice} element={<DataTable kinds={"notice"} />} />
         <Route path={routes.datasNoticeDetail()} element={<DataDetail kinds={"notice"} />} />
-        <Route path={routes.datasSchedule} element={<DatasSchedule />} />
+        <Route path={routes.datasSchedule} element={<DataTable kinds={"schedule"} />} />
         <Route path={routes.datasScheduleDetail()} element={<DataDetail kinds={"schedule"} />} />
-        <Route path={routes.datasQuestion} element={<DatasQuestion />} />
+        <Route path={routes.datasQuestion} element={<DataTable kinds={"question"} />} />
         <Route path={routes.datasQuestionDetail()} element={<DataDetail kinds={"question"} />} />
-        <Route path={routes.datasAnswer} element={<DatasAnswer />} />
+        <Route path={routes.datasAnswer} element={<DataTable kinds={"answer"} />} />
         <Route path={routes.datasAnswerDetail()} element={<DataDetail kinds={"answer"} />} />
-        <Route path={routes.datasProfile} element={<DatasProfile />} />
+        <Route path={routes.datasProfile} element={<DataTable kinds={"profile"} />} />
         <Route path={routes.datasProfileDetail()} element={<DataDetail kinds={"profile"} />} />
 
-        <Route path={routes.reqUser} element={<ReqUser />} />
-        <Route path={routes.reqProfile} element={<ReqProfile />} />
+        <Route path={routes.reqUser} element={<DataTable kinds={"reqUser"} />} />
+        <Route path={routes.reqProfile} element={<DataTable kinds={"reqProfile"} />} />
         <Route path={routes.reqUserDetail()} element={<ReqUserDetail />} />
         <Route path={routes.reqProfileDetail()} element={<ReqProfileDetail />} />
 
-        <Route path={routes.question} element={<Question />} />
+        <Route path={routes.question} element={<DataTable kinds={'reqQuestion'} />} />
         <Route path={routes.answerQuestion()} element={<AnswerQuestion />} />
 
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />

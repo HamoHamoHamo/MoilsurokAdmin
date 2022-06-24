@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
-import { DataTable, getCount } from "../../components/DataTable";
-import { USER, COUNTER } from "../../utils/Firebase";
 import readXlsxFile from 'read-excel-file';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import routes from "../../utils/Routes";
 
-export function userDatas(list, id, setDataList, search) {
+export function userDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
-    let c = false;
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
-      if (!search || val.includes(search)) {
-        c = true;
-      }
       // console.log("KEY", key, "\nval", val, "\nacc", acc);
       if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
         acc = {
@@ -21,7 +14,7 @@ export function userDatas(list, id, setDataList, search) {
       }
       return acc;
     }, { 'id': id[idx] })
-    return c ? acc0.concat(reduce) : acc0;
+    return acc0.concat(reduce);
   }, []);
   setDataList(cur => cur.concat([res]));
   return res;
@@ -117,7 +110,7 @@ export function userDatas(list, id, setDataList, search) {
 //   );
 // }
 
-export const tableDatas = (dataList, checkList, checkEach) => (
+export const userTableDatas = (dataList, checkList, checkEach) => (
   dataList.map((obj, i) => {
     if (obj) {
       const {
@@ -131,7 +124,6 @@ export const tableDatas = (dataList, checkList, checkEach) => (
         company,
         check,
         modifiedDate,
-        pubDate
       } = obj
       // console.log("IDDDD", id);
       return (

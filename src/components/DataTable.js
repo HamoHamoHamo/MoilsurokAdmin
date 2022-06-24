@@ -1,6 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, firestore } from "../utils/Firebase";
-import { userDatas, tableDatas } from "../pages/datas/DatasUser";
+import { USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER } from "../utils/Firebase";
+import { userDatas, userTableDatas } from "../pages/datas/DatasUser";
+import { scheduleDatas, scheduleTableDatas } from "../pages/datas/DatasSchedule";
+import { questionDatas, questionTableDatas } from "../pages/datas/DatasQuestion";
+import { profileDatas, profileTableDatas } from "../pages/datas/DatasProfile";
+import { noticeDatas, noticeTableDatas } from "../pages/datas/DatasNotice";
+import { answerDatas, answerTableDatas } from "../pages/datas/DatasAnswer";
+
+import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
+import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
+import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
 
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) {
   const pageNumbers = [];
@@ -124,6 +133,8 @@ export function DataTable({ kinds }) {
   let header = [];
   let headerType = [];
   let filterData = '';
+  let tableDatas = '';
+  let req = false;
 
   if (kinds === "user") {
     collection = USER;
@@ -149,26 +160,190 @@ export function DataTable({ kinds }) {
       'modifiedDate',
     ]
     filterData = userDatas;
+    tableDatas = userTableDatas;
   } else if (kinds === "notice") {
     collection = NOTICE;
     title = "공지사항"
-    // filterData = ""
+    header = [
+      '제목',
+      '내용',
+      '작성자',
+      '등록시간',
+      '수정시간',
+    ];
+    headerType = [
+      'title',
+      'content',
+      'creator',
+      'pubDate',
+      'modifiedDate',
+    ];
+    filterData = noticeDatas;
+    tableDatas = noticeTableDatas;
   } else if (kinds === "schedule") {
     collection = SCHEDULE;
     title = "일정"
-    // filterData = 
+    header = [
+      '날짜',
+      '제목',
+      '작성자',
+      '내용',
+      '수정시간',
+    ];
+    headerType = [
+      'date',
+      'title',
+      'creator',
+      'content',
+      'modifiedDate',
+    ];
+    filterData = scheduleDatas;
+    tableDatas = scheduleTableDatas;
   } else if (kinds === "question") {
     collection = QUESTION;
     title = "문의"
-    // filterData = 
+    header = [
+      '제목',
+      '내용',
+      '작성자',
+      '답변완료',
+      '등록시간',
+      '수정시간',
+    ]
+    headerType = [
+      'title',
+      'content',
+      'creator',
+      'check',
+      'pubDate',
+      'modifiedDate',
+    ]
+    filterData = questionDatas;
+    tableDatas = questionTableDatas;
   } else if (kinds === "answer") {
     collection = ANSWER;
     title = "답변"
-    // filterData = 
+    header = [
+      '제목',
+      '내용',
+      '작성자',
+      '작성시간',
+      '수정시간',
+    ];
+    headerType = [
+      'title',
+      'content',
+      'creator',
+      'pubDate',
+      'modifiedDate',
+    ];
+    filterData = answerDatas;
+    tableDatas = answerTableDatas;
   } else if (kinds === "profile") {
     collection = PROFILE;
     title = "프로필 수정"
-    // filterData = 
+    header = [
+      '이름',
+      '기수',
+      '생년월일',
+      '전화번호',
+      '이메일',
+      '회사명',
+      '승인완료',
+      '등록시간',
+      '수정시간',
+    ];
+    headerType = [
+      'name',
+      'year',
+      'birthdate',
+      'phoneNum',
+      'email',
+      'company',
+      'check',
+      'pubDate',
+      'modifiedDate',
+    ]
+    filterData = profileDatas;
+    tableDatas = profileTableDatas;
+  } else if (kinds === "reqUser") {
+    req = true;
+    collection = USER;
+    title = "회원 승인"
+    header = [
+      '이름',
+      '기수',
+      '생년월일',
+      '전화번호',
+      '이메일',
+      '회사명',
+      '승인완료',
+      '수정시간',
+      '등록시간',
+    ];
+    headerType = [
+      'name',
+      'year',
+      'birthdate',
+      'phoneNum',
+      'email',
+      'company',
+      'check',
+      'pubDate',
+      'modifiedDate',
+    ]
+    filterData = reqUserDatas;
+    tableDatas = reqUserTableDatas;
+  } else if (kinds === "reqProfile") {
+    req = true;
+    collection = PROFILE;
+    title = "프로필 수정 승인"
+    header = [
+      '이름',
+      '기수',
+      '생년월일',
+      '전화번호',
+      '이메일',
+      '회사명',
+      '수정승인완료',
+      '수정시간',
+      '등록시간',
+    ];
+    headerType = [
+      'name',
+      'year',
+      'birthdate',
+      'phoneNum',
+      'email',
+      'company',
+      'check',
+      'pubDate',
+      'modifiedDate',
+    ]
+    filterData = reqProfileDatas;
+    tableDatas = reqProfileTableDatas;
+  } else if (kinds === "reqQuestion") {
+    req = true;
+    collection = QUESTION;
+    title = "문의목록";
+    header = [
+      '제목',
+      '내용',
+      '작성자',
+      '답변완료',
+      '등록시간',
+      '수정시간',
+    ]
+    headerType = [
+      'title',
+      'content',
+      'creator',
+      'check',
+      'pubDate',
+      'modifiedDate',
+    ]
+    filterData = reqQuestionDatas;
+    tableDatas = reqQuestionTableDatas;
   }
   // 처음 데이터 15개 불러오기
   useEffect(() => {
@@ -200,21 +375,43 @@ export function DataTable({ kinds }) {
             case 'schedule':
               setCount(doc.data().schedule)
               break;
+            case 'reqUser':
+              setCount(doc.data().reqUser)
+              break;
+            case 'reqProfile':
+              setCount(doc.data().reqProfile)
+              break;
+            case 'reqQuestion':
+              setCount(doc.data().reqQuestion)
+              break;
           };
         };
       });
-      getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
+      if (req) {
+        getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").limit(75).get()
+      } else {
+        getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
+      }
       
     } else {
       setDataList([]);
-      collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
-        console.log("COUNT", docs.docs.length);
-        setCount(docs.size);
-      })
-      getDocs = collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).limit(75).get()
+      if (req) {
+        collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).get().then((docs) => {
+          console.log("COUNT", docs.docs.length);
+          setCount(docs.size);
+        })
+        getDocs = collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).limit(75).get()
+      } else {
+        collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
+          console.log("COUNT", docs.docs.length);
+          setCount(docs.size);
+        })
+        getDocs = collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).limit(75).get()
+      }
     }
 
     getDocs.then((docs) => {
+      console.log("GETDOOOOOOOOOO", docs);
     // collection.orderBy("name", "asc").startAt("이름").limit(75).get().then((docs) => {
     // collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
       setLastDoc(docs.docs[docs.size-1]);
@@ -253,8 +450,14 @@ export function DataTable({ kinds }) {
         // const q = query(collection, orderBy("modifiedDate", "desc"), startAfter(lastDoc), limit(75))
 
         if (!search.input) {
+          if (req){
+            getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").startAfter(lastDoc).limit(75).get()  
+          }
           getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
         } else {
+          if (req) {
+            getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
+          }
           getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
         }
         getDocs.then((docs) => {
@@ -350,6 +553,15 @@ export function DataTable({ kinds }) {
             case 'answer':
               COUNTER.doc('counter').update({ answer: newCnt });
               break;
+            case 'reqUser':
+              COUNTER.doc('counter').update({ reqUser: newCnt });
+              break;
+            case 'reqProfile':
+              COUNTER.doc('counter').update({ reqProfile: newCnt });
+              break;
+            case 'reqQuestion':
+              COUNTER.doc('counter').update({ reqQuestion: newCnt });
+              break;
           }
           window.location.reload();
         });
@@ -367,6 +579,7 @@ export function DataTable({ kinds }) {
     searchType.current.classList.value = 'dropdown-menu';
     // searchBtn.current.innerText = innerText;
     setSearch({
+      ...search,
       text: innerText,
       title: title
     })
@@ -409,9 +622,11 @@ export function DataTable({ kinds }) {
                     {search.text}
                   </button>
                   <div ref={searchType} class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style={{position: "absolute", willChange: 'transform', top: '0px', left: '10px', transform: 'translate3d(0px, 38px, 0px)'}}>
-                    {header && header.map((txt, i) => (
-                      <div onClick={onClickSearchType} title={headerType[i]} class="dropdown-item">{txt}</div>
-                    ))}
+                    {header && header.map((txt, i) => {
+                      if (txt !== "수정시간"){
+                        return <div onClick={onClickSearchType} title={headerType[i]} class="dropdown-item">{txt}</div>
+                      }
+                    })}
                   </div>
                 </div>
                 {/* <div class="row"> */}
