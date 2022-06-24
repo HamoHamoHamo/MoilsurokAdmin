@@ -105,20 +105,24 @@ export function DataTable({ kinds }) {
   const [currentPage, setCurrentPage] = useState(1);
   // const [postsPerPage, setPostsPerPage] = useState(15);
   let postsPerPage = 15;
-  const searchInput = useRef();
+  
   const checkAllBtn = useRef();
-
+  const searchType = useRef();
+  const searchBtn = useRef();
+  
   const [lastDoc, setLastDoc] = useState('');
   const [dataList, setDataList] = useState([]);
   const [datas, setDatas] = useState([]);
   const [curDatas, setCurDatas] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState({});
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState();
+  const [onSearch, setOnSearch] = useState(0);
 
   let title = '';
   let collection = '';
   let header = [];
+  let headerType = [];
   let filterData = '';
 
   if (kinds === "user") {
@@ -133,8 +137,17 @@ export function DataTable({ kinds }) {
       '회사명',
       '승인완료',
       '수정시간',
-      '등록시간',
     ];
+    headerType = [
+      'name',
+      'year',
+      'birthdate',
+      'phoneNum',
+      'email',
+      'company',
+      'check',
+      'modifiedDate',
+    ]
     filterData = userDatas;
   } else if (kinds === "notice") {
     collection = NOTICE;
@@ -159,35 +172,52 @@ export function DataTable({ kinds }) {
   }
   // 처음 데이터 15개 불러오기
   useEffect(() => {
-    COUNTER.doc('counter').get().then((doc) => {
-      if (doc.exists) {
-        switch (kinds) {
-          case 'user':
-            setCount(doc.data().user)
-            break;
-          case 'notice':
-            setCount(doc.data().notice)
-            break;
-          case 'answer':
-            setCount(doc.data().answer)
-            break;
-          case 'profile':
-            setCount(doc.data().profile)
-            break;
-          case 'question':
-            setCount(doc.data().question)
-            break;
-          case 'schedule':
-            setCount(doc.data().schedule)
-            break;
-        }
-      }
-    });
-
     let list = [];
     let id = [];
-    collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
-      setLastDoc(docs.docs[docs.docs.length-1]);
+    let getDocs = '';
+
+    if (!search.input) {
+      console.log('search', search);
+      setSearch({ title: headerType[0], text: header[0]});
+      COUNTER.doc('counter').get().then((doc) => {
+        if (doc.exists) {
+          switch (kinds) {
+            case 'user':
+              setCount(doc.data().user)
+              break;
+            case 'notice':
+              setCount(doc.data().notice)
+              break;
+            case 'answer':
+              setCount(doc.data().answer)
+              break;
+            case 'profile':
+              setCount(doc.data().profile)
+              break;
+            case 'question':
+              setCount(doc.data().question)
+              break;
+            case 'schedule':
+              setCount(doc.data().schedule)
+              break;
+          };
+        };
+      });
+      getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
+      
+    } else {
+      setDataList([]);
+      collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
+        console.log("COUNT", docs.docs.length);
+        setCount(docs.size);
+      })
+      getDocs = collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).limit(75).get()
+    }
+
+    getDocs.then((docs) => {
+    // collection.orderBy("name", "asc").startAt("이름").limit(75).get().then((docs) => {
+    // collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
+      setLastDoc(docs.docs[docs.size-1]);
       docs.forEach((doc) => {
         if (doc.exists) {
           list.push(doc.data());
@@ -200,28 +230,34 @@ export function DataTable({ kinds }) {
       setCurDatas(currentDatas(res));
     })
     setLoading(true);
-  }, [])
+  }, [onSearch])
 
   useEffect(() => {
     let currentPageList = '';
     let curDataList = '';
-    console.log("LOAADING", loading);
     if (loading) {
       currentPageList = parseInt((currentPage-1)/5)
       curDataList = dataList[currentPageList];
       console.log("PAGELSIT", currentPageList, curDataList)
     
-      // TODO 생성시 카운터 값 변경, 검색기능
+      // TODO 생성시 카운터 값 변경, 검색기능 첫부분은 완료, 6페이지 넘어갈때 데이터 받아오는 부분 해야됨
       // 6페이지 11페이지 넘어갈떄
       if (curDataList == undefined) {
+        
         let list = [];
         let id = [];
+        let getDocs = '';
         console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
         console.log("LASTDOC", lastDoc);
         // const q = query(collection, orderBy("modifiedDate", "desc"), startAfter(lastDoc), limit(75))
 
-        collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get().then((docs) => {
+        if (!search.input) {
+          getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
+        } else {
+          getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
+        }
+        getDocs.then((docs) => {
           setLastDoc(docs.docs[docs.docs.length-1]);
           docs.forEach((doc) => {
             if (doc.exists) {
@@ -242,7 +278,7 @@ export function DataTable({ kinds }) {
       }
     }
   }, [currentPage])
-  console.log("DDATTA", datas);
+  console.log("DDATTA", dataList);
   // console.log("CNTT", count);
 
   function currentDatas(tmp) {
@@ -323,8 +359,35 @@ export function DataTable({ kinds }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setSearch(searchInput.current.value);
+    setOnSearch(onSearch+1);
+  }
+  const onClickSearchType = (e) => {
+    const { innerText, title } = e.target;
+    // console.log("VALASUEL", e.target.title);
+    searchType.current.classList.value = 'dropdown-menu';
+    // searchBtn.current.innerText = innerText;
+    setSearch({
+      text: innerText,
+      title: title
+    })
+  }
 
+  const onClickSearchBtn = (e) => {
+    let { classList } = searchType.current;
+    
+    if (classList.length === 1){
+      searchType.current.classList.value = 'dropdown-menu show';
+    } else {
+      searchType.current.classList.value = 'dropdown-menu';
+    }
+  }
+
+  const onChangeSearch = (e) => {
+    const { value } = e.target;
+    setSearch((cur) => ({
+      ...cur,
+      input: value,
+    }))
   }
 
   return (
@@ -341,18 +404,28 @@ export function DataTable({ kinds }) {
             </div>
             <div class="x_content">
               <form class="row" onSubmit={onSubmit}>
+                <div class="col-sm-1">
+                  <button onClick={onClickSearchBtn} ref={searchBtn} type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {search.text}
+                  </button>
+                  <div ref={searchType} class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style={{position: "absolute", willChange: 'transform', top: '0px', left: '10px', transform: 'translate3d(0px, 38px, 0px)'}}>
+                    {header && header.map((txt, i) => (
+                      <div onClick={onClickSearchType} title={headerType[i]} class="dropdown-item">{txt}</div>
+                    ))}
+                  </div>
+                </div>
                 {/* <div class="row"> */}
-                <div class="col-sm-2">
+                <div class="col-sm-2" style={{marginLeft: "-10px"}}>
                   <div id="datatable_filter" class="dataTables_filter">
                     <label>
-                      <input ref={searchInput} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
+                      <input onChange={onChangeSearch} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
                     </label>
                   </div>
                 </div>
                 <div class="col-sm-4" style={{ left: '-40px' }}>
                   <input type="submit" class="btn btn-secondary" value="검색" />
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <button class="btn btn-danger pull-right" onClick={onClickDel}>삭제</button>
                 </div>
                 {/* </div> */}

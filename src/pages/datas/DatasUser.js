@@ -13,7 +13,7 @@ export function userDatas(list, id, setDataList, search) {
         c = true;
       }
       // console.log("KEY", key, "\nval", val, "\nacc", acc);
-      if(key === 'pubDate' || key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
+      if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'check' || key === 'modifiedDate') {
         acc = {
           ...acc,
           [key]: val
@@ -147,7 +147,6 @@ export const tableDatas = (dataList, checkList, checkEach) => (
           <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>
           <td style={{ width: '5%' }}><Link to={routes.datasUserDetail(id)}>{check}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{modifiedDate}</Link></td>
-          <td><Link to={routes.datasUserDetail(id)}>{pubDate}</Link></td>
         </tr>
       )
     }
