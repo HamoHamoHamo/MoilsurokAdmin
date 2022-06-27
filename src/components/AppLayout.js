@@ -27,7 +27,7 @@ function AppLayout() {
       setTitle("요청승인");
 
     } else if (pathname.startsWith("/question/")) {
-      setTitle("문의목록");
+      setTitle("문의답변");
 
     } else if (pathname.startsWith("/create/")) {
       setTitle("데이터 생성");
@@ -279,7 +279,7 @@ function AppLayout() {
                       </ul>
                     </li>
                     <li ref={sideQst}>
-                      <a href={routes.question}>문의목록</a>
+                      <a href={routes.question}>문의답변</a>
                     </li>
 
                     <li>

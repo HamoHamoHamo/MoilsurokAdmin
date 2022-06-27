@@ -132,7 +132,9 @@ export default function DataDetail({ kinds }) {
     delete udatas.uploadFiles;
     try{
       console.log("SDFSFDATAS", udatas);
-      const update = await collection.doc(id).update(udatas).then(navigate(-1));
+      const update = await collection.doc(id).update(udatas);
+      console.log("After update");
+      navigate(-1);
     } catch(err) {
       console.log('ERROR', err);
     }

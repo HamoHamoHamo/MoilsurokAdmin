@@ -16,7 +16,7 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
-  const last = (parseInt((currentPage-1)/5)+1) * 5;
+  const last = (parseInt((currentPage - 1) / 5) + 1) * 5;
   const first = last - 5;
   const curPageList = pageNumbers.slice(first, last);
   // console.log("LAST", last, "FIRST", first, "\nCURPAGELIST", curPageList, "pagenumber", pageNumbers);
@@ -114,11 +114,11 @@ export function DataTable({ kinds }) {
   const [currentPage, setCurrentPage] = useState(1);
   // const [postsPerPage, setPostsPerPage] = useState(15);
   let postsPerPage = 15;
-  
+
   const checkAllBtn = useRef();
   const searchType = useRef();
   const searchBtn = useRef();
-  
+
   const [lastDoc, setLastDoc] = useState('');
   const [dataList, setDataList] = useState([]);
   const [datas, setDatas] = useState([]);
@@ -353,7 +353,7 @@ export function DataTable({ kinds }) {
 
     if (!search.input) {
       console.log('search', search);
-      setSearch({ title: headerType[0], text: header[0]});
+      setSearch({ title: headerType[0], text: header[0] });
       COUNTER.doc('counter').get().then((doc) => {
         if (doc.exists) {
           switch (kinds) {
@@ -392,7 +392,7 @@ export function DataTable({ kinds }) {
       } else {
         getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
       }
-      
+
     } else {
       setDataList([]);
       if (req) {
@@ -412,9 +412,9 @@ export function DataTable({ kinds }) {
 
     getDocs.then((docs) => {
       console.log("GETDOOOOOOOOOO", docs);
-    // collection.orderBy("name", "asc").startAt("이름").limit(75).get().then((docs) => {
-    // collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
-      setLastDoc(docs.docs[docs.size-1]);
+      // collection.orderBy("name", "asc").startAt("이름").limit(75).get().then((docs) => {
+      // collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
+      setLastDoc(docs.docs[docs.size - 1]);
       docs.forEach((doc) => {
         if (doc.exists) {
           list.push(doc.data());
@@ -433,14 +433,14 @@ export function DataTable({ kinds }) {
     let currentPageList = '';
     let curDataList = '';
     if (loading) {
-      currentPageList = parseInt((currentPage-1)/5)
+      currentPageList = parseInt((currentPage - 1) / 5)
       curDataList = dataList[currentPageList];
       console.log("PAGELSIT", currentPageList, curDataList)
-    
+
       // TODO 생성시 카운터 값 변경, 검색기능 첫부분은 완료, 6페이지 넘어갈때 데이터 받아오는 부분 해야됨
       // 6페이지 11페이지 넘어갈떄
       if (curDataList == undefined) {
-        
+
         let list = [];
         let id = [];
         let getDocs = '';
@@ -450,8 +450,8 @@ export function DataTable({ kinds }) {
         // const q = query(collection, orderBy("modifiedDate", "desc"), startAfter(lastDoc), limit(75))
 
         if (!search.input) {
-          if (req){
-            getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").startAfter(lastDoc).limit(75).get()  
+          if (req) {
+            getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").startAfter(lastDoc).limit(75).get()
           }
           getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
         } else {
@@ -461,7 +461,7 @@ export function DataTable({ kinds }) {
           getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
         }
         getDocs.then((docs) => {
-          setLastDoc(docs.docs[docs.docs.length-1]);
+          setLastDoc(docs.docs[docs.docs.length - 1]);
           docs.forEach((doc) => {
             if (doc.exists) {
               list.push(doc.data());
@@ -475,7 +475,7 @@ export function DataTable({ kinds }) {
           setDatas(res);
           setCurDatas(currentDatas(res));
         })
-      } else{
+      } else {
         setDatas(curDataList);
         setCurDatas(currentDatas(curDataList));
       }
@@ -485,7 +485,7 @@ export function DataTable({ kinds }) {
   // console.log("CNTT", count);
 
   function currentDatas(tmp) {
-    const indexOfLast = (((currentPage-1) % 5) + 1) * postsPerPage;
+    const indexOfLast = (((currentPage - 1) % 5) + 1) * postsPerPage;
     const indexOfFirst = indexOfLast - postsPerPage;
     let current = 0;
     // console.log("LINDEXL", indexOfLast, "INDFIRST", indexOfFirst);
@@ -497,7 +497,7 @@ export function DataTable({ kinds }) {
     checkAllBtn.current.checked = false;
     setCheckList([]);
     setCurrentPage(page)
-    
+
   }
   const checkAll = (e) => {
     setCheckList(e.target.checked ? currentDatas(idList) : []);
@@ -514,7 +514,7 @@ export function DataTable({ kinds }) {
       setCheckFilenameList(checkFilenameList.filter((cfList) => cfList !== flist));
     }
   }
-  const onClickDel = (e) => {
+  const onClickDel = async (e) => {
     e.preventDefault();
     console.log("DELELELELTEL", checkList, "CHIFILE", checkFilenameList[0]);
     if (checkList == '') {
@@ -522,7 +522,68 @@ export function DataTable({ kinds }) {
       return
     };
     if (window.confirm("삭제하시겠습니까?")) {
-      checkList.map((id, i) => {
+      console.log("CHCCKLIST", checkList);
+      const cntData = await COUNTER.doc('counter').get();
+      const cnt = cntData.data();
+      const newCnt = count - checkList.length;
+      console.log("NEWCNT", newCnt);
+      switch (kinds) {
+        case 'user':
+          COUNTER.doc('counter').update({ user: newCnt });
+          break;
+        case 'schedule':
+          COUNTER.doc('counter').update({ schedule: newCnt });
+          break;
+        case 'question':
+          COUNTER.doc('counter').update({ question: newCnt });
+          break;
+        case 'profile':
+          COUNTER.doc('counter').update({ profile: newCnt });
+          break;
+        case 'notice':
+          COUNTER.doc('counter').update({ notice: newCnt });
+          break;
+        case 'answer':
+          COUNTER.doc('counter').update({ answer: newCnt });
+          break;
+        case 'reqUser':
+          COUNTER.doc('counter').update({ reqUser: newCnt });
+          break;
+        case 'reqProfile':
+          COUNTER.doc('counter').update({ reqProfile: newCnt });
+          break;
+        case 'reqQuestion':
+          COUNTER.doc('counter').update({ reqQuestion: newCnt });
+          break;
+      }
+      if (req) {
+        
+        switch (kinds) {
+          case 'reqUser':
+            COUNTER.doc('counter').update({ user: cnt.user - checkList.length });
+            break;
+          case 'reqProfile':
+            COUNTER.doc('counter').update({ profile: cnt.profile - checkList.length });
+            break;
+          case 'reqQuestion':
+            COUNTER.doc('counter').update({ question: cnt.question - checkList.length });
+            break;
+        }
+      }
+      let reqCnt = '';
+      switch (kinds) {
+        case "user":
+          reqCnt = cnt.reqUser;
+          break;
+        case "profile":
+          reqCnt = cnt.reqProfile;
+          break;
+        case "question":
+          reqCnt = cnt.reqQuestion;
+          break;
+      }
+
+      const promises = checkList.map(async (id, i) => {
         console.log("III", i);
         if (checkFilenameList[i]) {
           console.log("CHEKCFILIST", checkFilenameList[i]);
@@ -531,47 +592,40 @@ export function DataTable({ kinds }) {
             ref.delete();
           })
         }
-        collection.doc(id).delete().then(() => {
-          const newCnt = count - checkList.length;
-          console.log("NEWCNT", newCnt);
-          switch(kinds) {
-            case 'user':
-              COUNTER.doc('counter').update({ user: newCnt });
-              break;
-            case 'schedule':
-              COUNTER.doc('counter').update({ schedule: newCnt });
-              break;
-            case 'question':
-              COUNTER.doc('counter').update({ question: newCnt });
-              break;
-            case 'profile':
-              COUNTER.doc('counter').update({ profile: newCnt });
-              break;
-            case 'notice':
-              COUNTER.doc('counter').update({ notice: newCnt });
-              break;
-            case 'answer':
-              COUNTER.doc('counter').update({ answer: newCnt });
-              break;
-            case 'reqUser':
-              COUNTER.doc('counter').update({ reqUser: newCnt });
-              break;
-            case 'reqProfile':
-              COUNTER.doc('counter').update({ reqProfile: newCnt });
-              break;
-            case 'reqQuestion':
-              COUNTER.doc('counter').update({ reqQuestion: newCnt });
-              break;
+        const doc = await collection.doc(id).get();
+        console.log("DOOCCCCC", doc);
+        if(doc.exists) {
+          console.log("DOCOCOCC", doc.data());
+          if (doc.data().check === "X") {
+            switch (kinds) {
+              case "user":
+                COUNTER.doc('counter').update({ reqUser: reqCnt - 1 });
+                break;
+              case "profile":
+                COUNTER.doc('counter').update({ reqProfile: reqCnt - 1 });
+                break;
+              case "question":
+                COUNTER.doc('counter').update({ reqQuestion: reqCnt - 1 });
+                break;
+            }
+            reqCnt = reqCnt - 1;
           }
-          window.location.reload();
-        });
+        } else {
+          console.log("there is no collection")
+        }
+        await collection.doc(id).delete()
+        return
       })
+      await Promise.all(promises);
+      console.log("after delete");
+      window.location.reload();
+      
     }
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setOnSearch(onSearch+1);
+    setOnSearch(onSearch + 1);
   }
   const onClickSearchType = (e) => {
     const { innerText, title } = e.target;
@@ -587,8 +641,8 @@ export function DataTable({ kinds }) {
 
   const onClickSearchBtn = (e) => {
     let { classList } = searchType.current;
-    
-    if (classList.length === 1){
+
+    if (classList.length === 1) {
       searchType.current.classList.value = 'dropdown-menu show';
     } else {
       searchType.current.classList.value = 'dropdown-menu';
@@ -621,16 +675,16 @@ export function DataTable({ kinds }) {
                   <button onClick={onClickSearchBtn} ref={searchBtn} type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {search.text}
                   </button>
-                  <div ref={searchType} class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style={{position: "absolute", willChange: 'transform', top: '0px', left: '10px', transform: 'translate3d(0px, 38px, 0px)'}}>
+                  <div ref={searchType} class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style={{ position: "absolute", willChange: 'transform', top: '0px', left: '10px', transform: 'translate3d(0px, 38px, 0px)' }}>
                     {header && header.map((txt, i) => {
-                      if (txt !== "수정시간"){
-                        return <div onClick={onClickSearchType} title={headerType[i]} class="dropdown-item">{txt}</div>
+                      if (txt !== "수정시간") {
+                        return <div key={i} onClick={onClickSearchType} title={headerType[i]} class="dropdown-item">{txt}</div>
                       }
                     })}
                   </div>
                 </div>
                 {/* <div class="row"> */}
-                <div class="col-sm-2" style={{marginLeft: "-10px"}}>
+                <div class="col-sm-2" style={{ marginLeft: "-10px" }}>
                   <div id="datatable_filter" class="dataTables_filter">
                     <label>
                       <input onChange={onChangeSearch} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />

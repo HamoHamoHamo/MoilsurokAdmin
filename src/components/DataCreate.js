@@ -9,10 +9,11 @@ import {
   SCHEDULE,
   USER,
   storage,
+  COUNTER,
 } from "../utils/Firebase";
 import routes from "../utils/Routes";
 
-export default function DataCreateForm({ children, kinds}) {
+export default function DataCreateForm({ kinds}) {
   const [inputs, setInputs] = useState({creator: "관리자"});
   const navigate = useNavigate();
   let HandleCreate = '';
@@ -58,6 +59,7 @@ export default function DataCreateForm({ children, kinds}) {
     e.preventDefault();
     const { uploadFiles: files } = inputs
     let udatas = {};
+    let field = '';
     if(files){
       let filenames = [];
   
@@ -94,7 +96,26 @@ export default function DataCreateForm({ children, kinds}) {
         window.alert("데이터 생성 완료")
         console.log("RES", res);
         // navigate(`/datas/${kinds}/${res.id}`);
-        window.location.href = `/datas/${kinds}/${res.id}`;
+        COUNTER.doc('counter').get().then((doc) => {
+          switch (kinds) {
+            case "notice": 
+              COUNTER.doc('counter').update({ notice: doc.data().notice +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+              break;
+            case "user": 
+              COUNTER.doc('counter').update({ user: doc.data().user +1 }).then(() => {
+                if (udatas.check === "X") {
+                  COUNTER.doc('counter').update({ reqUser: doc.data().reqUser +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+                } else {
+                  console.log("SSSSHREFTEST");
+                  window.location.href = `/datas/${kinds}/${res.id}`;
+                }
+              });
+              break;
+            case "schedule": 
+              COUNTER.doc('counter').update({ schedule: doc.data().schedule +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+              break;
+          }
+        })
       });
     } catch(err) {
       console.log('ERROR', err);
