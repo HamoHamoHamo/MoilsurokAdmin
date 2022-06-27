@@ -49,6 +49,7 @@ export default function ReqProfileDetail() {
     faxNum,
     sector,
     check,
+    remark,
     pubDate,
     modifiedDate,
     files,
@@ -71,6 +72,7 @@ export default function ReqProfileDetail() {
     sector: Usector,
     check: Ucheck,
     pubDate: UpubDate,
+    remark: Uremark,
     modifiedDate: UmodifiedDate,
     files: Ufiles,
     filenames: Ufilenames,
@@ -401,11 +403,32 @@ export default function ReqProfileDetail() {
             <div class="reqChangeArrow">▶</div> 
             <div class="col-md-3 col-sm-3 ">
               <input
-                
                 name="sector"
                 type="text"
                 class="form-control"
                 value={sector}
+                readOnly
+              />
+            </div>
+          </div>
+          <div class="form-group row ">
+            <label class="control-label col-md-2 col-sm-2 ">비고</label>
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                name="sector"
+                type="text"
+                class="form-control"
+                value={Uremark}
+                readOnly
+              />
+            </div>
+            <div class="reqChangeArrow">▶</div> 
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                name="sector"
+                type="text"
+                class="form-control"
+                value={remark}
                 readOnly
               />
             </div>

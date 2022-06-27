@@ -1,3 +1,4 @@
+import readXlsxFile from 'read-excel-file';
 import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
@@ -55,6 +56,11 @@ export default function DataCreateForm({ kinds}) {
     console.log('INPUTSSS', inputs);
   };
 
+  const onUploadFile = (e) => {
+      readXlsxFile(e.target.files[0]).then((rows) => {
+      console.log(rows);
+    })};
+    
   const onSubmit = async (e) => {
     e.preventDefault();
     const { uploadFiles: files } = inputs
@@ -130,6 +136,15 @@ export default function DataCreateForm({ kinds}) {
           <div class="x_panel">
             <div class="x_title">
               <h2>{title} 작성</h2>
+              { kinds === 'user' && 
+                <input
+                  type="file"
+                  class="navbar-right panel_toolbox btn btn-primary navbar-right"
+                  onChange={onUploadFile}
+                >
+                </input>
+              }
+
               <div class="clearfix"></div>
             </div>
             <div class="x_content">

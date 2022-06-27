@@ -40,6 +40,7 @@ export default function ReqUserDetail() {
     faxNum,
     sector,
     check,
+    remark,
     pubDate,
     modifiedDate,
     files,
@@ -244,6 +245,19 @@ export default function ReqUserDetail() {
               type="text"
               class="form-control"
               value={sector}
+              readOnly
+            />
+          </div>
+        </div>
+        <div class="form-group row ">
+          <label class="control-label col-md-3 col-sm-3 ">비고</label>
+          <div class="col-md-4 col-sm-4 ">
+            <input
+  
+              name="sector"
+              type="text"
+              class="form-control"
+              value={remark}
               readOnly
             />
           </div>

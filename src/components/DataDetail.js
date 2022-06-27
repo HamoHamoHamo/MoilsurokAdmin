@@ -87,13 +87,66 @@ export default function DataDetail({ kinds }) {
     navigate(-1);
   };
 
-  const onClickDel = () => {
+  const onClickDel = async () => {
     if (window.confirm("삭제하시겠습니까?")) {
+      const cntData = await COUNTER.doc('counter').get();
+      const cnt = cntData.data();
+      switch (kinds) {
+        case 'user':
+          COUNTER.doc('counter').update({ user: cnt.user - 1 });
+          break;
+        case 'schedule':
+          COUNTER.doc('counter').update({ schedule: cnt.schedule - 1 });
+          break;
+        case 'question':
+          COUNTER.doc('counter').update({ question: cnt.question - 1 });
+          break;
+        case 'profile':
+          COUNTER.doc('counter').update({ profile: cnt.profile - 1 });
+          break;
+        case 'notice':
+          COUNTER.doc('counter').update({ notice: cnt.notice - 1 });
+          break;
+        case 'answer':
+          COUNTER.doc('counter').update({ answer: cnt.answer - 1 });
+          break;
+        case 'reqUser':
+          COUNTER.doc('counter').update({ reqUser: cnt.reqUser - 1 });
+          break;
+        case 'reqProfile':
+          COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
+          break;
+        case 'reqQuestion':
+          COUNTER.doc('counter').update({ reqQuestion: cnt.reqQuestion - 1 });
+          break;
+      }
+
+      if (datas.filenames) {
+        datas.filenames.map(async (file) => {
+          const ref = storage.ref().child(file);
+          console.log("REFFF", ref);
+          ref.delete();
+        })
+      }
+      if (curCheck === "X") {
+        switch (kinds) {
+          case "user":
+            COUNTER.doc('counter').update({ reqUser: cnt.reqUser - 1 });
+            break;
+          case "profile":
+            COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
+            break;
+          case "question":
+            COUNTER.doc('counter').update({ reqQuestion: cnt.reqQuestion - 1 });
+            break;
+        }
+      }
       collection
         .doc(id)
         .delete()
         .then(() => {
           navigate(-1);
+          // console.log("navigate");
         })
         .catch((res) => alert("DELETE ERROR\n", res));
     }
