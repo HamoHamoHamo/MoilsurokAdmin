@@ -13,6 +13,7 @@ import {
   ANSWER,
   PROFILE,
   storage,
+  COUNTER,
 } from "../utils/Firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
@@ -23,6 +24,8 @@ export default function DataDetail({ kinds }) {
   const [datas, setDatas] = useState({});
   const [status, setStatus] = useState(0);
   const [collection, setCollection] = useState('');
+  const [curCheck, setCurCheck] = useState('');
+
   const navigate = useNavigate();
   let HandleDetail = "";
   let col = '';
@@ -49,6 +52,7 @@ export default function DataDetail({ kinds }) {
       .then((doc) => {
         if (doc.exists) {
           setDatas(doc.data());
+          setCurCheck(doc.data().check);
           setStatus(1);
           
         } else {
@@ -133,6 +137,37 @@ export default function DataDetail({ kinds }) {
     try{
       console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas);
+      if (curCheck && curCheck !== udatas.check) {
+        const counter = await COUNTER.doc('counter').get();
+        if (udatas.check === "X") {
+          console.log("XXXXXXXXXXXX")
+          console.log("COUNTER", counter.data());
+          switch (kinds) {
+            case 'user':
+              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser + 1 });
+              break;
+            case 'profile':
+              COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile + 1 });
+              break;
+            case 'question':
+              COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion + 1 });
+              break;
+          }
+        } else if (udatas.check === "O") {
+          console.log("OOOOOOOOOOOOOOO")
+          switch (kinds) {
+            case 'user':
+              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser - 1 });
+              break;
+            case 'profile':
+              COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile - 1 });
+              break;
+            case 'question':
+              COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion - 1 });
+              break;
+          }
+        }
+      }
       console.log("After update");
       navigate(-1);
     } catch(err) {

@@ -656,7 +656,7 @@ export function DataTable({ kinds }) {
       input: value,
     }))
   }
-
+  console.log("Datas", datas);
   return (
     <div class="">
       {/* <Posts posts={currentPosts(posts)}></Posts> */}
@@ -727,7 +727,7 @@ export function DataTable({ kinds }) {
               </div>
               <div class="row">
                 <div class="col-sm-5 ">
-                  <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {(currentPage - 1) * postsPerPage + 1} to {curDatas && postsPerPage > curDatas.length ? (currentPage - 1) * postsPerPage + curDatas.length : currentPage * postsPerPage} of {count} entries</div>
+                  <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {datas.length === 0 ? 0 : (currentPage - 1) * postsPerPage + 1 } to {curDatas && postsPerPage > curDatas.length ? (currentPage - 1) * postsPerPage + curDatas.length : currentPage * postsPerPage} of {count} entries</div>
                 </div>
                 <div class="col-sm-7 ">
                   <Pagination
