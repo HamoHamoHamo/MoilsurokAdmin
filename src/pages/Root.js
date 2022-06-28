@@ -11,6 +11,7 @@ import ReqUserDetail from "./req/ReqUserDetail";
 import AnswerQuestion from "./question/AnswerQuestion";
 import Login from "./Login";
 import { DataTable } from "../components/DataTable";
+import UploadUser from "./create/UploadUser";
 
 function Root() {
   return (
@@ -43,6 +44,7 @@ function Root() {
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
         <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
+        <Route path={routes.uploadUser} element={<UploadUser />} />
 
       </Route>
     </Routes>

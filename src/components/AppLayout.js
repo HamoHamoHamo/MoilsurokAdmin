@@ -57,7 +57,7 @@ function AppLayout() {
       // TODO: This is some kind of easy fix, maybe we can improve this
       var setContentHeight = function () {
         // reset height
-        $RIGHT_COL.css("min-height", $(window).height());
+        // $RIGHT_COL.css("min-height", $(window).height());
 
         var bodyHeight = $BODY.outerHeight(),
           footerHeight = $BODY.hasClass("footer_fixed")
@@ -68,9 +68,9 @@ function AppLayout() {
             bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
 
         // normalize content
-        contentHeight -= $NAV_MENU.height() + footerHeight;
+        // contentHeight -= $NAV_MENU.height() + footerHeight;
 
-        $RIGHT_COL.css("min-height", contentHeight);
+        // $RIGHT_COL.css("min-height", contentHeight);
       };
 
       var openUpMenu = function () {
@@ -201,7 +201,7 @@ function AppLayout() {
           <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
               <div class="navbar nav_title flex_center" style={{ border: 0 }}>
-                <a href="index.html" class="site_title">
+                <a href={routes.home} class="site_title">
                   <img src="/images/title.png" />
                 </a>
               </div>
@@ -263,6 +263,9 @@ function AppLayout() {
                         <li>
                           <a href={routes.createSchedule}>일정</a>
                         </li>
+                        <li>
+                          <a href={routes.uploadUser}>회원 업로드</a>
+                        </li>
                       </ul>
                     </li>
                     <li ref={sideReq}>
@@ -308,16 +311,16 @@ function AppLayout() {
           {/* <!-- /top navigation --> */}
 
           {/* <!-- page content --> */}
-          <div class="right_col" role="main">
+          <div class="right_col" role="main" style={{minHeight: '100vh'}}>
             <Outlet />
           </div>
           {/* <!-- /page content --> */}
 
           {/* <!-- footer content --> */}
-          <footer>
+          {/* <footer>
             <div class="pull-right">footer</div>
             <div class="clearfix"></div>
-          </footer>
+          </footer> */}
           {/* <!-- /footer content --> */}
         </div>
       </div>

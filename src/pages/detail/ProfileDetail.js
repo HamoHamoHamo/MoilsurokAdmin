@@ -183,7 +183,6 @@ export default function ProfileDetail({ datas, onChange, back, onSubmit, collect
           <label class="control-label col-md-3 col-sm-3 "></label>
           <div class="col-md-4 col-sm-4 ">
             <a href={img} target="_blank">{filenames[i].slice(filenames[i].indexOf("_") + 1)}</a>
-            <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
           </div>
         </div>
       ))}

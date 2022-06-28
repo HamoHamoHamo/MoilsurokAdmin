@@ -30,6 +30,7 @@ export default function DataDetail({ kinds }) {
   let HandleDetail = "";
   let col = '';
   let title = '';
+  let doing = false;
 
   useEffect(() => {
     if (kinds === "user") {
@@ -154,7 +155,13 @@ export default function DataDetail({ kinds }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("AAAAAAA");
+    if (doing) {
+      console.log("doing");
+      window.alert("한 번만 클릭해주세요");
+      return
+    }
+    doing = true;
+
     const { uploadFiles: files } = datas
     let udatas = {};
     if(files){
@@ -298,7 +305,7 @@ function DataDetailForm({ children, title, onClickDel }) {
 
               <button
                 type="reset"
-                class="navbar-right panel_toolbox btn btn-danger navbar-right"
+                class="navbar-right panel_toolbox btn btn-danger"
                 onClick={onClickDel}
               >
                 삭제

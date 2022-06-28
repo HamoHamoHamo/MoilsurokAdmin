@@ -1,4 +1,3 @@
-import readXlsxFile from 'read-excel-file';
 import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
@@ -14,12 +13,13 @@ import {
 } from "../utils/Firebase";
 import routes from "../utils/Routes";
 
-export default function DataCreateForm({ kinds}) {
+export default function DataCreateForm({ kinds }) {
   const [inputs, setInputs] = useState({creator: "관리자"});
   const navigate = useNavigate();
   let HandleCreate = '';
   let title = '';
   let collection = '';
+  let doing = false;
 
   if(kinds === "notice") {
     HandleCreate = CreateNotice;
@@ -55,14 +55,16 @@ export default function DataCreateForm({ kinds}) {
     }
     console.log('INPUTSSS', inputs);
   };
-
-  const onUploadFile = (e) => {
-      readXlsxFile(e.target.files[0]).then((rows) => {
-      console.log(rows);
-    })};
     
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (doing) {
+      console.log("doing");
+      window.alert("한 번만 클릭해주세요");
+      return
+    }
+    doing = true;
+    
     const { uploadFiles: files } = inputs
     let udatas = {};
     let field = '';
@@ -105,69 +107,64 @@ export default function DataCreateForm({ kinds}) {
         COUNTER.doc('counter').get().then((doc) => {
           switch (kinds) {
             case "notice": 
-              COUNTER.doc('counter').update({ notice: doc.data().notice +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+              COUNTER.doc('counter').update({ notice: doc.data().notice +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
             case "user": 
               COUNTER.doc('counter').update({ user: doc.data().user +1 }).then(() => {
                 if (udatas.check === "X") {
-                  COUNTER.doc('counter').update({ reqUser: doc.data().reqUser +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+                  COUNTER.doc('counter').update({ reqUser: doc.data().reqUser +1 }).then(window.location.href = `/datas/${kinds}`);
                 } else {
                   console.log("SSSSHREFTEST");
-                  window.location.href = `/datas/${kinds}/${res.id}`;
+                  window.location.href = `/datas/${kinds}`;
                 }
               });
               break;
             case "schedule": 
-              COUNTER.doc('counter').update({ schedule: doc.data().schedule +1 }).then(window.location.href = `/datas/${kinds}/${res.id}`);
+              COUNTER.doc('counter').update({ schedule: doc.data().schedule +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
           }
         })
       });
     } catch(err) {
+      window.alert("ERROR", err);
       console.log('ERROR', err);
     }
 
   };
-
-  return (
-    <div>
-      <div class="row">
-        <div class="col-md-12 col-sm-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>{title} 작성</h2>
-              { kinds === 'user' && 
-                <input
-                  type="file"
-                  class="navbar-right panel_toolbox btn btn-primary navbar-right"
-                  onChange={onUploadFile}
+  if (!doing){
+    return (
+      <div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{title} 작성</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <form
+                  method="post"
+                  onSubmit={onSubmit}
+                  class="form-horizontal form-label-left"
                 >
-                </input>
-              }
-
-              <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-              <form
-                method="post"
-                onSubmit={onSubmit}
-                class="form-horizontal form-label-left"
-              >
                   <HandleCreate onChange={onChange} inputs={inputs} />
-                <div class="ln_solid">
-                  <div class="form-group">
-                    <div class="col-md-6" style={{ marginTop: "20px" }}>
-                      <button type="submit" class="btn btn-success">
-                        저장
-                      </button>
+                  <div class="ln_solid">
+                    <div class="form-group">
+                      <div class="col-md-6" style={{ marginTop: "20px" }}>
+                        <button type="submit" class="btn btn-success">
+                          저장
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else if (doing) {
+    <div>Loading</div>
+  }
 }

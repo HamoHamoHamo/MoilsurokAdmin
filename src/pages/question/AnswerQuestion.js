@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DataReqDetailForm from "../../components/DataReqDetail";
-import { ANSWER, QUESTION } from "../../utils/Firebase";
+import { ANSWER, COUNTER, QUESTION } from "../../utils/Firebase";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function AnswerQuestion() {
@@ -10,6 +10,7 @@ export default function AnswerQuestion() {
   const [status, setStatus] = useState(0);
   const navigate = useNavigate();
   const COL = QUESTION;
+  let doing = false;
 
   useEffect(() => {
     COL
@@ -43,6 +44,13 @@ export default function AnswerQuestion() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (doing) {
+      console.log("doing");
+      window.alert("한 번만 클릭해주세요");
+      return
+    }
+    doing = true;
+
     let today = new Date();
     const data = {
       ...answer,
@@ -53,10 +61,15 @@ export default function AnswerQuestion() {
       ...datas,
       check: "O",
     }
-    const add = await ANSWER.add(data).then(() => {
-      QUESTION.doc(id).update(qdata).then(navigate(-1));
-    })
-    console.log("ADD", add);
+    await ANSWER.add(data)
+    await QUESTION.doc(id).update(qdata)
+    console.log("finish");
+    
+    const counter = await COUNTER.doc('counter').get();
+    await COUNTER.doc('counter').update({ answer: counter.data().answer + 1 });
+    await COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion - 1 });
+    
+    navigate(-1);
   };
 
   console.log("ANSWER", answer);

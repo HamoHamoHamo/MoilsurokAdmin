@@ -25,6 +25,7 @@ const CREATE_USER = "/create/user";
 const CREATE_NOTICE = "/create/notice";
 const CREATE_SCHEDULE = "/create/schedule";
 const CREATE_ANSWER = "/create/answer";
+const UPLOAD_USER = "/create/upload/user";
 
 const routes = {
   home: HOME,
@@ -108,6 +109,7 @@ const routes = {
   createSchedule: CREATE_SCHEDULE,
   createUser: CREATE_USER,
   createAnswer: CREATE_ANSWER,
+  uploadUser: UPLOAD_USER,
 };
 
 export default routes;

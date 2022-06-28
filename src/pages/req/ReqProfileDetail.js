@@ -11,6 +11,7 @@ export default function ReqProfileDetail() {
   const [status, setStatus] = useState(0);
   const navigate = useNavigate();
   const COL = PROFILE;
+  let doing = false;
 
   useEffect(() => {
     const data = COL.doc(id).get()
@@ -83,6 +84,12 @@ export default function ReqProfileDetail() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (doing) {
+      window.alert("한 번만 클릭해주세요");
+      return
+    }
+    doing = true
+
     if (datas.check === "O") {
       USER.doc(datas.user).update(datas).then(
         COL.doc(id).update(datas).then(() => {        

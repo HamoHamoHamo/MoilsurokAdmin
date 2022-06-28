@@ -25,6 +25,7 @@ export default function Login() {
       navigate(routes.home);
 
     } catch (err) {
+      window.alert("아이디/비밀번호가 맞지 않습니다.")
       console.log("ERRRRRROR", err);
     }
   }

@@ -325,7 +325,7 @@ export function DataTable({ kinds }) {
   } else if (kinds === "reqQuestion") {
     req = true;
     collection = QUESTION;
-    title = "문의목록";
+    title = "문의답변";
     header = [
       '제목',
       '내용',
