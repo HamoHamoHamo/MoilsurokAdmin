@@ -105,6 +105,8 @@ export function DataTable({ kinds }) {
   //     modifiedDate: "2022-02-11 10:10",
   //   })
   // });
+    // const a = [1,2,3,4,5,6,7,8,1,];
+    // a.map(() => {QUESTION.add({pubDate: "2022-02-11 10:10", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", check: "O" }) });
 
 
   const [checkList, setCheckList] = useState([]);
@@ -168,15 +170,15 @@ export function DataTable({ kinds }) {
       '제목',
       '내용',
       '작성자',
-      '등록시간',
       '수정시간',
+      '등록시간',
     ];
     headerType = [
       'title',
       'content',
       'creator',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ];
     filterData = noticeDatas;
     tableDatas = noticeTableDatas;
@@ -207,16 +209,16 @@ export function DataTable({ kinds }) {
       '내용',
       '작성자',
       '답변완료',
-      '등록시간',
       '수정시간',
+      '등록시간',
     ]
     headerType = [
       'title',
       'content',
       'creator',
       'check',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ]
     filterData = questionDatas;
     tableDatas = questionTableDatas;
@@ -227,15 +229,15 @@ export function DataTable({ kinds }) {
       '제목',
       '내용',
       '작성자',
-      '작성시간',
       '수정시간',
+      '등록시간',
     ];
     headerType = [
       'title',
       'content',
       'creator',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ];
     filterData = answerDatas;
     tableDatas = answerTableDatas;
@@ -250,8 +252,8 @@ export function DataTable({ kinds }) {
       '이메일',
       '회사명',
       '승인완료',
-      '등록시간',
       '수정시간',
+      '등록시간',
     ];
     headerType = [
       'name',
@@ -261,8 +263,8 @@ export function DataTable({ kinds }) {
       'email',
       'company',
       'check',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ]
     filterData = profileDatas;
     tableDatas = profileTableDatas;
@@ -289,8 +291,8 @@ export function DataTable({ kinds }) {
       'email',
       'company',
       'check',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ]
     filterData = reqUserDatas;
     tableDatas = reqUserTableDatas;
@@ -317,8 +319,8 @@ export function DataTable({ kinds }) {
       'email',
       'company',
       'check',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ]
     filterData = reqProfileDatas;
     tableDatas = reqProfileTableDatas;
@@ -331,16 +333,16 @@ export function DataTable({ kinds }) {
       '내용',
       '작성자',
       '답변완료',
-      '등록시간',
       '수정시간',
+      '등록시간',
     ]
     headerType = [
       'title',
       'content',
       'creator',
       'check',
-      'pubDate',
       'modifiedDate',
+      'pubDate',
     ]
     filterData = reqQuestionDatas;
     tableDatas = reqQuestionTableDatas;

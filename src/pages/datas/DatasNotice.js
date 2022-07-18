@@ -43,8 +43,8 @@ export const noticeTableDatas = (dataList, checkList, checkEach) => (
           <td><Link to={routes.datasNoticeDetail(id)}>{title}</Link></td>
           <td style={{width: '20%'}}><Link to={routes.datasNoticeDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
           <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
-          <td><Link to={routes.datasNoticeDetail(id)}>{pubDate}</Link></td>
           <td><Link to={routes.datasNoticeDetail(id)}>{modifiedDate}</Link></td>
+          <td><Link to={routes.datasNoticeDetail(id)}>{pubDate}</Link></td>
         </tr>
       )
     }
