@@ -19,7 +19,7 @@ export default function ScheduleDetail({ datas, onChange, back, onSubmit, collec
           <input
             onChange={onChange}
             name="date"
-            type="datetime-local"
+            type="date"
             class="form-control"
             value={date}
           />

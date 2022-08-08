@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
@@ -101,9 +102,33 @@ export default function DataCreateForm({ kinds }) {
     try{
       // console.log("SDFSFDATAS", udatas);
       const update = await collection.add(udatas).then((res) => {
+        if (kinds === 'notice' || kinds === 'schedule'){
+          const title = kinds === 'notice' ? '공지사항' : '일정'
+          const body = kinds === 'notice' ? '새로운 공지사항이 등록되었습니다.' : '새로운 일정이 등록되었습니다.'
+          const headers = {  
+            'Content-Type': 'application/json',
+            'Authorization': process.env.REACT_APP_FIREBASE_MSG_KEY,
+          }
+          
+          axios.post('https://fcm.googleapis.com/fcm/send', {
+            "to" : "/topics/1",
+            "priority" : "high",
+            "notification": {
+              title,
+              body,
+            }
+          }, { headers }).then((res) => {
+            console.log("알림전송", res)
+          }).catch(err => {
+            console.log("알림전송 에러 발생", err)
+          })  
+        }
+        
+
         window.alert("데이터 생성 완료")
+        
         console.log("RES", res);
-        // navigate(`/datas/${kinds}/${res.id}`);
+        navigate(`/datas/${kinds}/${res.id}`);
         COUNTER.doc('counter').get().then((doc) => {
           switch (kinds) {
             case "notice": 
@@ -124,6 +149,7 @@ export default function DataCreateForm({ kinds }) {
               break;
           }
         })
+        
       });
     } catch(err) {
       window.alert("ERROR", err);

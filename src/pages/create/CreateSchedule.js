@@ -7,7 +7,7 @@ export default function CreateSchedule({ onChange, inputs}) {
           <input
             onChange={onChange}
             name="date"
-            type="datetime-local"
+            type="date"
             class="form-control"
           />
         </div>
