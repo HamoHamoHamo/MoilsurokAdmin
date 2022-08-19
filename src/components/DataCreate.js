@@ -36,22 +36,29 @@ export default function DataCreateForm({ kinds }) {
     collection = SCHEDULE;
   } 
 
+  const onClickBack = (e) => {
+    e.preventDefault();
+    navigate(-1);
+  }
+
   const onChange = (e) => {
     const { name, value, files } = e.target;
-    let today = new Date();
+    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+    const time = new Date().toTimeString().split(" ")[0];
+    let today = date + ' ' + time.substring(0,5);
     if (files){
       setInputs(() => ({
         ...inputs,
         uploadFiles: files,
-        modifiedDate: today.toLocaleString(),
-        pubDate: today.toLocaleString(),
+        modifiedDate: today,
+        pubDate: today,
       }));
     } else {
       setInputs(() => ({
         ...inputs,
         [name]: value,
-        modifiedDate: today.toLocaleString(),
-        pubDate: today.toLocaleString(),
+        modifiedDate: today,
+        pubDate: today,
       }));
     }
     console.log('INPUTSSS', inputs);
@@ -104,8 +111,8 @@ export default function DataCreateForm({ kinds }) {
       const update = await collection.add(udatas).then((res) => {
         if (kinds === 'notice' || kinds === 'schedule'){
           const title = kinds === 'notice' ? '공지사항' : '일정'
-          const body = kinds === 'notice' ? '새로운 공지사항이 등록되었습니다.' : '새로운 일정이 등록되었습니다.'
-          const headers = {  
+          const body = kinds === 'notice' ? '새로운 공지사항이 등록되었습니다.' : `${inputs.date.substr(0,4)}년 ${inputs.date.substr(5,2)}월 ${inputs.date.substr(8,2)}일 새로운 일정이 등록되었습니다.`
+          const headers = {
             'Content-Type': 'application/json',
             'Authorization': process.env.REACT_APP_FIREBASE_MSG_KEY,
           }
@@ -128,16 +135,16 @@ export default function DataCreateForm({ kinds }) {
         window.alert("데이터 생성 완료")
         
         console.log("RES", res);
-        navigate(`/datas/${kinds}/${res.id}`);
+        // navigate(`/datas/${kinds}/${res.id}`);
         COUNTER.doc('counter').get().then((doc) => {
           switch (kinds) {
             case "notice": 
-              COUNTER.doc('counter').update({ notice: doc.data().notice +1 }).then(window.location.href = `/datas/${kinds}`);
+              COUNTER.doc('counter').update({ notice: parseInt(doc.data().notice) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
             case "user": 
-              COUNTER.doc('counter').update({ user: doc.data().user +1 }).then(() => {
+              COUNTER.doc('counter').update({ user: parseInt(doc.data().user) +1 }).then(() => {
                 if (udatas.check === "X") {
-                  COUNTER.doc('counter').update({ reqUser: doc.data().reqUser +1 }).then(window.location.href = `/datas/${kinds}`);
+                  COUNTER.doc('counter').update({ reqUser: parseInt(doc.data().reqUser) +1 }).then(window.location.href = `/datas/${kinds}`);
                 } else {
                   console.log("SSSSHREFTEST");
                   window.location.href = `/datas/${kinds}`;
@@ -145,7 +152,7 @@ export default function DataCreateForm({ kinds }) {
               });
               break;
             case "schedule": 
-              COUNTER.doc('counter').update({ schedule: doc.data().schedule +1 }).then(window.location.href = `/datas/${kinds}`);
+              COUNTER.doc('counter').update({ schedule: parseInt(doc.data().schedule) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
           }
         })
@@ -176,9 +183,12 @@ export default function DataCreateForm({ kinds }) {
                   <HandleCreate onChange={onChange} inputs={inputs} />
                   <div class="ln_solid">
                     <div class="form-group">
-                      <div class="col-md-6" style={{ marginTop: "20px" }}>
+                      <div class="col-md-2" style={{ marginTop: "20px" }}>
                         <button type="submit" class="btn btn-success">
                           저장
+                        </button>
+                        <button class="btn btn-secondary" onClick={onClickBack}>
+                          취소
                         </button>
                       </div>
                     </div>

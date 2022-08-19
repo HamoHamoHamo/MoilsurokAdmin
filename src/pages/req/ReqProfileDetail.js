@@ -108,19 +108,23 @@ export default function ReqProfileDetail() {
   };
 
   const clickN = () => {
-    let today = new Date();
+    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+    const time = new Date().toTimeString().split(" ")[0];
+    let today = date + ' ' + time.substring(0,5);
     setDatas((cur) => ({
       ...cur,
       check: "X",
-      modifiedDate: today.toLocaleString(),
+      modifiedDate: today,
     }))
   }
   const clickY = () => {
-    let today = new Date();
+    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+    const time = new Date().toTimeString().split(" ")[0];
+    let today = date + ' ' + time.substring(0,5);
     setDatas((cur) => ({
       ...cur,
       check: "O",
-      modifiedDate: today.toLocaleString(),
+      modifiedDate: today,
     }))
   }
   if (status === 1) {

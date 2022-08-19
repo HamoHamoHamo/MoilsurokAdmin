@@ -7,7 +7,10 @@ export default function AnswerQuestion() {
   const { id } = useParams();
   const [datas, setDatas] = useState({});
   const [answer, setAnswer] = useState({});
+  const [curAnswerId, setCurAnswerId] = useState({});
+  const [curAnswer, setCurAnswer] = useState({});
   const [status, setStatus] = useState(0);
+  
   const navigate = useNavigate();
   const COL = QUESTION;
   let doing = false;
@@ -25,6 +28,15 @@ export default function AnswerQuestion() {
             title: doc.data().title,
             question: id
           })
+          ANSWER.where('question', '==', id).get().then((doc) => {
+            if (doc.docs[0]){
+              console.log("TEST", doc);
+              if (doc.docs[0].exists) {
+                setCurAnswer(doc.docs[0].data());
+                setCurAnswerId(doc.docs[0].id);
+              }
+            }
+          })
         } else {
           setStatus(404);
         }
@@ -41,7 +53,17 @@ export default function AnswerQuestion() {
     modifiedDate,
     pubDate,
   } = datas;
+  console.log("DATAS", datas);
 
+  const delAnswer = (e) => {
+    e.preventDefault();
+    if(window.confirm("파일을 삭제하시겠습니까>")){      
+      ANSWER.doc(curAnswerId).delete().then(() => {
+        QUESTION.doc(id).update({ check: 'X' }).then(() => navigate(-1));
+      })
+      
+    }
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
@@ -51,11 +73,14 @@ export default function AnswerQuestion() {
     }
     doing = true;
 
-    let today = new Date();
+    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+    const time = new Date().toTimeString().split(" ")[0];
+    let today = date + ' ' + time.substring(0,5);
+
     const data = {
       ...answer,
-      pubDate: today.toLocaleString(),
-      modifiedDate: today.toLocaleString(),
+      pubDate: today,
+      // modifiedDate: today,
     }
     const qdata = {
       ...datas,
@@ -171,27 +196,66 @@ export default function AnswerQuestion() {
                   <div class="form-group row ">
                     <label class="control-label col-md-3 col-sm-3 ">답변</label>
                     <div class="col-md-6 col-sm-6 ">
-                      <textarea
-                        style={{ height: "200px" }}
-                        name="content"
-                        type="text"
-                        class="form-control"
-                        onChange={onChange}
-                      />
+                      {curAnswer.content &&
+                        <textarea
+                          style={{ height: "200px" }}
+                          name="content"
+                          type="text"
+                          class="form-control"
+                          onChange={onChange}
+                          value={curAnswer.content}
+                          readOnly='true'
+                        />
+                      }
+                      {!curAnswer.content &&
+                        <textarea
+                          style={{ height: "200px" }}
+                          name="content"
+                          type="text"
+                          class="form-control"
+                          onChange={onChange}
+                        />
+                      }
                     </div>
                   </div>
                   <div class="form-group row ">
                     <label class="control-label col-md-3 col-sm-3 ">작성자</label>
                     <div class="col-md-4 col-sm-4 ">
-                      <input
-                        name="creator"
-                        type="text"
-                        class="form-control"
-                        value={answer.creator}
-                        onChange={onChange}
-                      />
+                      {curAnswer.creator &&
+                        <input
+                          name="creator"
+                          type="text"
+                          class="form-control"
+                          value={curAnswer.creator}
+                          onChange={onChange}
+                          readOnly='true'
+                        />
+                      }
+                      {!curAnswer.creator &&
+                        <input
+                          name="creator"
+                          type="text"
+                          class="form-control"
+                          value={answer.creator}
+                          onChange={onChange}
+                        />
+                      }
                     </div>
                   </div>
+                  {curAnswer.pubDate &&
+                    <div class="form-group row ">
+                      <label class="control-label col-md-3 col-sm-3 ">등록시간</label>
+                      <div class="col-md-4 col-sm-4 ">
+                          <input
+                            name="pubDate"
+                            type="text"
+                            readOnly="readOnly"
+                            class="form-control"
+                            value={curAnswer.pubDate}
+                          />
+                      </div>
+                    </div>
+                  }
                   <div class="ln_solid">
                     <div class="form-group">
                       <div class="col-md-6" style={{ marginTop: "20px" }}>
@@ -202,6 +266,13 @@ export default function AnswerQuestion() {
                           취소
                         </button>
                       </div>
+                      {curAnswer.content &&
+                        <div class="col-md-6" style={{ marginTop: "20px" }}>
+                          <button class="btn btn-danger pull-right" onClick={delAnswer}>
+                            답변삭제
+                          </button>
+                        </div>
+                      }
                     </div>
                   </div>
                 </form>

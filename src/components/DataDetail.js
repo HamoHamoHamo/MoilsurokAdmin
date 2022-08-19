@@ -238,18 +238,20 @@ export default function DataDetail({ kinds }) {
 
   const onChange = (e) => {
     const { name, value, files } = e.target;
-    let today = new Date();
+    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+    const time = new Date().toTimeString().split(" ")[0];
+    let today = date + ' ' + time.substring(0,5);
     if (files){
       setDatas(() => ({
         ...datas,
         uploadFiles: files,
-        modifiedDate: today.toLocaleString(),
+        modifiedDate: today,
       }));
     } else {
       setDatas(() => ({
         ...datas,
         [name]: value,
-        modifiedDate: today.toLocaleString(),
+        modifiedDate: today,
       }));
     }
     console.log("DDDDDDDDDDD", datas);

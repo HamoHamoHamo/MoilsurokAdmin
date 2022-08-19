@@ -238,18 +238,18 @@ function AppLayout() {
                         <li>
                           <a href={routes.datasSchedule}>일정</a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a href={routes.datasQuestion}>문의</a>
                         </li>
                         <li>
                           <a href={routes.datasAnswer}>답변</a>
-                        </li>
+                        </li> */}
                         <li>
                           <a href={routes.datasProfile}>프로필 수정</a>
                         </li>
                       </ul>
                     </li>
-                    <li ref={sideCreate}>
+                    {/* <li ref={sideCreate}>
                       <a>
                         데이터 생성 <span class="fa fa-chevron-down"></span>
                       </a>
@@ -267,7 +267,7 @@ function AppLayout() {
                           <a href={routes.uploadUser}>회원 업로드</a>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li ref={sideReq}>
                       <a>
                         요청승인 <span class="fa fa-chevron-down"></span>

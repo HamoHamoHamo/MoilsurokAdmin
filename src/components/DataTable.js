@@ -11,6 +11,9 @@ import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
 import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
 
+import { Link } from 'react-router-dom';
+import routes from "../utils/Routes";
+
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
@@ -137,8 +140,12 @@ export function DataTable({ kinds }) {
   let filterData = '';
   let tableDatas = '';
   let req = false;
+  let createLink = '';
+  let uploadBtn = '';
 
   if (kinds === "user") {
+    createLink = routes.createUser;
+    uploadBtn = 'y'
     collection = USER;
     title = "회원";
     header = [
@@ -164,6 +171,7 @@ export function DataTable({ kinds }) {
     filterData = userDatas;
     tableDatas = userTableDatas;
   } else if (kinds === "notice") {
+    createLink = routes.createNotice;
     collection = NOTICE;
     title = "공지사항"
     header = [
@@ -183,6 +191,7 @@ export function DataTable({ kinds }) {
     filterData = noticeDatas;
     tableDatas = noticeTableDatas;
   } else if (kinds === "schedule") {
+    createLink = routes.createSchedule;
     collection = SCHEDULE;
     title = "일정"
     header = [
@@ -325,7 +334,6 @@ export function DataTable({ kinds }) {
     filterData = reqProfileDatas;
     tableDatas = reqProfileTableDatas;
   } else if (kinds === "reqQuestion") {
-    req = true;
     collection = QUESTION;
     title = "문의답변";
     header = [
@@ -384,7 +392,7 @@ export function DataTable({ kinds }) {
               setCount(doc.data().reqProfile)
               break;
             case 'reqQuestion':
-              setCount(doc.data().reqQuestion)
+              setCount(doc.data().question)
               break;
           };
         };
@@ -515,6 +523,12 @@ export function DataTable({ kinds }) {
       setCheckList(checkList.filter((checkedId) => checkedId !== id));
       setCheckFilenameList(checkFilenameList.filter((cfList) => cfList !== flist));
     }
+  }
+  function CreateButton(){
+    
+    return(
+      <Link to={createLink} class="btn btn-primary pull-right">생성</Link>
+    )
   }
   const onClickDel = async (e) => {
     e.preventDefault();
@@ -696,10 +710,13 @@ export function DataTable({ kinds }) {
                 <div class="col-sm-4" style={{ left: '-40px' }}>
                   <input type="submit" class="btn btn-secondary" value="검색" />
                 </div>
+                {/* <div class="col-sm-5">
+                  <button class="btn btn-primary pull-right" onClick={onClickCreate}>생성</button>
+                </div> */}
                 <div class="col-sm-5">
-                  <button class="btn btn-danger pull-right" onClick={onClickDel}>삭제</button>
+                  {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">유저 업로드</Link>}
+                  {createLink && <CreateButton/>}
                 </div>
-                {/* </div> */}
               </form>
               <div class="row">
                 <div class="col-sm-12">
@@ -728,16 +745,19 @@ export function DataTable({ kinds }) {
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-5 ">
+                <div class="col ">
                   <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {datas.length === 0 ? 0 : (currentPage - 1) * postsPerPage + 1 } to {curDatas && postsPerPage > curDatas.length ? (currentPage - 1) * postsPerPage + curDatas.length : currentPage * postsPerPage} of {count} entries</div>
                 </div>
-                <div class="col-sm-7 ">
+                <div class="col" style={{display: "flex", justifyContent: "center"}}>
                   <Pagination
                     postsPerPage={postsPerPage}
                     totalPosts={count}
                     paginate={paginate}
                     currentPage={currentPage}
                   ></Pagination>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger pull-right" onClick={onClickDel}>삭제</button>
                 </div>
               </div>
             </div>

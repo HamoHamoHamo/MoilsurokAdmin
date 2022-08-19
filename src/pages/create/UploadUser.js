@@ -80,9 +80,11 @@ export default function UploadUser() {
             obj.sector = data;
             break;
         }
-        let today = new Date();
-        obj.modifiedDate = today.toLocaleString();
-        obj.pubDate = today.toLocaleString();
+        const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+        const time = new Date().toTimeString().split(" ")[0];
+        let today = date + ' ' + time.substring(0,5);
+        obj.modifiedDate = today;
+        obj.pubDate = today;
         obj.check = "X";
       })
       console.log("INPUTSS", obj);
