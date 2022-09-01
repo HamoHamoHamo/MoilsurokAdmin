@@ -944,7 +944,7 @@
       var dirReader, errorHandler, readEntries;
       dirReader = directory.createReader();
       errorHandler = function(error) {
-        return typeof console !== "undefined" && console !== null ? typeof console.log === "function" ? console.log(error) : void 0 : void 0;
+        return typeof console !== "undefined" && console !== null ? typeof // console.log === "function" ? // console.log(error) : void 0 : void 0;
       };
       readEntries = (function(_this) {
         return function() {

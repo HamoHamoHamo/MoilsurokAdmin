@@ -9,9 +9,9 @@ export default function UploadUser() {
   const navigate = useNavigate();
   const onUploadFile = (e) => {
     readXlsxFile(e.target.files[0]).then((rows) => {
-      console.log(rows);
+      // console.log(rows);
       const data = rows.slice(6, rows.length);
-      console.log("DATA", data);
+      // console.log("DATA", data);
       setDatas(data);
 
     })
@@ -22,91 +22,102 @@ export default function UploadUser() {
   //   const copy = [...datas];
   //   // copy[i][name] = value;
   //   // changeDatas[name] = value
-  //   // console.log("changeeDatas", changeDatas, name, value);
+  //   // // console.log("changeeDatas", changeDatas, name, value);
   //   // copy.splice(i, 1, copy[i])
   //   datas[i][name] = value
-  //   console.log('splice', )
+  //   // console.log('splice', )
   //   // copy[i] = changeDatas;
   //   setDatas((cur) => {
   //     cur.splice(i, 1, )
   //     return cur;
   //   });
   // }
+  let saving = false;
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const counter = await COUNTER.doc('counter').get();
-    for(let dataList of datas) {
-      let obj = {};
-      await dataList.map((data, i) => {
-        switch (i) {
-          case 1:
-            obj.year = data;
-            break;
-          case 2:
-            obj.remark = data;
-            break;
-          case 3:
-            obj.name = data;
-            break;
-          case 4:
-            obj.birthdate = data;
-            break;
-          case 5:
-            obj.phoneNum = data;
-            break;
-          case 6:
-            obj.email = data;
-            break;
-          case 7:
-            obj.company = data;
-            break;
-          case 8:
-            obj.department = data;
-            break;
-          case 9:
-            obj.comPosition = data;
-            break;
-          case 10:
-            obj.comTel = data;
-            break;
-          case 11:
-            obj.comAdr = data;
-            break;
-          case 12:
-            obj.faxNum = data;
-            break;
-          case 13:
-            obj.sector = data;
-            break;
-        }
-        const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
-        const time = new Date().toTimeString().split(" ")[0];
-        let today = date + ' ' + time.substring(0,5);
-        obj.modifiedDate = today;
-        obj.pubDate = today;
-        obj.check = "X";
-      })
-      console.log("INPUTSS", obj);
-      await USER.add(obj)
-      console.log("DOC>DATA", counter.data());
-      
-    };
-    await COUNTER.doc('counter').update({ reqUser: counter.data().reqUser + datas.length });
-    await COUNTER.doc('counter').update({ user: counter.data().user + datas.length });
-    console.log("finish");
-    navigate(routes.datasUser);
+    if (!saving){
+      saving = true;
+      const counter = await COUNTER.doc('counter').get();
+      for(let dataList of datas) {
+        let obj = {};
+        await dataList.map((data, i) => {
+          switch (i) {
+            case 1:
+              obj.year = data;
+              break;
+            case 2:
+              obj.remark = data;
+              break;
+            case 3:
+              obj.name = data;
+              break;
+            case 4:
+              obj.birthdate = data;
+              break;
+            case 5:
+              obj.phoneNum = data;
+              break;
+            case 6:
+              obj.email = data;
+              break;
+            case 7:
+              obj.company = data;
+              break;
+            case 8:
+              obj.department = data;
+              break;
+            case 9:
+              obj.comPosition = data;
+              break;
+            case 10:
+              obj.comTel = data;
+              break;
+            case 11:
+              obj.comAdr = data;
+              break;
+            case 12:
+              obj.faxNum = data;
+              break;
+            case 13:
+              obj.sector = data;
+              break;
+          }
+          const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+          const time = new Date().toTimeString().split(" ")[0];
+          let today = date + ' ' + time.substring(0,5);
+          obj.modifiedDate = today;
+          obj.pubDate = today;
+          obj.check = "O";
+        })
+        // console.log("INPUTSS", obj);
+        await USER.add(obj).then((res) => {
+          USER.doc(res.id).update({ uid: res.id }).catch((err) => {
+            window.alert('uid저장 에러');
+            // console.log("ERROR", err);
+          })
+        })
+        // console.log("DOC>DATA", counter.data());
+        
+      };
+      await COUNTER.doc('counter').update({ reqUser: parseInt(counter.data().reqUser) + datas.length });
+      await COUNTER.doc('counter').update({ user: parseInt(counter.data().user) + datas.length });
+      // console.log("finish");
+      navigate(routes.datasUser);
+    } else {
+      window.alert('저장 중입니다.')
+    }
   }
 
   const dataDel = (e, i) => {
     e.preventDefault();
     let copy = [...datas];
     copy.splice(i, 1);
-    console.log("asdfaf", copy);
+    // console.log("asdfaf", copy);
     setDatas(copy);
     // const newDatas = datas.filter((data, i) => )
   }
-  console.log("DATAS", datas);
+  // console.log("DATAS", datas);
   function DataTable() {
     return (
       <>

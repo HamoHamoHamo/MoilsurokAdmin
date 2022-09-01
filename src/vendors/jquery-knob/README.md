@@ -90,7 +90,7 @@ Hooks
     - this.$ : jQuery wrapped element
     - this.o : options
     - this.i : input
-    - ... console.log(this);
+    - ... // console.log(this);
 
 * 'cancel' : triggered on [esc] keydown
 
@@ -106,7 +106,7 @@ Example
 
 <script>
     $(".dial").knob({
-        'change' : function (v) { console.log(v); }
+        'change' : function (v) { // console.log(v); }
     });
 </script>
 ```

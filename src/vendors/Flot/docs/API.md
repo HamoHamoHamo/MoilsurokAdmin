@@ -1298,7 +1298,7 @@ Flot to keep track of its state, so be careful.
     transforming from data point space to the canvas plot space and
     back. Both returns values that are offset with the plot offset.
     Check the Flot source code for the complete set of attributes (or
-    output an axis with console.log() and inspect it).
+    output an axis with // console.log() and inspect it).
 
     With multiple axes, the extra axes are returned as x2axis, x3axis,
     etc., e.g. getAxes().y2axis is the second y axis. You can check
@@ -1392,8 +1392,8 @@ recommended WheelEvent or MouseEvent constructors.
 
 ```js
 var page = $.plot.browser.getPageXY(e);
-console.log(page.X === e.pageX); // true unless the event was constructed in Edge
-console.log(page.Y === e.pageY); // true unless the event was constructed in Edge
+// console.log(page.X === e.pageX); // true unless the event was constructed in Edge
+// console.log(page.Y === e.pageY); // true unless the event was constructed in Edge
 ```
 
   - getPixelRatio(context)
@@ -1414,8 +1414,8 @@ var pixelRatio = $.plot.browser.getPixelRatio(canvas.getContext('2d'));
   - isMobileSafari()
 
 ```js
-console.log($.plot.browser.isSafari()); // true when running on Safari
-console.log($.plot.browser.isMobileSafari()); // true when running on Mobile Safari
+// console.log($.plot.browser.isSafari()); // true when running on Safari
+// console.log($.plot.browser.isMobileSafari()); // true when running on Mobile Safari
 ```
 
 ## Hooks ##

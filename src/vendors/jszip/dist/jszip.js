@@ -3033,7 +3033,7 @@ var Z_DEFLATED  = 8;
  *
  * if (deflate.err) { throw new Error(deflate.err); }
  *
- * console.log(deflate.result);
+ * // console.log(deflate.result);
  * ```
  **/
 function Deflate(options) {
@@ -3246,7 +3246,7 @@ Deflate.prototype.onEnd = function (status) {
  * var pako = require('pako')
  *   , data = Uint8Array([1,2,3,4,5,6,7,8,9]);
  *
- * console.log(pako.deflate(data));
+ * // console.log(pako.deflate(data));
  * ```
  **/
 function deflate(input, options) {
@@ -3385,7 +3385,7 @@ var toString = Object.prototype.toString;
  *
  * if (inflate.err) { throw new Error(inflate.err); }
  *
- * console.log(inflate.result);
+ * // console.log(inflate.result);
  * ```
  **/
 function Inflate(options) {
@@ -3653,7 +3653,7 @@ Inflate.prototype.onEnd = function (status) {
  * try {
  *   output = pako.inflate(input);
  * } catch (err)
- *   console.log(err);
+ *   // console.log(err);
  * }
  * ```
  **/

@@ -205,7 +205,7 @@
 	 * concated to the list of final arguments.
  	 | el.onclick = eve.f("click", 1, 2);
  	 | eve.on("click", function (a, b, c) {
- 	 |     console.log(a, b, c); // 1, 2, [event object]
+ 	 |     // console.log(a, b, c); // 1, 2, [event object]
  	 | });
      > Arguments
 	 - event (string) event name

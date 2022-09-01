@@ -46,7 +46,7 @@ export default function DataDetail({ kinds }) {
     } else if (kinds === "profile") {
       col = PROFILE;
     }
-    console.log("COCCLL", col);
+    // console.log("COCCLL", col);
     col
       .doc(id)
       .get()
@@ -62,7 +62,7 @@ export default function DataDetail({ kinds }) {
       });
     setCollection(col);
   }, []);
-  console.log("DATA", datas)
+  // console.log("DATA", datas)
 
   if (kinds === "user") {
     HandleDetail = UserDetail;
@@ -125,7 +125,7 @@ export default function DataDetail({ kinds }) {
       if (datas.filenames) {
         datas.filenames.map(async (file) => {
           const ref = storage.ref().child(file);
-          console.log("REFFF", ref);
+          // console.log("REFFF", ref);
           ref.delete();
         })
       }
@@ -147,7 +147,7 @@ export default function DataDetail({ kinds }) {
         .delete()
         .then(() => {
           navigate(-1);
-          // console.log("navigate");
+          // // console.log("navigate");
         })
         .catch((res) => alert("DELETE ERROR\n", res));
     }
@@ -156,7 +156,7 @@ export default function DataDetail({ kinds }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
-      console.log("doing");
+      // console.log("doing");
       window.alert("한 번만 클릭해주세요");
       return
     }
@@ -175,15 +175,15 @@ export default function DataDetail({ kinds }) {
           try {
             await storageUrl.put(file)
             const downloadUrl = await storageUrl.getDownloadURL()
-            console.log("DOWNLAOTDURL", downloadUrl);
+            // console.log("DOWNLAOTDURL", downloadUrl);
             return downloadUrl;
           } catch(err) {
-            console.log("ERROR", err);
+            // console.log("ERROR", err);
           }
           
         }, [])
       );
-      console.log("DATAAASSS", datas);
+      // console.log("DATAAASSS", datas);
       udatas = {
         ...datas,
         files: datas.files ? [...datas.files, ...fileList] : fileList,
@@ -192,16 +192,16 @@ export default function DataDetail({ kinds }) {
     } else {
       udatas = datas;
     }
-    // console.log("FILELISTS", udatas.files);
+    // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      console.log("SDFSFDATAS", udatas);
+      // console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas);
       if (curCheck && curCheck !== udatas.check) {
         const counter = await COUNTER.doc('counter').get();
         if (udatas.check === "X") {
-          console.log("XXXXXXXXXXXX")
-          console.log("COUNTER", counter.data());
+          // console.log("XXXXXXXXXXXX")
+          // console.log("COUNTER", counter.data());
           switch (kinds) {
             case 'user':
               COUNTER.doc('counter').update({ reqUser: counter.data().reqUser + 1 });
@@ -214,7 +214,7 @@ export default function DataDetail({ kinds }) {
               break;
           }
         } else if (udatas.check === "O") {
-          console.log("OOOOOOOOOOOOOOO")
+          // console.log("OOOOOOOOOOOOOOO")
           switch (kinds) {
             case 'user':
               COUNTER.doc('counter').update({ reqUser: counter.data().reqUser - 1 });
@@ -228,10 +228,10 @@ export default function DataDetail({ kinds }) {
           }
         }
       }
-      console.log("After update");
+      // console.log("After update");
       navigate(-1);
     } catch(err) {
-      console.log('ERROR', err);
+      // console.log('ERROR', err);
     }
 
   };
@@ -254,11 +254,11 @@ export default function DataDetail({ kinds }) {
         modifiedDate: today,
       }));
     }
-    console.log("DDDDDDDDDDD", datas);
+    // console.log("DDDDDDDDDDD", datas);
   };
 
   const onClickFileDel = async (path, file, collection) => {
-    console.log("SDF", file, path);
+    // console.log("SDF", file, path);
     if(window.confirm("파일을 삭제하시겠습니까>")){
       const ref = storage.ref().child(path);
       try {
@@ -275,10 +275,10 @@ export default function DataDetail({ kinds }) {
           files: newFiles,
           filenames: newFilenames
         }
-        console.log("UUUUJDATA", udata);
+        // console.log("UUUUJDATA", udata);
         collection.doc(id).update(udata);
       } catch(err) {
-        console.log("ERR", err);
+        // console.log("ERR", err);
         alert("삭제 안됨", err);
       }
     }

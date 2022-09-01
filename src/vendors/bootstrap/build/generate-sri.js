@@ -59,7 +59,7 @@ files.forEach((file) => {
     const hash = crypto.createHash(algo).update(data, 'utf8').digest('base64')
     const integrity = `${algo}-${hash}`
 
-    console.log(`${file.configPropertyName}: ${integrity}`)
+    // console.log(`${file.configPropertyName}: ${integrity}`)
 
     sh.sed('-i', new RegExp(`(\\s${file.configPropertyName}:\\s+"|')(\\S+)("|')`), `$1${integrity}$3`, configFile)
   })

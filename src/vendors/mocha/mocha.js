@@ -2133,14 +2133,14 @@ Base.prototype.epilogue = function(){
   var tests;
   var fmt;
 
-  console.log();
+  // console.log();
 
   // passes
   fmt = color('bright pass', ' ')
     + color('green', ' %d passing')
     + color('light', ' (%s)');
 
-  console.log(fmt,
+  // console.log(fmt,
     stats.passes || 0,
     ms(stats.duration));
 
@@ -2149,7 +2149,7 @@ Base.prototype.epilogue = function(){
     fmt = color('pending', ' ')
       + color('pending', ' %d pending');
 
-    console.log(fmt, stats.pending);
+    // console.log(fmt, stats.pending);
   }
 
   // failures
@@ -2163,7 +2163,7 @@ Base.prototype.epilogue = function(){
     console.error();
   }
 
-  console.log();
+  // console.log();
 };
 
 /**
@@ -2395,24 +2395,24 @@ function Doc(runner) {
   runner.on('suite', function(suite){
     if (suite.root) return;
     ++indents;
-    console.log('%s<section class="suite">', indent());
+    // console.log('%s<section class="suite">', indent());
     ++indents;
-    console.log('%s<h1>%s</h1>', indent(), utils.escape(suite.title));
-    console.log('%s<dl>', indent());
+    // console.log('%s<h1>%s</h1>', indent(), utils.escape(suite.title));
+    // console.log('%s<dl>', indent());
   });
 
   runner.on('suite end', function(suite){
     if (suite.root) return;
-    console.log('%s</dl>', indent());
+    // console.log('%s</dl>', indent());
     --indents;
-    console.log('%s</section>', indent());
+    // console.log('%s</section>', indent());
     --indents;
   });
 
   runner.on('pass', function(test){
-    console.log('%s  <dt>%s</dt>', indent(), utils.escape(test.title));
+    // console.log('%s  <dt>%s</dt>', indent(), utils.escape(test.title));
     var code = utils.escape(utils.clean(test.fn.toString()));
-    console.log('%s  <dd><pre><code>%s</code></pre></dd>', indent(), code);
+    // console.log('%s  <dd><pre><code>%s</code></pre></dd>', indent(), code);
   });
 }
 
@@ -2471,7 +2471,7 @@ function Dot(runner) {
   });
 
   runner.on('end', function(){
-    console.log();
+    // console.log();
     self.epilogue();
   });
 }
@@ -3028,15 +3028,15 @@ function List(runner) {
     , total = runner.total;
 
   runner.on('start', function(){
-    console.log(JSON.stringify(['start', { total: total }]));
+    // console.log(JSON.stringify(['start', { total: total }]));
   });
 
   runner.on('pass', function(test){
-    console.log(JSON.stringify(['pass', clean(test)]));
+    // console.log(JSON.stringify(['pass', clean(test)]));
   });
 
   runner.on('fail', function(test, err){
-    console.log(JSON.stringify(['fail', clean(test)]));
+    // console.log(JSON.stringify(['fail', clean(test)]));
   });
 
   runner.on('end', function(){
@@ -3223,7 +3223,7 @@ function Landing(runner) {
 
   runner.on('end', function(){
     cursor.show();
-    console.log();
+    // console.log();
     self.epilogue();
   });
 }
@@ -3270,7 +3270,7 @@ function List(runner) {
     , n = 0;
 
   runner.on('start', function(){
-    console.log();
+    // console.log();
   });
 
   runner.on('test', function(test){
@@ -3280,7 +3280,7 @@ function List(runner) {
   runner.on('pending', function(test){
     var fmt = color('checkmark', '  -')
       + color('pending', ' %s');
-    console.log(fmt, test.fullTitle());
+    // console.log(fmt, test.fullTitle());
   });
 
   runner.on('pass', function(test){
@@ -3288,12 +3288,12 @@ function List(runner) {
       + color('pass', ' %s: ')
       + color(test.speed, '%dms');
     cursor.CR();
-    console.log(fmt, test.fullTitle(), test.duration);
+    // console.log(fmt, test.fullTitle(), test.duration);
   });
 
   runner.on('fail', function(test, err){
     cursor.CR();
-    console.log(color('fail', '  %d) %s'), ++n, test.fullTitle());
+    // console.log(color('fail', '  %d) %s'), ++n, test.fullTitle());
   });
 
   runner.on('end', self.epilogue.bind(self));
@@ -3769,7 +3769,7 @@ function Progress(runner, options) {
 
   // tests started
   runner.on('start', function(){
-    console.log();
+    // console.log();
     cursor.hide();
   });
 
@@ -3796,7 +3796,7 @@ function Progress(runner, options) {
   // and the failures if any
   runner.on('end', function(){
     cursor.show();
-    console.log();
+    // console.log();
     self.epilogue();
   });
 }
@@ -3849,22 +3849,22 @@ function Spec(runner) {
   }
 
   runner.on('start', function(){
-    console.log();
+    // console.log();
   });
 
   runner.on('suite', function(suite){
     ++indents;
-    console.log(color('suite', '%s%s'), indent(), suite.title);
+    // console.log(color('suite', '%s%s'), indent(), suite.title);
   });
 
   runner.on('suite end', function(suite){
     --indents;
-    if (1 == indents) console.log();
+    if (1 == indents) // console.log();
   });
 
   runner.on('pending', function(test){
     var fmt = indent() + color('pending', '  - %s');
-    console.log(fmt, test.title);
+    // console.log(fmt, test.title);
   });
 
   runner.on('pass', function(test){
@@ -3873,20 +3873,20 @@ function Spec(runner) {
         + color('checkmark', '  ' + Base.symbols.ok)
         + color('pass', ' %s ');
       cursor.CR();
-      console.log(fmt, test.title);
+      // console.log(fmt, test.title);
     } else {
       var fmt = indent()
         + color('checkmark', '  ' + Base.symbols.ok)
         + color('pass', ' %s ')
         + color(test.speed, '(%dms)');
       cursor.CR();
-      console.log(fmt, test.title, test.duration);
+      // console.log(fmt, test.title, test.duration);
     }
   });
 
   runner.on('fail', function(test, err){
     cursor.CR();
-    console.log(indent() + color('fail', '  %d) %s'), ++n, test.title);
+    // console.log(indent() + color('fail', '  %d) %s'), ++n, test.title);
   });
 
   runner.on('end', self.epilogue.bind(self));
@@ -3938,7 +3938,7 @@ function TAP(runner) {
 
   runner.on('start', function(){
     var total = runner.grepTotal(runner.suite);
-    console.log('%d..%d', 1, total);
+    // console.log('%d..%d', 1, total);
   });
 
   runner.on('test end', function(){
@@ -3946,24 +3946,24 @@ function TAP(runner) {
   });
 
   runner.on('pending', function(test){
-    console.log('ok %d %s # SKIP -', n, title(test));
+    // console.log('ok %d %s # SKIP -', n, title(test));
   });
 
   runner.on('pass', function(test){
     passes++;
-    console.log('ok %d %s', n, title(test));
+    // console.log('ok %d %s', n, title(test));
   });
 
   runner.on('fail', function(test, err){
     failures++;
-    console.log('not ok %d %s', n, title(test));
-    if (err.stack) console.log(err.stack.replace(/^/gm, '  '));
+    // console.log('not ok %d %s', n, title(test));
+    if (err.stack) // console.log(err.stack.replace(/^/gm, '  '));
   });
 
   runner.on('end', function(){
-    console.log('# tests ' + (passes + failures));
-    console.log('# pass ' + passes);
-    console.log('# fail ' + failures);
+    // console.log('# tests ' + (passes + failures));
+    // console.log('# pass ' + passes);
+    // console.log('# fail ' + failures);
   });
 }
 
@@ -4033,7 +4033,7 @@ function XUnit(runner) {
   });
 
   runner.on('end', function(){
-    console.log(tag('testsuite', {
+    // console.log(tag('testsuite', {
         name: 'Mocha Tests'
       , tests: stats.tests
       , failures: stats.failures
@@ -4044,7 +4044,7 @@ function XUnit(runner) {
     }, false));
 
     tests.forEach(test);
-    console.log('</testsuite>');
+    // console.log('</testsuite>');
   });
 }
 
@@ -4072,11 +4072,11 @@ function test(test) {
   if ('failed' == test.state) {
     var err = test.err;
     attrs.message = escape(err.message);
-    console.log(tag('testcase', attrs, false, tag('failure', attrs, false, cdata(err.stack))));
+    // console.log(tag('testcase', attrs, false, tag('failure', attrs, false, cdata(err.stack))));
   } else if (test.pending) {
-    console.log(tag('testcase', attrs, false, tag('skipped', {}, true)));
+    // console.log(tag('testcase', attrs, false, tag('skipped', {}, true)));
   } else {
-    console.log(tag('testcase', attrs, true) );
+    // console.log(tag('testcase', attrs, true) );
   }
 }
 

@@ -7,7 +7,7 @@ import routes from "../../utils/Routes";
 export function questionDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
-      // console.log("KEY", key, "\nval", val, "\nacc", acc);
+      // // console.log("KEY", key, "\nval", val, "\nacc", acc);
       if(key === 'pubDate' || key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'check' || key === 'modifiedDate') {
         acc = {
           ...acc,
@@ -35,7 +35,7 @@ export const questionTableDatas = (dataList, checkList, checkEach) => (
         pubDate,
         filenames,
       } = obj
-      // console.log("IDDDD", id);
+      // // console.log("IDDDD", id);
       return(
         <tr key={i}>
           <td style={{width: '2%'}}>
@@ -87,7 +87,7 @@ export const questionTableDatas = (dataList, checkList, checkEach) => (
 //           if(!search || val.includes(search)){
 //             c = true;
 //           }
-//           // console.log("KEY", key, "\nval", val, "\nacc", acc);
+//           // // console.log("KEY", key, "\nval", val, "\nacc", acc);
 //           if(key === 'pubDate' || key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'check' || key === 'modifiedDate') {
 //             acc = {
 //               ...acc,
@@ -102,7 +102,7 @@ export const questionTableDatas = (dataList, checkList, checkEach) => (
 //   }, [search]);
   
 //   if(loading){
-//     // console.log("table data", dataList);
+//     // // console.log("table data", dataList);
     
 //   }
 

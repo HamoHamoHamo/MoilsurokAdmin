@@ -522,7 +522,7 @@
   if (
     typeof window !== "undefined" &&
     typeof window.console !== "undefined" &&
-    typeof window.console.log !== "undefined"
+    typeof window.// console.log !== "undefined"
   ) {
     $D.console = console; // used only to raise non-critical errors if available
   } else {

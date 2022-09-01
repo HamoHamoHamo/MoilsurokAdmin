@@ -22,7 +22,7 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) 
   const last = (parseInt((currentPage - 1) / 5) + 1) * 5;
   const first = last - 5;
   const curPageList = pageNumbers.slice(first, last);
-  // console.log("LAST", last, "FIRST", first, "\nCURPAGELIST", curPageList, "pagenumber", pageNumbers);
+  // // console.log("LAST", last, "FIRST", first, "\nCURPAGELIST", curPageList, "pagenumber", pageNumbers);
   const lastPage = pageNumbers[pageNumbers.length - 1];
 
   return (
@@ -362,7 +362,7 @@ export function DataTable({ kinds }) {
     let getDocs = '';
 
     if (!search.input) {
-      console.log('search', search);
+      // console.log('search', search);
       setSearch({ title: headerType[0], text: header[0] });
       COUNTER.doc('counter').get().then((doc) => {
         if (doc.exists) {
@@ -407,13 +407,13 @@ export function DataTable({ kinds }) {
       setDataList([]);
       if (req) {
         collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).get().then((docs) => {
-          console.log("COUNT", docs.docs.length);
+          // console.log("COUNT", docs.docs.length);
           setCount(docs.size);
         })
         getDocs = collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).limit(75).get()
       } else {
         collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
-          console.log("COUNT", docs.docs.length);
+          // console.log("COUNT", docs.docs.length);
           setCount(docs.size);
         })
         getDocs = collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).limit(75).get()
@@ -421,7 +421,7 @@ export function DataTable({ kinds }) {
     }
 
     getDocs.then((docs) => {
-      console.log("GETDOOOOOOOOOO", docs);
+      // console.log("GETDOOOOOOOOOO", docs);
       // collection.orderBy("name", "asc").startAt("이름").limit(75).get().then((docs) => {
       // collection.orderBy("modifiedDate", "desc").limit(75).get().then((docs) => {
       setLastDoc(docs.docs[docs.size - 1]);
@@ -445,7 +445,7 @@ export function DataTable({ kinds }) {
     if (loading) {
       currentPageList = parseInt((currentPage - 1) / 5)
       curDataList = dataList[currentPageList];
-      console.log("PAGELSIT", currentPageList, curDataList)
+      // console.log("PAGELSIT", currentPageList, curDataList)
 
       // TODO 생성시 카운터 값 변경, 검색기능 첫부분은 완료, 6페이지 넘어갈때 데이터 받아오는 부분 해야됨
       // 6페이지 11페이지 넘어갈떄
@@ -454,9 +454,9 @@ export function DataTable({ kinds }) {
         let list = [];
         let id = [];
         let getDocs = '';
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-        console.log("LASTDOC", lastDoc);
+        // console.log("LASTDOC", lastDoc);
         // const q = query(collection, orderBy("modifiedDate", "desc"), startAfter(lastDoc), limit(75))
 
         if (!search.input) {
@@ -479,9 +479,9 @@ export function DataTable({ kinds }) {
             }
           });
           setIdList(id);
-          console.log("LIST< ID", list, id);
+          // console.log("LIST< ID", list, id);
           const res = filterData(list, id, setDataList)
-          console.log("listss", res);
+          // console.log("listss", res);
           setDatas(res);
           setCurDatas(currentDatas(res));
         })
@@ -491,19 +491,19 @@ export function DataTable({ kinds }) {
       }
     }
   }, [currentPage])
-  console.log("DDATTA", dataList);
-  // console.log("CNTT", count);
+  // console.log("DDATTA", dataList);
+  // // console.log("CNTT", count);
 
   function currentDatas(tmp) {
     const indexOfLast = (((currentPage - 1) % 5) + 1) * postsPerPage;
     const indexOfFirst = indexOfLast - postsPerPage;
     let current = 0;
-    // console.log("LINDEXL", indexOfLast, "INDFIRST", indexOfFirst);
+    // // console.log("LINDEXL", indexOfLast, "INDFIRST", indexOfFirst);
     current = tmp.slice(indexOfFirst, indexOfLast);
     return current;
   }
   const paginate = (page) => {
-    console.log("PAGE", page)
+    // console.log("PAGE", page)
     checkAllBtn.current.checked = false;
     setCheckList([]);
     setCurrentPage(page)
@@ -515,7 +515,7 @@ export function DataTable({ kinds }) {
   }
 
   const checkEach = (e, id, flist) => {
-    console.log("CHECKLIST", checkList);
+    // console.log("CHECKLIST", checkList);
     if (e.target.checked) {
       setCheckList([...checkList, id]);
       setCheckFilenameList([...checkFilenameList, flist]);
@@ -532,17 +532,17 @@ export function DataTable({ kinds }) {
   }
   const onClickDel = async (e) => {
     e.preventDefault();
-    console.log("DELELELELTEL", checkList, "CHIFILE", checkFilenameList[0]);
+    // console.log("DELELELELTEL", checkList, "CHIFILE", checkFilenameList[0]);
     if (checkList == '') {
       window.alert("삭제할 항목을 골라 주세요");
       return
     };
     if (window.confirm("삭제하시겠습니까?")) {
-      console.log("CHCCKLIST", checkList);
+      // console.log("CHCCKLIST", checkList);
       const cntData = await COUNTER.doc('counter').get();
       const cnt = cntData.data();
       const newCnt = count - checkList.length;
-      console.log("NEWCNT", newCnt);
+      // console.log("NEWCNT", newCnt);
       switch (kinds) {
         case 'user':
           COUNTER.doc('counter').update({ user: newCnt });
@@ -600,18 +600,18 @@ export function DataTable({ kinds }) {
       }
 
       const promises = checkList.map(async (id, i) => {
-        console.log("III", i);
+        // console.log("III", i);
         if (checkFilenameList[i]) {
-          console.log("CHEKCFILIST", checkFilenameList[i]);
+          // console.log("CHEKCFILIST", checkFilenameList[i]);
           checkFilenameList[i].map((file) => {
             const ref = storage.ref().child(file);
             ref.delete();
           })
         }
         const doc = await collection.doc(id).get();
-        console.log("DOOCCCCC", doc);
+        // console.log("DOOCCCCC", doc);
         if(doc.exists) {
-          console.log("DOCOCOCC", doc.data());
+          // console.log("DOCOCOCC", doc.data());
           if (doc.data().check === "X") {
             switch (kinds) {
               case "user":
@@ -627,13 +627,13 @@ export function DataTable({ kinds }) {
             reqCnt = reqCnt - 1;
           }
         } else {
-          console.log("there is no collection")
+          // console.log("there is no collection")
         }
         await collection.doc(id).delete()
         return
       })
       await Promise.all(promises);
-      console.log("after delete");
+      // console.log("after delete");
       window.location.reload();
       
     }
@@ -645,7 +645,7 @@ export function DataTable({ kinds }) {
   }
   const onClickSearchType = (e) => {
     const { innerText, title } = e.target;
-    // console.log("VALASUEL", e.target.title);
+    // // console.log("VALASUEL", e.target.title);
     searchType.current.classList.value = 'dropdown-menu';
     // searchBtn.current.innerText = innerText;
     setSearch({
@@ -672,7 +672,7 @@ export function DataTable({ kinds }) {
       input: value,
     }))
   }
-  console.log("Datas", datas);
+  // console.log("Datas", datas);
   return (
     <div class="">
       {/* <Posts posts={currentPosts(posts)}></Posts> */}

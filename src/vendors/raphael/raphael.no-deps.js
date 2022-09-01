@@ -6361,7 +6361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     | // to reset transformation call method with empty string
 	     | el.transform("");
 	     | // to get current value call it without parameters
-	     | console.log(el.transform());
+	     | // console.log(el.transform());
 	     > Parameters
 	     - tstr (string) #optional transformation string
 	     * If tstr isn’t specified

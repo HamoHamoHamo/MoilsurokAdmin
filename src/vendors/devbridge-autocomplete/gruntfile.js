@@ -37,7 +37,7 @@ module.exports = function(grunt) {
         filePath = 'dist/jquery.autocomplete.js';
 
     // Update not minimized release version:
-    console.log('Updating: ' + filePath);
+    // console.log('Updating: ' + filePath);
     grunt.file.write(filePath, src);
 
     // Minify latest version:
@@ -49,10 +49,10 @@ module.exports = function(grunt) {
 
     if (src.version !== version){
       src.version = version;
-      console.log('Updating: ' + filePath);
+      // console.log('Updating: ' + filePath);
       grunt.file.write(filePath, JSON.stringify(src, null, 4));
     } else {
-      console.log('No updates for: ' + filePath);
+      // console.log('No updates for: ' + filePath);
     }
 
     // Update bower version:
@@ -61,10 +61,10 @@ module.exports = function(grunt) {
 
     if (src.version !== version){
       src.version = version;
-      console.log('Updating: ' + filePath);
+      // console.log('Updating: ' + filePath);
       grunt.file.write(filePath, JSON.stringify(src, null, 4));
     } else {
-      console.log('No updates for: ' + filePath);
+      // console.log('No updates for: ' + filePath);
     }
   });
 };

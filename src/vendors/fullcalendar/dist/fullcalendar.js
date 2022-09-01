@@ -771,8 +771,8 @@ function isTimeString(str) {
 FC.log = function() {
 	var console = window.console;
 
-	if (console && console.log) {
-		return console.log.apply(console, arguments);
+	if (console && // console.log) {
+		return // console.log.apply(console, arguments);
 	}
 };
 
@@ -1846,7 +1846,7 @@ q = new TaskQueue();
 function work(i) {
 	return q.push(function() {
 		trigger();
-		console.log('work' + i);
+		// console.log('work' + i);
 	});
 }
 

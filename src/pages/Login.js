@@ -21,12 +21,12 @@ export default function Login() {
     try {
       await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
       const data = await auth.signInWithEmailAndPassword(id, pw);
-      // console.log( "DATA", data);
+      // // console.log( "DATA", data);
       navigate(routes.home);
 
     } catch (err) {
       window.alert("아이디/비밀번호가 맞지 않습니다.")
-      console.log("ERRRRRROR", err);
+      // console.log("ERRRRRROR", err);
     }
   }
   return(

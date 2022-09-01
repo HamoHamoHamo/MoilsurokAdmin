@@ -13,13 +13,13 @@ let filename = "raphael";
 
 
 if(args.indexOf('--no-deps') !== -1){
-	console.log('Building version without deps');
+	// console.log('Building version without deps');
 	externals.push("eve");
 	filename += ".no-deps"
 }
 
 if(args.indexOf('--min') !== -1){
-	console.log('Building minified version');
+	// console.log('Building minified version');
 	plugins.push(
 		new webpack.optimize.UglifyJsPlugin({
 			compress:{

@@ -1128,7 +1128,7 @@ $(function () {
       .bootstrapTooltip({
         template: [
           '<div>',
-          '  <script>console.log("oups script inserted")</script>',
+          '  <script>// console.log("oups script inserted")</script>',
           '  <span>Some content</span>',
           '</div>'
         ].join('')

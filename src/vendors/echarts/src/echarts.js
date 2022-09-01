@@ -190,7 +190,7 @@ define(function (require) {
      * @DEPRECATED
      */
     echartsProto.setTheme = function () {
-        console.log('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
+        // console.log('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
     };
 
     /**

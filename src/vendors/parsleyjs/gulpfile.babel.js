@@ -134,7 +134,7 @@ function writeVersion() {
 function _runBrowserifyBundle(bundler, dest) {
   return bundler.bundle()
     .on('error', err => {
-      console.log(err.message);
+      // console.log(err.message);
       this.emit('end');
     })
     .pipe($.plumber())

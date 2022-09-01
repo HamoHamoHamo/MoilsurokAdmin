@@ -103,13 +103,13 @@ $('#image').cropper({
   aspectRatio: 16 / 9,
   crop: function(e) {
     // Output the result data for cropping image.
-    console.log(e.x);
-    console.log(e.y);
-    console.log(e.width);
-    console.log(e.height);
-    console.log(e.rotate);
-    console.log(e.scaleX);
-    console.log(e.scaleY);
+    // console.log(e.x);
+    // console.log(e.y);
+    // console.log(e.width);
+    // console.log(e.height);
+    // console.log(e.rotate);
+    // console.log(e.scaleX);
+    // console.log(e.scaleY);
   }
 });
 ```
@@ -781,7 +781,7 @@ var imageData = $().cropper('getImageData');
 var canvasData = $().cropper('getCanvasData');
 
 if (imageData.rotate % 180 === 0) {
-  console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
+  // console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
 }
 ```
 
@@ -867,10 +867,10 @@ $().cropper('getCroppedCanvas').toBlob(function (blob) {
     processData: false,
     contentType: false,
     success: function () {
-      console.log('Upload success');
+      // console.log('Upload success');
     },
     error: function () {
-      console.log('Upload error');
+      // console.log('Upload error');
     }
   });
 });
@@ -939,10 +939,10 @@ This event fires when the canvas (image wrapper) or the crop box starts to chang
 
 ```js
 $().on('cropstart.cropper', function (e) {
-  console.log(e.type); // cropstart
-  console.log(e.namespace); // cropper
-  console.log(e.action); // ...
-  console.log(e.originalEvent.pageX);
+  // console.log(e.type); // cropstart
+  // console.log(e.namespace); // cropper
+  // console.log(e.action); // ...
+  // console.log(e.originalEvent.pageX);
 
   // Prevent to start cropping, moving, etc if necessary
   if (e.action === 'crop') {

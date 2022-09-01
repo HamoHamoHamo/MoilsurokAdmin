@@ -2393,7 +2393,7 @@ and dependencies (minified).
 	
 	/* 
 	add window object (window.mCustomScrollbar) 
-	usage: if(window.mCustomScrollbar){console.log("custom scrollbar plugin loaded");}
+	usage: if(window.mCustomScrollbar){// console.log("custom scrollbar plugin loaded");}
 	*/
 	window[pluginNS]=true;
 	

@@ -54,7 +54,7 @@ export default function ReqUserDetail() {
         COUNTER.doc('counter').get().then((doc) => {
           if (doc.exists) {
             const curCnt = doc.data().reqUser;
-            console.log("CUR CNT", curCnt, curCnt - 1);
+            // console.log("CUR CNT", curCnt, curCnt - 1);
             COUNTER.doc('counter').update({ reqUser: curCnt - 1 }).then(navigate(-1))
           };
         });

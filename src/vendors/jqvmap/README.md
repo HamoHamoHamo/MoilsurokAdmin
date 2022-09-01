@@ -484,7 +484,7 @@ For example:
 //Do something when the map is dragged
 jQuery('#vmap').on('drag', function(event)
 {
-    console.log('The map is being dragged');
+    // console.log('The map is being dragged');
     //Do something
 });
 ```

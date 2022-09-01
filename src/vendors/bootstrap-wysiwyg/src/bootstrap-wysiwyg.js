@@ -301,6 +301,6 @@
 		selectionColor: 'darkgrey',
 		dragAndDropImages: true,
 		keypressTimeout: 200,
-		fileUploadError: function (reason, detail) { console.log("File upload error", reason, detail); }
+		fileUploadError: function (reason, detail) { // console.log("File upload error", reason, detail); }
 	};
 }(window.jQuery));

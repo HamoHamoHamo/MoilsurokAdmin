@@ -57,9 +57,9 @@ function replaceRecursively(directory, excludedDirectories, allowedExtensions, o
   replacement = regExpQuoteReplacement(replacement)
   const updateFile = DRY_RUN ? (filepath) => {
     if (allowedExtensions.has(path.parse(filepath).ext)) {
-      console.log(`FILE: ${filepath}`)
+      // console.log(`FILE: ${filepath}`)
     } else {
-      console.log(`EXCLUDED:${filepath}`)
+      // console.log(`EXCLUDED:${filepath}`)
     }
   } : (filepath) => {
     if (allowedExtensions.has(path.parse(filepath).ext)) {

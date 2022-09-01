@@ -22,7 +22,7 @@ export default function Home() {
       setDataList(list.reduce((acc0, data, idx) => {
         
         const res = Object.entries(data).reduce((acc, [key, val], i) => {
-          // console.log("KEY", key, "\nval", val, "\nacc", acc);
+          // // console.log("KEY", key, "\nval", val, "\nacc", acc);
           if(key === 'title' || key === 'date') {
             acc = {
               ...acc,
@@ -36,7 +36,7 @@ export default function Home() {
 
     })
   }, []);
-  console.log("DATALIST", dataList);
+  // console.log("DATALIST", dataList);
   return (
     <div class="">
       <div class="clearfix"></div>

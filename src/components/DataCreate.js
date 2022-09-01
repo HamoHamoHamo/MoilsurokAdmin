@@ -61,13 +61,13 @@ export default function DataCreateForm({ kinds }) {
         pubDate: today,
       }));
     }
-    console.log('INPUTSSS', inputs);
+    // console.log('INPUTSSS', inputs);
   };
     
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
-      console.log("doing");
+      // console.log("doing");
       window.alert("한 번만 클릭해주세요");
       return
     }
@@ -87,15 +87,15 @@ export default function DataCreateForm({ kinds }) {
           try {
             await storageUrl.put(file)
             const downloadUrl = await storageUrl.getDownloadURL()
-            console.log("DOWNLAOTDURL", downloadUrl);
+            // console.log("DOWNLAOTDURL", downloadUrl);
             return downloadUrl;
           } catch(err) {
-            console.log("ERROR", err);
+            // console.log("ERROR", err);
           }
           
         }, [])
       );
-      console.log("DATAAASSS", inputs);
+      // console.log("DATAAASSS", inputs);
       udatas = {
         ...inputs,
         files: inputs.files ? [...inputs.files, ...fileList] : fileList,
@@ -104,11 +104,17 @@ export default function DataCreateForm({ kinds }) {
     } else {
       udatas = inputs;
     }
-    // console.log("FILELISTS", udatas.files);
+    // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      // console.log("SDFSFDATAS", udatas);
+      // // console.log("SDFSFDATAS", udatas);
       const update = await collection.add(udatas).then((res) => {
+        if (kinds === 'user'){
+          USER.doc(res.id).update({ uid: res.id }).catch((err) => {
+            window.alert('uid저장 에러');
+            // console.log("ERRRROR", err);
+          });
+        }
         if (kinds === 'notice' || kinds === 'schedule'){
           const title = kinds === 'notice' ? '공지사항' : '일정'
           const body = kinds === 'notice' ? '새로운 공지사항이 등록되었습니다.' : `${inputs.date.substr(0,4)}년 ${inputs.date.substr(5,2)}월 ${inputs.date.substr(8,2)}일 새로운 일정이 등록되었습니다.`
@@ -125,16 +131,16 @@ export default function DataCreateForm({ kinds }) {
               body,
             }
           }, { headers }).then((res) => {
-            console.log("알림전송", res)
+            // console.log("알림전송", res);
           }).catch(err => {
-            console.log("알림전송 에러 발생", err)
+            window.alert("알림전송 에러 발생", err);
           })  
         }
         
 
         window.alert("데이터 생성 완료")
         
-        console.log("RES", res);
+        // console.log("RES", res);
         // navigate(`/datas/${kinds}/${res.id}`);
         COUNTER.doc('counter').get().then((doc) => {
           switch (kinds) {
@@ -146,7 +152,7 @@ export default function DataCreateForm({ kinds }) {
                 if (udatas.check === "X") {
                   COUNTER.doc('counter').update({ reqUser: parseInt(doc.data().reqUser) +1 }).then(window.location.href = `/datas/${kinds}`);
                 } else {
-                  console.log("SSSSHREFTEST");
+                  // console.log("SSSSHREFTEST");
                   window.location.href = `/datas/${kinds}`;
                 }
               });
@@ -160,7 +166,7 @@ export default function DataCreateForm({ kinds }) {
       });
     } catch(err) {
       window.alert("ERROR", err);
-      console.log('ERROR', err);
+      // console.log('ERROR', err);
     }
 
   };

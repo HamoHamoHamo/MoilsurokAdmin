@@ -402,11 +402,11 @@ define(function(require) {
      * @example
      *     graphic.updateProps(el, {
      *         position: [100, 100]
-     *     }, seriesModel, dataIndex, function () { console.log('Animation done!'); });
+     *     }, seriesModel, dataIndex, function () { // console.log('Animation done!'); });
      *     // Or
      *     graphic.updateProps(el, {
      *         position: [100, 100]
-     *     }, seriesModel, function () { console.log('Animation done!'); });
+     *     }, seriesModel, function () { // console.log('Animation done!'); });
      */
     graphic.updateProps = zrUtil.curry(animateOrSetProps, true);
 

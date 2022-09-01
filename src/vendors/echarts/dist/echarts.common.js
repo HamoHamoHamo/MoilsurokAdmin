@@ -272,7 +272,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @DEPRECATED
 	     */
 	    echartsProto.setTheme = function () {
-	        console.log('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
+	        // console.log('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
 	    };
 
 	    /**
@@ -9478,7 +9478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            else if (config.debugMode > 1) {
 	                for (var k in arguments) {
-	                    console.log(arguments[k]);
+	                    // console.log(arguments[k]);
 	                }
 	            }
 	        };
@@ -10072,11 +10072,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @example
 	     *     graphic.updateProps(el, {
 	     *         position: [100, 100]
-	     *     }, seriesModel, dataIndex, function () { console.log('Animation done!'); });
+	     *     }, seriesModel, dataIndex, function () { // console.log('Animation done!'); });
 	     *     // Or
 	     *     graphic.updateProps(el, {
 	     *         position: [100, 100]
-	     *     }, seriesModel, function () { console.log('Animation done!'); });
+	     *     }, seriesModel, function () { // console.log('Animation done!'); });
 	     */
 	    graphic.updateProps = zrUtil.curry(animateOrSetProps, true);
 
@@ -12663,7 +12663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            out[0] = cubicAt(x0, x1, x2, x3, t);
 	            out[1] = cubicAt(y0, y1, y2, y3, t);
 	        }
-	        // console.log(interval, i);
+	        // // console.log(interval, i);
 	        return mathSqrt(d);
 	    }
 
@@ -12857,7 +12857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            out[0] = quadraticAt(x0, x1, x2, t);
 	            out[1] = quadraticAt(y0, y1, y2, t);
 	        }
-	        // console.log(interval, i);
+	        // // console.log(interval, i);
 	        return mathSqrt(d);
 	    }
 

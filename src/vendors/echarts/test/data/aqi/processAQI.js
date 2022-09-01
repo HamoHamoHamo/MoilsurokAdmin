@@ -23,5 +23,5 @@ function processAQI(arr) {
         }
     }
 
-    console.log(arr.join('],\n    ['));
+    // console.log(arr.join('],\n    ['));
 }

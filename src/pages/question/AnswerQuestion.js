@@ -30,7 +30,7 @@ export default function AnswerQuestion() {
           })
           ANSWER.where('question', '==', id).get().then((doc) => {
             if (doc.docs[0]){
-              console.log("TEST", doc);
+              // console.log("TEST", doc);
               if (doc.docs[0].exists) {
                 setCurAnswer(doc.docs[0].data());
                 setCurAnswerId(doc.docs[0].id);
@@ -53,7 +53,7 @@ export default function AnswerQuestion() {
     modifiedDate,
     pubDate,
   } = datas;
-  console.log("DATAS", datas);
+  // console.log("DATAS", datas);
 
   const delAnswer = (e) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export default function AnswerQuestion() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
-      console.log("doing");
+      // console.log("doing");
       window.alert("한 번만 클릭해주세요");
       return
     }
@@ -88,7 +88,7 @@ export default function AnswerQuestion() {
     }
     await ANSWER.add(data)
     await QUESTION.doc(id).update(qdata)
-    console.log("finish");
+    // console.log("finish");
     
     const counter = await COUNTER.doc('counter').get();
     await COUNTER.doc('counter').update({ answer: counter.data().answer + 1 });
@@ -97,7 +97,7 @@ export default function AnswerQuestion() {
     navigate(-1);
   };
 
-  console.log("ANSWER", answer);
+  // console.log("ANSWER", answer);
   const onChange = (e) => {
     const { value, name } = e.target;
     setAnswer((cur) => ({
@@ -259,9 +259,11 @@ export default function AnswerQuestion() {
                   <div class="ln_solid">
                     <div class="form-group">
                       <div class="col-md-6" style={{ marginTop: "20px" }}>
-                        <button type="submit" class="btn btn-success">
-                          작성
-                        </button>
+                        {!curAnswer &&
+                          <button type="submit" class="btn btn-success">
+                            작성
+                          </button>
+                        }
                         <button type="reset" class="btn btn-secondary" onClick={() => navigate(-1)}>
                           취소
                         </button>

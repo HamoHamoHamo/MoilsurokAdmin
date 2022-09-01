@@ -1210,7 +1210,7 @@ Flot to keep track of its state, so be careful.
     transforming from data point space to the canvas plot space and
     back. Both returns values that are offset with the plot offset.
     Check the Flot source code for the complete set of attributes (or
-    output an axis with console.log() and inspect it).
+    output an axis with // console.log() and inspect it).
 
     With multiple axes, the extra axes are returned as x2axis, x3axis,
     etc., e.g. getAxes().y2axis is the second y axis. You can check

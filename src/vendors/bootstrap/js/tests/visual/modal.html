@@ -245,7 +245,7 @@
             if ($(this).data('bs.modal')._isTransitioning) {
               console.error('Modal plugin should not set _isTransitioning when hide event is prevented')
             } else {
-              console.log('Test passed')
+              // console.log('Test passed')
               $(this).modal('hide') // work as expected
             }
           })
@@ -257,7 +257,7 @@
 
         $('#slowModal').on('shown.bs.modal', function(){
           t1 = performance.now()
-          console.log('transition-duration took ' + (t1 - t0) + 'ms.')
+          // console.log('transition-duration took ' + (t1 - t0) + 'ms.')
         }).on('show.bs.modal', function(){
           t0 = performance.now()
         })

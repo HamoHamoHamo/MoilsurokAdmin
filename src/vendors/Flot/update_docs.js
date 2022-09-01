@@ -25,7 +25,7 @@ var docs2generate = [
 ];
 
 docs2generate.forEach(function (doc) {
-  console.log(doc[0], '...');
+  // console.log(doc[0], '...');
   var documentation = literate(doc[1], {
     code: false
   });

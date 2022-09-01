@@ -12,7 +12,7 @@ var fs = require('fs');
             };;
             page.open(path, function(status) {
                 window.setTimeout(function () {
-                console.log(status);
+                // console.log(status);
                 page.render(outFile);
                 setTimeout(function(){
                     phantom.exit();

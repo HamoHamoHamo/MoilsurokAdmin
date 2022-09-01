@@ -79,8 +79,8 @@ export default function ReqProfileDetail() {
     filenames: Ufilenames,
   } = userDatas;
 
-  console.log("DATSAS", datas);
-  console.log("USER DATSAS", userDatas, Uname);
+  // console.log("DATSAS", datas);
+  // console.log("USER DATSAS", userDatas, Uname);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ export default function ReqProfileDetail() {
         COL.doc(id).update(datas).then(() => {        
           COUNTER.doc('counter').get().then(doc => {
             if (doc.exists) {
-              console.log("DOCCCCCCC", doc.data());
+              // console.log("DOCCCCCCC", doc.data());
               COUNTER.doc('counter').update({ reqProfile: doc.data().reqProfile - 1}).then(navigate(-1));
             }
           })

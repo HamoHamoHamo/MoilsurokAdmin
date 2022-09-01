@@ -35,10 +35,10 @@ function AppLayout() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setLoggedIn(true);
-        console.log("LOGGED IN");
+        // console.log("LOGGED IN");
       } else {
         setLoggedIn(false);
-        console.log("LOGGED OUT");
+        // console.log("LOGGED OUT");
         alert("로그인 해주세요")
         navigate(routes.login);
       }
@@ -202,7 +202,8 @@ function AppLayout() {
             <div class="left_col scroll-view">
               <div class="navbar nav_title flex_center" style={{ border: 0 }}>
                 <a href={routes.home} class="site_title">
-                  <img src="/images/title.png" />
+                  {/* <img src="/images/title.png" /> */}
+                  부산중앙고
                 </a>
               </div>
 

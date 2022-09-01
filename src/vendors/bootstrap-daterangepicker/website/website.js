@@ -132,7 +132,7 @@ $(document).ready(function() {
       if ($('#cancelButtonClasses').val().length && $('#cancelButtonClasses').val() != 'btn-default')
         options.cancelClass = $('#cancelButtonClasses').val();
 
-      $('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
+      $('#config-demo').daterangepicker(options, function(start, end, label) { // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
       
       if (typeof options.ranges !== 'undefined') {
         options.ranges = {};
@@ -150,7 +150,7 @@ $(document).ready(function() {
           + "    }";
       option_text = option_text.replace(new RegExp('"ranges"\: \{\}', 'g'), replacement);
 
-      $('#config-text').val("$('#demo').daterangepicker(" + option_text + ", function(start, end, label) {\n  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');\n});");
+      $('#config-text').val("$('#demo').daterangepicker(" + option_text + ", function(start, end, label) {\n  // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');\n});");
 
     }
 

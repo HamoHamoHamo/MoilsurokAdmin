@@ -20,7 +20,7 @@
   ``` 
   前加入这句话 
   ```javascript 
-  console.log(JSON.stringify(option, null, 4));
+  // console.log(JSON.stringify(option, null, 4));
   ```
   
   然后打开浏览器的调试工具（如 `Chrome Deverloper Tool`）的 `控制台(console)`，可以得到option输出。

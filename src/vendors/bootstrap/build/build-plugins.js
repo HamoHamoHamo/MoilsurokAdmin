@@ -42,7 +42,7 @@ const bsPlugins = {
 const rootPath = TEST ? '../js/coverage/dist/' : '../js/dist/'
 
 function build(plugin) {
-  console.log(`Building ${plugin} plugin...`)
+  // console.log(`Building ${plugin} plugin...`)
 
   const external = ['jquery', 'popper.js']
   const globals = {
@@ -77,7 +77,7 @@ function build(plugin) {
       globals,
       file: path.resolve(__dirname, `${rootPath}${pluginFilename}`)
     })
-      .then(() => console.log(`Building ${plugin} plugin... Done!`))
+      .then(() => // console.log(`Building ${plugin} plugin... Done!`))
       .catch((err) => console.error(`${plugin}: ${err}`))
   })
 }
