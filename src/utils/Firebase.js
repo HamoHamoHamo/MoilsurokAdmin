@@ -24,8 +24,8 @@ const firestore = firebase.firestore();
 const storage = firebase.storage();
 const auth = firebase.auth();
 
-// const TEAM = firestore.collection("teams").doc('FxRFio9hTwGqAsU5AIZd');
-const TEAM = firestore.collection("teams").doc('mBoNPzkybOUeD9UJH9w1');
+const TEAM = firestore.collection("teams").doc(process.env.REACT_APP_FIREBASE_TEAM_ID);
+// const TEAM = firestore.collection("teams").doc('mBoNPzkybOUeD9UJH9w1');
 const USER = TEAM.collection('User');
 const NOTICE = TEAM.collection('Notice');
 const SCHEDULE = TEAM.collection('Schedule');

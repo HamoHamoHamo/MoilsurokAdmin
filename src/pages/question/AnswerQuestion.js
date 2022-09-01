@@ -8,7 +8,7 @@ export default function AnswerQuestion() {
   const [datas, setDatas] = useState({});
   const [answer, setAnswer] = useState({});
   const [curAnswerId, setCurAnswerId] = useState({});
-  const [curAnswer, setCurAnswer] = useState({});
+  const [curAnswer, setCurAnswer] = useState('');
   const [status, setStatus] = useState(0);
   
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function AnswerQuestion() {
     modifiedDate,
     pubDate,
   } = datas;
-  // console.log("DATAS", datas);
+  console.log("DATAddS", curAnswer);
 
   const delAnswer = (e) => {
     e.preventDefault();
@@ -129,7 +129,7 @@ export default function AnswerQuestion() {
                         type="text"
                         class="form-control"
                         value={title}
-                        readOnly
+                        readOnly={true}
                       />
                     </div>
                   </div>
@@ -141,7 +141,7 @@ export default function AnswerQuestion() {
                         type="text"
                         class="form-control"
                         value={content}
-                        readOnly
+                        readOnly={true}
                       />
                     </div>
                   </div>
@@ -161,7 +161,7 @@ export default function AnswerQuestion() {
                         type="text"
                         class="form-control"
                         value={creator}
-                        readOnly
+                        readOnly={true}
                       />
                     </div>
                   </div>
@@ -171,7 +171,7 @@ export default function AnswerQuestion() {
                       <input
                         name="modifiedDate"
                         type="text"
-                        readOnly="readOnly"
+                        readOnly={true}
                         class="form-control"
                         value={modifiedDate}
                       />
@@ -183,7 +183,7 @@ export default function AnswerQuestion() {
                       <input
                         name="pubDate"
                         type="text"
-                        readOnly="readOnly"
+                        readOnly={true}
                         class="form-control"
                         value={pubDate}
                       />
@@ -204,7 +204,7 @@ export default function AnswerQuestion() {
                           class="form-control"
                           onChange={onChange}
                           value={curAnswer.content}
-                          readOnly='true'
+                          readOnly={true}
                         />
                       }
                       {!curAnswer.content &&
@@ -228,7 +228,7 @@ export default function AnswerQuestion() {
                           class="form-control"
                           value={curAnswer.creator}
                           onChange={onChange}
-                          readOnly='true'
+                          readOnly={true}
                         />
                       }
                       {!curAnswer.creator &&
@@ -249,7 +249,7 @@ export default function AnswerQuestion() {
                           <input
                             name="pubDate"
                             type="text"
-                            readOnly="readOnly"
+                            readOnly={true}
                             class="form-control"
                             value={curAnswer.pubDate}
                           />
