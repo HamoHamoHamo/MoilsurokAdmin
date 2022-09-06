@@ -603,10 +603,9 @@ export function DataTable({ kinds }) {
         // console.log("III", i);
         if (checkFilenameList[i]) {
           // console.log("CHEKCFILIST", checkFilenameList[i]);
-          checkFilenameList[i].map((file) => {
-            const ref = storage.ref().child(file);
-            ref.delete();
-          })
+          const ref = storage.ref().child(checkFilenameList[i]);
+          ref.delete();
+
         }
         const doc = await collection.doc(id).get();
         // console.log("DOOCCCCC", doc);

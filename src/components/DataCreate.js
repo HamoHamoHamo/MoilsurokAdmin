@@ -78,7 +78,7 @@ export default function DataCreateForm({ kinds }) {
     let field = '';
     if(files){
       let filenames = [];
-  
+			
       const fileList = files && await Promise.all(
         Object.entries(files).map(async([key, file], i) => {
           const filename = `files/${kinds}/${uuidv4()}_${file.name}`;
@@ -95,17 +95,20 @@ export default function DataCreateForm({ kinds }) {
           
         }, [])
       );
-      // console.log("DATAAASSS", inputs);
+      
       udatas = {
         ...inputs,
-        files: inputs.files ? [...inputs.files, ...fileList] : fileList,
-        filenames: inputs.filenames ? [...inputs.filenames, ...filenames] : filenames
+        // files: inputs.files ? [...inputs.files, ...fileList] : fileList,
+        // filenames: inputs.filenames ? [...inputs.filenames, ...filenames] : filenames
+				files: fileList[0],
+        filenames: filenames[0]
       };
     } else {
       udatas = inputs;
     }
     // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
+		
     try{
       // // console.log("SDFSFDATAS", udatas);
       const update = await collection.add(udatas).then((res) => {

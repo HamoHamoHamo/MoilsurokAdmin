@@ -123,11 +123,11 @@ export default function DataDetail({ kinds }) {
       }
 
       if (datas.filenames) {
-        datas.filenames.map(async (file) => {
-          const ref = storage.ref().child(file);
-          // console.log("REFFF", ref);
-          ref.delete();
-        })
+
+        const ref = storage.ref().child(datas.filenames);
+        // console.log("REFFF", ref);
+        ref.delete();
+        
       }
       if (curCheck === "X") {
         switch (kinds) {
@@ -262,9 +262,13 @@ export default function DataDetail({ kinds }) {
     if(window.confirm("파일을 삭제하시겠습니까>")){
       const ref = storage.ref().child(path);
       try {
-        await ref.delete();
-        const newFiles = datas.files.filter((f) => f !== file);
-        const newFilenames = datas.filenames.filter((p) => p !== path);
+        
+        // const newFiles = datas.files.filter((f) => f !== file);
+        // const newFilenames = datas.filenames.filter((p) => p !== path);
+        
+        const newFiles = '';
+        const newFilenames = '';
+        
         setDatas((cur) => ({
           ...cur,
           files: newFiles,
@@ -276,10 +280,11 @@ export default function DataDetail({ kinds }) {
           filenames: newFilenames
         }
         // console.log("UUUUJDATA", udata);
-        collection.doc(id).update(udata);
+        await ref.delete();
+        await collection.doc(id).update(udata);
       } catch(err) {
         // console.log("ERR", err);
-        alert("삭제 안됨", err);
+        alert("삭제 실패", err);
       }
     }
   }
