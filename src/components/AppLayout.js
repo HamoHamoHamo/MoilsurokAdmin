@@ -239,15 +239,6 @@ function AppLayout() {
                         <li>
                           <a href={routes.datasSchedule}>일정</a>
                         </li>
-                        {/* <li>
-                          <a href={routes.datasQuestion}>문의</a>
-                        </li>
-                        <li>
-                          <a href={routes.datasAnswer}>답변</a>
-                        </li> */}
-                        <li>
-                          <a href={routes.datasProfile}>프로필 수정</a>
-                        </li>
                       </ul>
                     </li>
                     {/* <li ref={sideCreate}>
@@ -270,17 +261,7 @@ function AppLayout() {
                       </ul>
                     </li> */}
                     <li ref={sideReq}>
-                      <a>
-                        요청승인 <span class="fa fa-chevron-down"></span>
-                      </a>
-                      <ul class="nav child_menu">
-                        <li>
-                          <a href={routes.reqUser}>회원 승인</a>
-                        </li>
-                        <li>
-                          <a href={routes.reqProfile}>프로필 수정 승인</a>
-                        </li>
-                      </ul>
+                      <a href={routes.reqProfile}>프로필 수정 승인</a>
                     </li>
                     <li ref={sideQst}>
                       <a href={routes.question}>문의답변</a>

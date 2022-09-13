@@ -92,40 +92,54 @@ export default function ReqProfileDetail() {
 
     if (datas.check === "O") {
       USER.doc(datas.user).update(datas).then(
-        COL.doc(id).update(datas).then(() => {        
-          COUNTER.doc('counter').get().then(doc => {
-            if (doc.exists) {
-              // console.log("DOCCCCCCC", doc.data());
-              COUNTER.doc('counter').update({ reqProfile: doc.data().reqProfile - 1}).then(navigate(-1));
-            }
-          })
+        COUNTER.doc('counter').get().then(doc => {
+          if (doc.exists) {
+            // console.log("DOCCCCCCC", doc.data());
+            COUNTER.doc('counter').update({ reqProfile: doc.data().reqProfile - 1}).then(() => {
+              COL.doc(id).delete().then(navigate(-1));
+              
+            });
+          }
         })
+        
       )
     } else {
-      navigate(-1);
+      COUNTER.doc('counter').get().then(doc => {
+        if (doc.exists) {
+          // console.log("DOCCCCCCC", doc.data());
+          COUNTER.doc('counter').update({ reqProfile: doc.data().reqProfile - 1}).then(() => {
+            COL.doc(id).delete().then(navigate(-1));
+            
+          });
+        }
+      })
     }
 
   };
 
   const clickN = () => {
-    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
-    const time = new Date().toTimeString().split(" ")[0];
-    let today = date + ' ' + time.substring(0,5);
-    setDatas((cur) => ({
-      ...cur,
-      check: "X",
-      modifiedDate: today,
-    }))
+    if (window.confirm('프로필 수정을 거부하시겠습니까?')) {
+      const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+      const time = new Date().toTimeString().split(" ")[0];
+      let today = date + ' ' + time.substring(0,5);
+      setDatas((cur) => ({
+        ...cur,
+        check: "X",
+        modifiedDate: today,
+      }))
+    }
   }
   const clickY = () => {
-    const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
-    const time = new Date().toTimeString().split(" ")[0];
-    let today = date + ' ' + time.substring(0,5);
-    setDatas((cur) => ({
-      ...cur,
-      check: "O",
-      modifiedDate: today,
-    }))
+    if (window.confirm('프로필 수정을 승인하시겠습니까?')) {
+      const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+      const time = new Date().toTimeString().split(" ")[0];
+      let today = date + ' ' + time.substring(0,5);
+      setDatas((cur) => ({
+        ...cur,
+        check: "O",
+        modifiedDate: today,
+      }))
+    }
   }
   if (status === 1) {
     return (
