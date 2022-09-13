@@ -51,27 +51,6 @@ export default function NoticeDetail({ datas, onChange, back, onSubmit, collecti
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">파일</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="files"
-            type="file"
-            class="form-control"
-            multiple
-          />
-        </div>
-      </div>
-      {files && files.map((img, i) => (
-        <div class="form-group row" key={`files${i}`}>
-          <label class="control-label col-md-3 col-sm-3 "></label>
-          <div class="col-md-4 col-sm-4 ">
-            <a href={img} target="_blank">{filenames[i].slice(filenames[i].indexOf("_") + 1)}</a>
-            <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
-          </div>
-        </div>
-      ))}
-      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input

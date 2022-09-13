@@ -6,10 +6,6 @@ const DATAS_NOTICE = "/datas/notice";
 const DATAS_NOTICE_DETAIL = "/datas/notice/:id";
 const DATAS_SCHEDULE = "/datas/schedule";
 const DATAS_SCHEDULE_DETAIL = "/datas/schedule/:id";
-const DATAS_QUESTION = "/datas/question";
-const DATAS_QUESTION_DETAIL = "/datas/question/:id";
-const DATAS_ANSWER = "/datas/answer";
-const DATAS_ANSWER_DETAIL = "/datas/answer/:id";
 const DATAS_PROFILE = "/datas/profile";
 const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
@@ -54,22 +50,7 @@ const routes = {
       return DATAS_SCHEDULE_DETAIL;
     }
   },
-  datasQuestion: DATAS_QUESTION,
-  datasQuestionDetail : (id) => {
-    if(id) {
-      return `/datas/question/${id}`;
-    } else {
-      return DATAS_QUESTION_DETAIL;
-    }
-  },
-  datasAnswer: DATAS_ANSWER,
-  datasAnswerDetail : (id) => {
-    if(id) {
-      return `/datas/answer/${id}`;
-    } else {
-      return DATAS_ANSWER_DETAIL;
-    }
-  },
+
   datasProfile: DATAS_PROFILE,
   datasProfileDetail : (id) => {
     if(id) {

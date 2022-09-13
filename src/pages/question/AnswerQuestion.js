@@ -53,11 +53,11 @@ export default function AnswerQuestion() {
     modifiedDate,
     pubDate,
   } = datas;
-  console.log("DATAddS", curAnswer);
+  console.log("DATAddS", answer);
 
   const delAnswer = (e) => {
     e.preventDefault();
-    if(window.confirm("파일을 삭제하시겠습니까>")){      
+    if(window.confirm("답변을 삭제하시겠습니까>")){      
       ANSWER.doc(curAnswerId).delete().then(() => {
         QUESTION.doc(id).update({ check: 'X' }).then(() => navigate(-1));
       })
@@ -91,8 +91,8 @@ export default function AnswerQuestion() {
     // console.log("finish");
     
     const counter = await COUNTER.doc('counter').get();
-    await COUNTER.doc('counter').update({ answer: counter.data().answer + 1 });
-    await COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion - 1 });
+    // await COUNTER.doc('counter').update({ answer: counter.data().answer + 1 });
+    // await COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion - 1 });
     
     navigate(-1);
   };

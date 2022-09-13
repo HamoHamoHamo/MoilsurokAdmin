@@ -178,14 +178,14 @@ export default function ProfileDetail({ datas, onChange, back, onSubmit, collect
           />
         </div>
       </div>
-      {files && files.map((img, i) => (
-        <div class="form-group row" key={`files${i}`}>
+      {files && 
+        <div class="form-group row">
           <label class="control-label col-md-3 col-sm-3 "></label>
           <div class="col-md-4 col-sm-4 ">
-            <a href={img} target="_blank">{filenames[i].slice(filenames[i].indexOf("_") + 1)}</a>
+            <a href={files} target="_blank">{filenames.slice(filenames.indexOf("_") + 1)}</a>
           </div>
         </div>
-      ))}
+      }
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">업종</label>
         <div class="col-md-4 col-sm-4 ">

@@ -87,30 +87,6 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) 
 
 // export function DataTable({  header, tableDatas }) {
 export function DataTable({ kinds }) {
-  // 데이터 추가하기
-  // const a = [1, 2, 3, 4, 5, 6, 7, 8, 1,];
-  // a.map((d) => {
-  //   USER.add({
-  //     year: "기수",
-  //     name: "이름",
-  //     birthdate: "20220505", 
-  //     phoneNum: "01012341234", 
-  //     email: "test@naver.com", 
-  //     company: "킹버스", 
-  //     department: "제품개발부서", 
-  //     comPosition: "직위", 
-  //     comTel: "022332323", 
-  //     comAdr: "수원시 매송고색로", 
-  //     faxNum: "1234213", 
-  //     sector: d, 
-  //     check: "O",
-  //     pubDate: "202222222",
-  //     modifiedDate: "2022-02-11 10:10",
-  //   })
-  // });
-    // const a = [1,2,3,4,5,6,7,8,1,];
-    // a.map(() => {QUESTION.add({pubDate: "2022-02-11 10:10", modifiedDate: "2022-02-11 10:10", content: "내용ㅇㅇㅇ", title: "기수", creator: "이름", check: "O" }) });
-
 
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
@@ -550,12 +526,6 @@ export function DataTable({ kinds }) {
         case 'schedule':
           COUNTER.doc('counter').update({ schedule: newCnt });
           break;
-        case 'question':
-          COUNTER.doc('counter').update({ question: newCnt });
-          break;
-        case 'profile':
-          COUNTER.doc('counter').update({ profile: newCnt });
-          break;
         case 'notice':
           COUNTER.doc('counter').update({ notice: newCnt });
           break;
@@ -569,7 +539,7 @@ export function DataTable({ kinds }) {
           COUNTER.doc('counter').update({ reqProfile: newCnt });
           break;
         case 'reqQuestion':
-          COUNTER.doc('counter').update({ reqQuestion: newCnt });
+          COUNTER.doc('counter').update({ question: newCnt });
           break;
       }
       if (req) {
@@ -581,21 +551,12 @@ export function DataTable({ kinds }) {
           case 'reqProfile':
             COUNTER.doc('counter').update({ profile: cnt.profile - checkList.length });
             break;
-          case 'reqQuestion':
-            COUNTER.doc('counter').update({ question: cnt.question - checkList.length });
-            break;
         }
       }
       let reqCnt = '';
       switch (kinds) {
         case "user":
           reqCnt = cnt.reqUser;
-          break;
-        case "profile":
-          reqCnt = cnt.reqProfile;
-          break;
-        case "question":
-          reqCnt = cnt.reqQuestion;
           break;
       }
 
@@ -616,23 +577,26 @@ export function DataTable({ kinds }) {
               case "user":
                 COUNTER.doc('counter').update({ reqUser: reqCnt - 1 });
                 break;
-              case "profile":
-                COUNTER.doc('counter').update({ reqProfile: reqCnt - 1 });
-                break;
-              case "question":
-                COUNTER.doc('counter').update({ reqQuestion: reqCnt - 1 });
-                break;
             }
             reqCnt = reqCnt - 1;
           }
         } else {
-          // console.log("there is no collection")
+          console.log("there is no collection")
         }
         await collection.doc(id).delete()
+        console.log("IDDD", id)
+        if (kinds === 'reqQuestion'){
+          ANSWER.where('question', '==', id).get().then(async(doc) => {
+            if (doc.docs[0].exists) {
+              console.log("IFFF", doc)
+              await ANSWER.doc(doc.docs[0].id).delete()
+            }
+          })
+        }
+
         return
       })
       await Promise.all(promises);
-      // console.log("after delete");
       window.location.reload();
       
     }

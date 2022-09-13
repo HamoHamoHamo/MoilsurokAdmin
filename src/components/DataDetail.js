@@ -118,7 +118,7 @@ export default function DataDetail({ kinds }) {
           COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
           break;
         case 'reqQuestion':
-          COUNTER.doc('counter').update({ reqQuestion: cnt.reqQuestion - 1 });
+          COUNTER.doc('counter').update({ question: cnt.question - 1 });
           break;
       }
 
@@ -136,9 +136,6 @@ export default function DataDetail({ kinds }) {
             break;
           case "profile":
             COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
-            break;
-          case "question":
-            COUNTER.doc('counter').update({ reqQuestion: cnt.reqQuestion - 1 });
             break;
         }
       }
@@ -209,9 +206,6 @@ export default function DataDetail({ kinds }) {
             case 'profile':
               COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile + 1 });
               break;
-            case 'question':
-              COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion + 1 });
-              break;
           }
         } else if (udatas.check === "O") {
           // console.log("OOOOOOOOOOOOOOO")
@@ -222,9 +216,7 @@ export default function DataDetail({ kinds }) {
             case 'profile':
               COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile - 1 });
               break;
-            case 'question':
-              COUNTER.doc('counter').update({ reqQuestion: counter.data().reqQuestion - 1 });
-              break;
+
           }
         }
       }
