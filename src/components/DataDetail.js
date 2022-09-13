@@ -99,17 +99,11 @@ export default function DataDetail({ kinds }) {
         case 'schedule':
           COUNTER.doc('counter').update({ schedule: cnt.schedule - 1 });
           break;
-        case 'question':
-          COUNTER.doc('counter').update({ question: cnt.question - 1 });
-          break;
         case 'profile':
           COUNTER.doc('counter').update({ profile: cnt.profile - 1 });
           break;
         case 'notice':
           COUNTER.doc('counter').update({ notice: cnt.notice - 1 });
-          break;
-        case 'answer':
-          COUNTER.doc('counter').update({ answer: cnt.answer - 1 });
           break;
         case 'reqUser':
           COUNTER.doc('counter').update({ reqUser: cnt.reqUser - 1 });
@@ -162,29 +156,31 @@ export default function DataDetail({ kinds }) {
     const { uploadFiles: files } = datas
     let udatas = {};
     if(files){
-      let filenames = [];
-  
-      const fileList = files && await Promise.all(
-        Object.entries(files).map(async([key, file], i) => {
-          const filename = `files/${kinds}/${uuidv4()}_${file.name}`;
-          const storageUrl = storage.ref().child(filename)
-          filenames.push(filename);
-          try {
-            await storageUrl.put(file)
-            const downloadUrl = await storageUrl.getDownloadURL()
-            // console.log("DOWNLAOTDURL", downloadUrl);
-            return downloadUrl;
-          } catch(err) {
-            // console.log("ERROR", err);
-          }
-          
-        }, [])
-      );
-      // console.log("DATAAASSS", datas);
+      let downloadUrl = '';
+      const filename = `files/${kinds}/${uuidv4()}_${files[0].name}`;
+      const storageUrl = await storage.ref().child(filename)
+      
+      if (datas.filenames) {
+
+        const ref = await storage.ref().child(datas.filenames);
+        // console.log("REFFF", ref);
+        ref.delete();
+        
+      }
+      try {
+        await storageUrl.put(files[0])
+        downloadUrl = await storageUrl.getDownloadURL()
+        
+      } catch(err) {
+        // console.log("ERROR", err);
+      }
+    
       udatas = {
         ...datas,
-        files: datas.files ? [...datas.files, ...fileList] : fileList,
-        filenames: datas.filenames ? [...datas.filenames, ...filenames] : filenames
+        files: downloadUrl,
+        filenames: filename
+        // files: datas.files ? [...datas.files, ...fileList] : fileList,
+        // filenames: datas.filenames ? [...datas.filenames, ...filenames] : filenames
       };
     } else {
       udatas = datas;
