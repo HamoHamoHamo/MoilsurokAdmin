@@ -315,7 +315,7 @@ export default function UploadUser() {
                 style={{ width: '20%' }}
                 onChange={onUploadFile}
               />
-
+              <a style={{ width: '20%' }} class="btn btn-success" href="/동창회 데이터 양식.xlsx" download>데이터 양식 다운</a>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">

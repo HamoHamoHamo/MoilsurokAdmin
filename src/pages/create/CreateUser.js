@@ -160,35 +160,6 @@ export default function CreateUser({ onChange, inputs}) {
           />
         </div>
       </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">승인완료</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                value="O"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                value="X"
-                id="optionsRadios2"
-              />{" "}
-              X
-            </label>
-          </div>
-        </div>
-      </div>
     </>
   )
 }

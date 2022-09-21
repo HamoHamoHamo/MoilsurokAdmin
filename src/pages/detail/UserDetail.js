@@ -13,7 +13,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
     faxNum,
     sector,
     remark,
-    check,
     pubDate,
     modifiedDate,
     files,
@@ -199,37 +198,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             class="form-control"
             value={remark}
           />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">승인완료</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "O"}
-                value="O"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="check"
-                type="radio"
-                checked={check === "X"}
-                value="X"
-                id="optionsRadios2"
-              />{" "}
-              X
-            </label>
-          </div>
         </div>
       </div>
       <div class="form-group row ">

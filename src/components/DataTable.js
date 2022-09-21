@@ -131,7 +131,6 @@ export function DataTable({ kinds }) {
       '전화번호',
       '이메일',
       '회사명',
-      '승인완료',
       '수정시간',
     ];
     headerType = [
@@ -141,7 +140,6 @@ export function DataTable({ kinds }) {
       'phoneNum',
       'email',
       'company',
-      'check',
       'modifiedDate',
     ]
     filterData = userDatas;
@@ -501,10 +499,21 @@ export function DataTable({ kinds }) {
     }
   }
   function CreateButton(){
-    
-    return(
-      <Link to={createLink} class="btn btn-primary pull-right">생성</Link>
-    )
+    if (kinds === 'user'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">단일 회원 등록</Link>
+      )  
+    }
+    else if (kinds === 'notice'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">공지 등록</Link>
+      )
+    }
+    else if (kinds === 'schedule'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">일정 등록</Link>
+      )
+    }
   }
   const onClickDel = async (e) => {
     e.preventDefault();
@@ -677,7 +686,7 @@ export function DataTable({ kinds }) {
                   <button class="btn btn-primary pull-right" onClick={onClickCreate}>생성</button>
                 </div> */}
                 <div class="col-sm-5">
-                  {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">유저 업로드</Link>}
+                  {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">일괄 유저 등록</Link>}
                   {createLink && <CreateButton/>}
                 </div>
               </form>

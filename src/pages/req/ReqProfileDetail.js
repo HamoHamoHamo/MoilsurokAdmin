@@ -79,7 +79,7 @@ export default function ReqProfileDetail() {
     filenames: Ufilenames,
   } = userDatas;
 
-  // console.log("DATSAS", datas);
+  console.log("DATSAS", datas);
   // console.log("USER DATSAS", userDatas, Uname);
 
   const onSubmit = (e) => {
@@ -403,15 +403,15 @@ export default function ReqProfileDetail() {
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-2 ">프로필 사진</label>
             <div class="col-md-3 col-sm-3 " style={{display: "flex", alignItems: "center"}}>
-              {Ufiles && Ufiles.map((img, i) => (
-                <a key={i} href={img} target="_blank">{Ufilenames[i].slice(Ufilenames[i].indexOf("_") + 1)}</a>
-              ))}
+              {Ufiles && 
+                <a  href={Ufiles} target="_blank">{Ufilenames.slice(Ufilenames.indexOf("_") + 1)}</a>
+              }
             </div>
             <div class="reqChangeArrow">▶</div> 
             <div class="col-md-3 col-sm-3 " style={{display: "flex", alignItems: "center"}}>
-              {files && files.map((img, i) => (
-                <a key={i} href={img} target="_blank">{filenames[i].slice(filenames[i].indexOf("_") + 1)}</a>              
-              ))}
+              {files && 
+                <a href={files} target="_blank">{filenames.slice(filenames.indexOf("_") + 1)}</a>              
+              }
             </div>
           </div>
           <div class="form-group row ">
