@@ -11,7 +11,7 @@ export default function UploadUser() {
     readXlsxFile(e.target.files[0]).then((rows) => {
       // console.log(rows);
       const data = rows.slice(6, rows.length);
-      // console.log("DATA", data);
+      console.log("DATA", data);
       setDatas(data);
 
     })
@@ -47,40 +47,34 @@ export default function UploadUser() {
               obj.year = data;
               break;
             case 2:
-              obj.remark = data;
-              break;
-            case 3:
               obj.name = data;
               break;
-            case 4:
+            case 3:
               obj.birthdate = data;
               break;
-            case 5:
+            case 4:
               obj.phoneNum = data;
               break;
-            case 6:
+            case 5:
               obj.email = data;
               break;
-            case 7:
+            case 6:
               obj.company = data;
               break;
-            case 8:
+            case 7:
               obj.department = data;
               break;
-            case 9:
+            case 8:
               obj.comPosition = data;
               break;
-            case 10:
+            case 9:
               obj.comTel = data;
               break;
-            case 11:
+            case 10:
               obj.comAdr = data;
               break;
-            case 12:
+            case 11:
               obj.faxNum = data;
-              break;
-            case 13:
-              obj.sector = data;
               break;
           }
           const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
@@ -123,18 +117,16 @@ export default function UploadUser() {
       <>
         {datas && datas.map((data, i) => {
           const year = data[1];
-          const remark = data[2];
-          const name = data[3];
-          const birthdate = data[4];
-          const phoneNum = data[5];
-          const email = data[6];
-          const company = data[7];
-          const department = data[8];
-          const comPosition = data[9];
-          const comTel = data[10];
-          const comAdr = data[11];
-          const faxNum = data[12];
-          const sector = data[13];
+          const name = data[2];
+          const birthdate = data[3];
+          const phoneNum = data[4];
+          const email = data[5];
+          const company = data[6];
+          const department = data[7];
+          const comPosition = data[8];
+          const comTel = data[9];
+          const comAdr = data[10];
+          const faxNum = data[11];
 
           return (
             <div key={i}>
@@ -264,28 +256,6 @@ export default function UploadUser() {
                     readOnly={true}
                     class="form-control"
 
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">업종</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={sector}
-                    readOnly={true}
-                    class="form-control"
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">비고</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    class="form-control"
-                    value={remark}
-                    readOnly={true}
                   />
                 </div>
               </div>

@@ -177,30 +177,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
         </div>
       }
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">업종</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="sector"
-            type="text"
-            class="form-control"
-            value={sector}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">비고</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="sector"
-            type="text"
-            class="form-control"
-            value={remark}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
           <input
