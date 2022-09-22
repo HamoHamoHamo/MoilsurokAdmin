@@ -46,6 +46,7 @@ export default function ScheduleDetail({ datas, onChange, back, onSubmit, collec
             type="text"
             class="form-control"
             value={content}
+            style={{ height: "400px" }}
           />
         </div>
       </div>

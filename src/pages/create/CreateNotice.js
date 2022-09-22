@@ -20,6 +20,7 @@ export default function CreateNotice({ onChange, inputs}) {
             name="content"
             type="text"
             class="form-control"
+            style={{ height: "400px" }}
           />
         </div>
       </div>

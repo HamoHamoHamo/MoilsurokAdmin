@@ -31,6 +31,7 @@ export default function CreateSchedule({ onChange, inputs}) {
             name="content"
             type="text"
             class="form-control"
+            style={{ height: "400px" }}
           />
         </div>
       </div>

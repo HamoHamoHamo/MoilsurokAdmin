@@ -35,6 +35,7 @@ export default function NoticeDetail({ datas, onChange, back, onSubmit, collecti
             type="text"
             class="form-control"
             value={content}
+            style={{ height: '400px'}}
           />
         </div>
       </div>
