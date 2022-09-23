@@ -332,6 +332,7 @@ export function DataTable({ kinds }) {
   // 처음 데이터 15개 불러오기
   useEffect(() => {
     let list = [];
+    let flist = [];
     let id = [];
     let getDocs = '';
 
@@ -403,9 +404,11 @@ export function DataTable({ kinds }) {
         if (doc.exists) {
           list.push(doc.data());
           id.push(doc.id);
+          flist.push(doc.data().filenames)
         }
       });
       setIdList(id);
+      setFilenameList(flist);
       const res = filterData(list, id, setDataList);
       setDatas(res);
       setCurDatas(currentDatas(res));
@@ -426,6 +429,7 @@ export function DataTable({ kinds }) {
       if (curDataList == undefined) {
 
         let list = [];
+        let flist = [];
         let id = [];
         let getDocs = '';
         // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -450,18 +454,22 @@ export function DataTable({ kinds }) {
             if (doc.exists) {
               list.push(doc.data());
               id.push(doc.id);
+              flist.push(doc.data().filenames)
             }
           });
           setIdList(id);
+          setFilenameList(flist);
           // console.log("LIST< ID", list, id);
           const res = filterData(list, id, setDataList)
           // console.log("listss", res);
           setDatas(res);
           setCurDatas(currentDatas(res));
+          
         })
       } else {
         setDatas(curDataList);
         setCurDatas(currentDatas(curDataList));
+        
       }
     }
   }, [currentPage])
@@ -485,11 +493,11 @@ export function DataTable({ kinds }) {
   }
   const checkAll = (e) => {
     setCheckList(e.target.checked ? currentDatas(idList) : []);
-    setCheckFilenameList(e.target.checked ? filenameList : []);
+    setCheckFilenameList(e.target.checked ? currentDatas(filenameList) : []);
   }
 
   const checkEach = (e, id, flist) => {
-    // console.log("CHECKLIST", checkList);
+    // console.log("CHECKFILELIST", checkFilenameList);
     if (e.target.checked) {
       setCheckList([...checkList, id]);
       setCheckFilenameList([...checkFilenameList, flist]);
