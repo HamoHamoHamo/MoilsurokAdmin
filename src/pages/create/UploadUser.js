@@ -1,21 +1,43 @@
 import { useState } from 'react';
 import readXlsxFile from 'read-excel-file';
-import { COUNTER, USER } from '../../utils/Firebase';
+import { COUNTER, USER, storage } from '../../utils/Firebase';
 import { useNavigate } from "react-router-dom";
 import routes from '../../utils/Routes';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UploadUser() {
   const [datas, setDatas] = useState([]);
+  const [photos, setPhotos] = useState({});
+
   const navigate = useNavigate();
   const onUploadFile = (e) => {
     readXlsxFile(e.target.files[0]).then((rows) => {
       // console.log(rows);
-      const data = rows.slice(6, rows.length);
+      const data = rows.slice(1, rows.length);
       console.log("DATA", data);
       setDatas(data);
 
     })
   };
+
+  const onUploadPhoto = (e) => {
+    const { files } = e.target;
+    setPhotos({});
+
+    Object.entries(files).map(([key, file]) => {
+      setPhotos((cur) => {
+        const name = file.name.split('.')[0];
+        return ({
+          ...cur,
+          [name]: file,
+        })
+      })
+      
+    })
+
+    
+  }
+  console.log('photos', photos);
 
   // const onChange = (e, i) => {
   //   const { value, name } = e.target;
@@ -44,46 +66,55 @@ export default function UploadUser() {
         await dataList.map((data, i) => {
           switch (i) {
             case 1:
-              obj.year = data;
-              break;
-            case 2:
               obj.name = data;
               break;
+            case 2:
+              obj.company = data;
+              break;
             case 3:
-              obj.birthdate = data;
+              obj.comPosition = data;
               break;
             case 4:
               obj.phoneNum = data;
               break;
             case 5:
-              obj.email = data;
-              break;
-            case 6:
-              obj.company = data;
-              break;
-            case 7:
-              obj.department = data;
-              break;
-            case 8:
-              obj.comPosition = data;
-              break;
-            case 9:
-              obj.comTel = data;
-              break;
-            case 10:
               obj.comAdr = data;
               break;
-            case 11:
+            case 6:
+              obj.comTel = data;
+              break;
+            case 7:
               obj.faxNum = data;
               break;
+            case 8:
+              obj.email = data;
+              break;
           }
-          const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
-          const time = new Date().toTimeString().split(" ")[0];
-          let today = date + ' ' + time.substring(0,5);
-          obj.modifiedDate = today;
-          obj.pubDate = today;
-          obj.check = "O";
         })
+        const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+        const time = new Date().toTimeString().split(" ")[0];
+        let today = date + ' ' + time.substring(0,5);
+
+        obj.modifiedDate = today;
+        obj.pubDate = today;
+        obj.check = "O";
+        // 
+        obj.year = "2기";
+
+        if (photos[obj.name]) {
+          const file = photos[obj.name];
+          const filename = `files/user/${uuidv4()}_${file.name}`;
+          const storageUrl = storage.ref().child(filename);
+          try {
+            await storageUrl.put(file)
+            const downloadUrl = await storageUrl.getDownloadURL()
+            // console.log("DOWNLAOTDURL", downloadUrl);
+            obj.files = downloadUrl;
+            obj.filenames = filename
+          } catch(err) {
+            console.log("ERROR", err);
+          }
+        }
         // console.log("INPUTSS", obj);
         await USER.add(obj).then((res) => {
           USER.doc(res.id).update({ uid: res.id }).catch((err) => {
@@ -112,21 +143,33 @@ export default function UploadUser() {
     // const newDatas = datas.filter((data, i) => )
   }
   // console.log("DATAS", datas);
+
   function DataTable() {
     return (
       <>
         {datas && datas.map((data, i) => {
-          const year = data[1];
-          const name = data[2];
-          const birthdate = data[3];
-          const phoneNum = data[4];
-          const email = data[5];
-          const company = data[6];
-          const department = data[7];
-          const comPosition = data[8];
-          const comTel = data[9];
-          const comAdr = data[10];
-          const faxNum = data[11];
+          const name = data[1]
+          const company = data[2]
+          const comPosition = data[3]
+          const phoneNum = data[4]
+          const comAdr = data[5]
+          const comTel = data[6]
+          const faxNum = data[7]
+          const email = data[8]
+          // 
+          const year = '1기';
+
+          const filename = photos[name] ? photos[name].name : '';
+          // const name = data[2];
+          // const birthdate = data[3];
+          // const phoneNum = data[4];
+          // const email = data[5];
+          // const company = data[6];
+          // const department = data[7];
+          // const comPosition = data[8];
+          // const comTel = data[9];
+          // const comAdr = data[10];
+          // const faxNum = data[11];
 
           return (
             <div key={i}>
@@ -157,7 +200,7 @@ export default function UploadUser() {
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="date"
-                    value={birthdate}
+                    // value={birthdate}
                     readOnly={true}
                     class="form-control"
                   />
@@ -204,7 +247,7 @@ export default function UploadUser() {
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
-                    value={department}
+                    // value={department}
                     readOnly={true}
                     class="form-control"
 
@@ -259,6 +302,18 @@ export default function UploadUser() {
                   />
                 </div>
               </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={filename}
+                    readOnly={true}
+                    class="form-control"
+
+                  />
+                </div>
+              </div>
               <button type="submit" class="btn btn-danger" onClick={(e) => dataDel(e, i)}>
                 삭제
               </button>
@@ -287,13 +342,14 @@ export default function UploadUser() {
                   onChange={onUploadFile}
                 />
               
-                <label for='inputPicture' class="btn btn-primary">사진선택</label>
+                <label htmlFor='inputPicture' class="btn btn-primary">사진선택</label>
                 <input
                   type="file"
                   class="btn btn-primary"
                   style={{ width: '15%', visibility: 'hidden' }}
                   id="inputPicture"
                   multiple={true}
+                  onChange={onUploadPhoto}
                 />
               </div>
               <a style={{ width: '20%' }} class="btn btn-success" href="/동창회 데이터 양식.xlsx" download>데이터 양식 다운</a>
