@@ -10,7 +10,7 @@ export default function UploadUser() {
   const onUploadFile = (e) => {
     readXlsxFile(e.target.files[0]).then((rows) => {
       // console.log(rows);
-      const data = rows.slice(6, rows.length);
+      const data = rows.slice(1, rows.length);
       console.log("DATA", data);
       setDatas(data);
 

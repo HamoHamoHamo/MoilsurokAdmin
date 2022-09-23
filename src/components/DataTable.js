@@ -686,7 +686,7 @@ export function DataTable({ kinds }) {
                   <button class="btn btn-primary pull-right" onClick={onClickCreate}>생성</button>
                 </div> */}
                 <div class="col-sm-5">
-                  {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">일괄 유저 등록</Link>}
+                  {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">일괄 회원 등록</Link>}
                   {createLink && <CreateButton/>}
                 </div>
               </form>
