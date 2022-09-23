@@ -279,12 +279,23 @@ export default function UploadUser() {
           <div class="x_panel">
             <div class="x_title" style={{ display: "flex", flexDirection: "column" }}>
               <h2>회원 업로드</h2>
-              <input
-                type="file"
-                class="navbar-right panel_toolbox btn btn-primary"
-                style={{ width: '20%' }}
-                onChange={onUploadFile}
-              />
+              <div class='x_content'>
+                <input
+                  type="file"
+                  class="btn btn-primary"
+                  style={{ width: '20%' }}
+                  onChange={onUploadFile}
+                />
+              
+                <label for='inputPicture' class="btn btn-primary">사진선택</label>
+                <input
+                  type="file"
+                  class="btn btn-primary"
+                  style={{ width: '15%', visibility: 'hidden' }}
+                  id="inputPicture"
+                  multiple={true}
+                />
+              </div>
               <a style={{ width: '20%' }} class="btn btn-success" href="/동창회 데이터 양식.xlsx" download>데이터 양식 다운</a>
               <div class="clearfix"></div>
             </div>
