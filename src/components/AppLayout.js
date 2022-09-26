@@ -286,6 +286,9 @@ function AppLayout() {
           {/* <!-- top navigation --> */}
           <div class="top_nav">
             <div class="nav_menu">
+              <div class="nav toggle">
+                  <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
               <div class="header_title">{title}</div>
               <div class="header_name">관리자 이름</div>
             </div>
