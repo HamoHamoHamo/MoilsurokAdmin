@@ -197,17 +197,6 @@ export default function UploadUser() {
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="date"
-                    // value={birthdate}
-                    readOnly={true}
-                    class="form-control"
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
                 <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
@@ -237,18 +226,6 @@ export default function UploadUser() {
                   <input
                     type="text"
                     value={company}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">부서</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    // value={department}
                     readOnly={true}
                     class="form-control"
 
