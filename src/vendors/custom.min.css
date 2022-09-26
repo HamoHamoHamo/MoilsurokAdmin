@@ -1244,6 +1244,9 @@ table.no-margin .progress {
   .col-md-55 {
     width: 20%;
   }
+  .nav_menu .toggle {
+    display: none;
+  }
 }
 @media (min-width: 1200px) {
   .col-md-55 {
