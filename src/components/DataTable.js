@@ -127,7 +127,6 @@ export function DataTable({ kinds }) {
     header = [
       '이름',
       '기수',
-      '생년월일',
       '전화번호',
       '이메일',
       '회사명',
@@ -136,7 +135,6 @@ export function DataTable({ kinds }) {
     headerType = [
       'name',
       'year',
-      'birthdate',
       'phoneNum',
       'email',
       'company',
@@ -153,14 +151,12 @@ export function DataTable({ kinds }) {
       '내용',
       '작성자',
       '수정시간',
-      '등록시간',
     ];
     headerType = [
       'title',
       'content',
       'creator',
       'modifiedDate',
-      'pubDate',
     ];
     filterData = noticeDatas;
     tableDatas = noticeTableDatas;

@@ -2,11 +2,11 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
   const {
     year,
     name,
-    birthdate,
+    // birthdate,
     phoneNum,
     email,
     company,
-    department,
+    // department,
     comPosition,
     comTel,
     comAdr,
@@ -48,7 +48,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           />
         </div>
       </div>
-      <div class="form-group row ">
+      {/* <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -59,7 +59,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             value={birthdate}
           />
         </div>
-      </div>
+      </div> */}
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
         <div class="col-md-4 col-sm-4 ">
@@ -96,7 +96,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           />
         </div>
       </div>
-      <div class="form-group row ">
+      {/* <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">부서</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -107,7 +107,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             value={department}
           />
         </div>
-      </div>
+      </div> */}
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">직위</label>
         <div class="col-md-4 col-sm-4 ">

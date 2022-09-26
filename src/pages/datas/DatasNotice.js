@@ -8,7 +8,7 @@ export function noticeDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
       // // console.log("KEY", key, "\nval", val, "\nacc", acc);
-      if(key === 'pubDate' || key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'modifiedDate') {
+      if(key === 'filenames' || key === 'title' || key === 'content' || key === 'creator' || key === 'modifiedDate') {
         acc = {
           ...acc,
           [key]: val
@@ -30,7 +30,6 @@ export const noticeTableDatas = (dataList, checkList, checkEach) => (
         title,
         content,
         creator,
-        pubDate,
         modifiedDate,
         filenames,
       } = obj
@@ -44,7 +43,6 @@ export const noticeTableDatas = (dataList, checkList, checkEach) => (
           <td style={{width: '20%'}}><Link to={routes.datasNoticeDetail(id)}>{content && content.length > 20 ? `${content.slice(0,20)}...` : content}</Link></td>
           <td><Link to={routes.datasNoticeDetail(id)}>{creator}</Link></td>
           <td><Link to={routes.datasNoticeDetail(id)}>{modifiedDate}</Link></td>
-          <td><Link to={routes.datasNoticeDetail(id)}>{pubDate}</Link></td>
         </tr>
       )
     }

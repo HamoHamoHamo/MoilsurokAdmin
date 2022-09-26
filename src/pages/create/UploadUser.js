@@ -89,6 +89,9 @@ export default function UploadUser() {
             case 8:
               obj.email = data;
               break;
+            case 10:
+              obj.year = data;
+              break;
           }
         })
         const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
@@ -98,8 +101,6 @@ export default function UploadUser() {
         obj.modifiedDate = today;
         obj.pubDate = today;
         obj.check = "O";
-        // 
-        obj.year = "2기";
 
         if (photos[obj.name]) {
           const file = photos[obj.name];
@@ -156,8 +157,8 @@ export default function UploadUser() {
           const comTel = data[6]
           const faxNum = data[7]
           const email = data[8]
-          // 
-          const year = '1기';
+          const year = data[10]
+          
 
           const filename = photos[name] ? photos[name].name : '';
           // const name = data[2];

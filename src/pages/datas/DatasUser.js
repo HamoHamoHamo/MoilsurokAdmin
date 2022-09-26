@@ -6,7 +6,7 @@ export function userDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
       // // console.log("KEY", key, "\nval", val, "\nacc", acc);
-      if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'modifiedDate') {
+      if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'email' || key === 'company' || key === 'modifiedDate') {
         acc = {
           ...acc,
           [key]: val
@@ -31,7 +31,6 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
         year,
         name,
         phoneNum,
-        birthdate,
         email,
         company,
         modifiedDate,
@@ -44,7 +43,6 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
           </td>
           <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
-          <td><Link to={routes.datasUserDetail(id)}>{birthdate}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{phoneNum}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{email}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>
