@@ -29,18 +29,6 @@ export default function CreateUser({ onChange, inputs}) {
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="birthdate"
-            type="date"
-            class="form-control"
-            
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -70,18 +58,6 @@ export default function CreateUser({ onChange, inputs}) {
           <input
             onChange={onChange}
             name="company"
-            type="text"
-            class="form-control"
-            
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">부서</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="department"
             type="text"
             class="form-control"
             
