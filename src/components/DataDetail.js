@@ -5,6 +5,8 @@ import ProfileDetail from "../pages/detail/ProfileDetail"
 import QuestionDetail from "../pages/detail/QuestionDetail"
 import ScheduleDetail from "../pages/detail/ScheduleDetail"
 import UserDetail from "../pages/detail/UserDetail"
+import ExecutiveDetail from "../pages/detail/ExecutiveDetail"
+import CommitteeDetail from "../pages/detail/CommitteeDetail"
 import {
   USER,
   NOTICE,
@@ -14,6 +16,8 @@ import {
   PROFILE,
   storage,
   COUNTER,
+  EXECUTIVE,
+  COMMITTEE,
 } from "../utils/Firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
@@ -45,6 +49,10 @@ export default function DataDetail({ kinds }) {
       col = ANSWER;
     } else if (kinds === "profile") {
       col = PROFILE;
+    } else if (kinds === "executive") {
+      col = EXECUTIVE;
+    } else if (kinds === "committee") {
+      col = COMMITTEE;
     }
     // console.log("COCCLL", col);
     col
@@ -67,6 +75,12 @@ export default function DataDetail({ kinds }) {
   if (kinds === "user") {
     HandleDetail = UserDetail;
     title = "회원 데이터"
+  } else if (kinds === "executive") {
+    HandleDetail = ExecutiveDetail;
+    title = "임원단 데이터"
+  } else if (kinds === "committee") {
+    HandleDetail = CommitteeDetail;
+    title = "운영위원회 데이터"
   } else if (kinds === "notice") {
     HandleDetail = NoticeDetail;
     title = "공지사항 데이터"
@@ -114,6 +128,9 @@ export default function DataDetail({ kinds }) {
         case 'reqQuestion':
           COUNTER.doc('counter').update({ question: cnt.question - 1 });
           break;
+        case 'committee':
+          COUNTER.doc('counter').update({ committee: cnt.committee - 1 });
+          break;
       }
 
       if (datas.filenames) {
@@ -144,6 +161,31 @@ export default function DataDetail({ kinds }) {
     }
   };
 
+  const executiveFileSave = async (file, key, udatas) => {
+    let downloadUrl = '';
+    const filename = `files/${kinds}/${id}/${uuidv4()}_${file[0].name}`;
+
+    if (datas.userList[key].filenames) {
+      const ref = storage.ref().child(datas.userList[key].filenames);
+      console.log("REFFF", ref);
+      await ref.delete();
+    }
+    const storageUrl = storage.ref().child(filename)
+
+    try {
+      await storageUrl.put(file[0])
+      downloadUrl = await storageUrl.getDownloadURL()
+      
+    } catch(err) {
+      window.alert("ERROR\n" + err);
+    }
+    udatas.userList[key] = {
+      ...udatas.userList[key],
+      files: downloadUrl,
+      filenames: filename 
+    }
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
@@ -155,7 +197,17 @@ export default function DataDetail({ kinds }) {
 
     const { uploadFiles: files } = datas
     let udatas = {};
-    if(files){
+
+    if (kinds === 'executive' && files) {
+      udatas = datas;
+      
+      const promises = Object.entries(files).map(([key, file]) => {
+        return executiveFileSave(file, key, udatas);
+      })
+      await Promise.all(promises);
+      
+      
+    }else if(files && files.length > 0){
       let downloadUrl = '';
       const filename = `files/${kinds}/${uuidv4()}_${files[0].name}`;
       const storageUrl = await storage.ref().child(filename)
@@ -185,10 +237,10 @@ export default function DataDetail({ kinds }) {
     } else {
       udatas = datas;
     }
-    // // console.log("FILELISTS", udatas.files);
+    // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      // console.log("SDFSFDATAS", udatas);
+      console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas);
       if (curCheck && curCheck !== udatas.check) {
         const counter = await COUNTER.doc('counter').get();
@@ -196,9 +248,6 @@ export default function DataDetail({ kinds }) {
           // console.log("XXXXXXXXXXXX")
           // console.log("COUNTER", counter.data());
           switch (kinds) {
-            case 'user':
-              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser + 1 });
-              break;
             case 'profile':
               COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile + 1 });
               break;
@@ -206,9 +255,6 @@ export default function DataDetail({ kinds }) {
         } else if (udatas.check === "O") {
           // console.log("OOOOOOOOOOOOOOO")
           switch (kinds) {
-            case 'user':
-              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser - 1 });
-              break;
             case 'profile':
               COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile - 1 });
               break;
@@ -219,30 +265,63 @@ export default function DataDetail({ kinds }) {
       // console.log("After update");
       navigate(-1);
     } catch(err) {
-      // console.log('ERROR', err);
+      window.alert('ERROR' + err);
     }
 
   };
 
   const onChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, classList } = e.target;
     const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
     const time = new Date().toTimeString().split(" ")[0];
     let today = date + ' ' + time.substring(0,5);
-    if (files){
-      setDatas(() => ({
-        ...datas,
-        uploadFiles: files,
-        modifiedDate: today,
-      }));
-    } else {
-      setDatas(() => ({
-        ...datas,
-        [name]: value,
-        modifiedDate: today,
-      }));
+
+    // 임원단은 onChange 따로
+    if (kinds === 'executive'){
+      const num = classList[0];
+
+      if (files){
+        const uploadFiles = {
+          ...datas.uploadFiles,
+          [num]: files,
+        }
+        setDatas(() => ({
+          ...datas,
+          uploadFiles,
+          modifiedDate: today,
+        }));
+      } else {
+        const change = {
+          ...datas.userList[num],
+          [name]: value,
+        }
+        datas.userList[num] = change;
+        setDatas((cur) => ({
+          ...cur,
+          userList: datas.userList,
+          modifiedDate: today,
+        }));
+        
+      }
     }
-    // console.log("DDDDDDDDDDD", datas);
+    else {
+      if (files){
+        setDatas(() => ({
+          ...datas,
+          uploadFiles: files,
+          modifiedDate: today,
+        }));
+      } else {
+        setDatas(() => ({
+          ...datas,
+          [name]: value,
+          modifiedDate: today,
+        }));
+      }
+    }
+
+    
+    console.log("DDDDDDDDDDD", datas);
   };
 
   const onClickFileDel = async (path, file, collection) => {

@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER } from "../utils/Firebase";
+import { USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, EXECUTIVE, COMMITTEE } from "../utils/Firebase";
 import { userDatas, userTableDatas } from "../pages/datas/DatasUser";
 import { scheduleDatas, scheduleTableDatas } from "../pages/datas/DatasSchedule";
 import { questionDatas, questionTableDatas } from "../pages/datas/DatasQuestion";
 import { profileDatas, profileTableDatas } from "../pages/datas/DatasProfile";
 import { noticeDatas, noticeTableDatas } from "../pages/datas/DatasNotice";
 import { answerDatas, answerTableDatas } from "../pages/datas/DatasAnswer";
+import { executiveDatas, executiveTableDatas } from "../pages/datas/DatasExecutive";
+import { committeeDatas, committeeTableDatas } from "../pages/datas/DatasCommittee";
 
 import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
@@ -118,6 +120,7 @@ export function DataTable({ kinds }) {
   let req = false;
   let createLink = '';
   let uploadBtn = '';
+  let noCheckbox = false;
 
   if (kinds === "user") {
     createLink = routes.createUser;
@@ -324,7 +327,38 @@ export function DataTable({ kinds }) {
     ]
     filterData = reqQuestionDatas;
     tableDatas = reqQuestionTableDatas;
+  } else if (kinds === "executive") {
+    collection = EXECUTIVE;
+    title = "임원단";
+    header = [
+      '종류',
+      
+    ]
+    headerType = [
+      'id',
+      
+    ]
+    noCheckbox = true
+    filterData = executiveDatas;
+    tableDatas = executiveTableDatas;
+  } else if (kinds === "committee") {
+    createLink = routes.createCommittee
+    collection = COMMITTEE;
+    title = "운영위원회";
+    header = [
+      '직책',
+      '이름',
+      '수정시간',
+    ]
+    headerType = [
+      'id',
+      'content',
+      'modifiedDate',
+    ]
+    filterData = committeeDatas;
+    tableDatas = committeeTableDatas;
   }
+
   // 처음 데이터 15개 불러오기
   useEffect(() => {
     let list = [];
@@ -365,13 +399,23 @@ export function DataTable({ kinds }) {
             case 'reqQuestion':
               setCount(doc.data().question)
               break;
+            case 'executive':
+              setCount(doc.data().executive)
+              break;
+            case 'committee':
+              setCount(doc.data().committee)
+              break;
           };
         };
       });
       if (req) {
         getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").limit(75).get()
       } else {
-        getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
+        if (kinds === 'executive' | kinds === 'committee'){
+          getDocs = collection.limit(75).get()
+        } else {
+          getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
+        }
       }
 
     } else {
@@ -518,6 +562,11 @@ export function DataTable({ kinds }) {
         <Link to={createLink} class="btn btn-primary pull-right">일정 등록</Link>
       )
     }
+    else if (kinds === 'committee'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">운영위원회 등록</Link>
+      )
+    }
   }
   const onClickDel = async (e) => {
     e.preventDefault();
@@ -553,6 +602,9 @@ export function DataTable({ kinds }) {
           break;
         case 'reqQuestion':
           COUNTER.doc('counter').update({ question: newCnt });
+          break;
+        case 'committee':
+          COUNTER.doc('counter').update({ committee: newCnt });
           break;
       }
       if (req) {
@@ -662,6 +714,7 @@ export function DataTable({ kinds }) {
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
+              {!noCheckbox &&
               <form class="row" onSubmit={onSubmit}>
                 <div class="col-sm-1">
                   <button onClick={onClickSearchBtn} ref={searchBtn} type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -676,6 +729,7 @@ export function DataTable({ kinds }) {
                   </div>
                 </div>
                 {/* <div class="row"> */}
+                
                 <div class="col-sm-2" style={{ marginLeft: "-10px" }}>
                   <div id="datatable_filter" class="dataTables_filter">
                     <label>
@@ -686,6 +740,8 @@ export function DataTable({ kinds }) {
                 <div class="col-sm-4" style={{ left: '-40px' }}>
                   <input type="submit" class="btn btn-secondary" value="검색" />
                 </div>
+                
+                
                 {/* <div class="col-sm-5">
                   <button class="btn btn-primary pull-right" onClick={onClickCreate}>생성</button>
                 </div> */}
@@ -694,6 +750,7 @@ export function DataTable({ kinds }) {
                   {createLink && <CreateButton/>}
                 </div>
               </form>
+              }
               <div class="row">
                 <div class="col-sm-12">
                   <div class="card-box table-responsive">
@@ -704,9 +761,11 @@ export function DataTable({ kinds }) {
                     >
                       <thead>
                         <tr>
-                          <th>
-                            <input ref={checkAllBtn} onChange={checkAll} type="checkbox" id="check-all" />
-                          </th>
+                          {!noCheckbox &&
+                            <th>
+                              <input ref={checkAllBtn} onChange={checkAll} type="checkbox" id="check-all" />
+                            </th>
+                          }
                           {header && header.map((text, idx) => <th key={idx}>{text}</th>)}
 
                         </tr>
@@ -720,6 +779,7 @@ export function DataTable({ kinds }) {
                   </div>
                 </div>
               </div>
+              {!noCheckbox &&
               <div class="row">
                 <div class="col ">
                   <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing {datas.length === 0 ? 0 : (currentPage - 1) * postsPerPage + 1 } to {curDatas && postsPerPage > curDatas.length ? (currentPage - 1) * postsPerPage + curDatas.length : currentPage * postsPerPage} of {count} entries</div>
@@ -736,6 +796,7 @@ export function DataTable({ kinds }) {
                   <button class="btn btn-danger pull-right" onClick={onClickDel}>삭제</button>
                 </div>
               </div>
+              }
             </div>
           </div>
         </div>

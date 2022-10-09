@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
 import CreateSchedule from "../pages/create/CreateSchedule";
+import CreateCommittee from "../pages/create/CreateCommittee";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -11,6 +12,7 @@ import {
   USER,
   storage,
   COUNTER,
+  COMMITTEE
 } from "../utils/Firebase";
 import routes from "../utils/Routes";
 
@@ -34,6 +36,10 @@ export default function DataCreateForm({ kinds }) {
     HandleCreate = CreateSchedule;
     title = "일정";
     collection = SCHEDULE;
+  } else if(kinds === "committee") {
+    HandleCreate = CreateCommittee;
+    title = "운영위원회";
+    collection = COMMITTEE;
   } 
 
   const onClickBack = (e) => {
@@ -76,7 +82,7 @@ export default function DataCreateForm({ kinds }) {
     const { uploadFiles: files } = inputs
     let udatas = {};
     let field = '';
-    if(files){
+    if(files && files.length > 0){
       let filenames = [];
 			
       const fileList = files && await Promise.all(
@@ -149,6 +155,9 @@ export default function DataCreateForm({ kinds }) {
           switch (kinds) {
             case "notice": 
               COUNTER.doc('counter').update({ notice: parseInt(doc.data().notice) +1 }).then(window.location.href = `/datas/${kinds}`);
+              break;
+            case "committee": 
+              COUNTER.doc('counter').update({ committee: parseInt(doc.data().committee) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
             case "user": 
               COUNTER.doc('counter').update({ user: parseInt(doc.data().user) +1 }).then(() => {
