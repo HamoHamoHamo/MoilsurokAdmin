@@ -24,7 +24,9 @@ import {v4 as uuidv4} from 'uuid';
 
 
 export default function DataDetail({ kinds }) {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params.detail ? params.detail : params.id;
+  const detail = params.id;
   const [datas, setDatas] = useState({});
   const [status, setStatus] = useState(0);
   const [collection, setCollection] = useState('');
@@ -50,27 +52,25 @@ export default function DataDetail({ kinds }) {
     } else if (kinds === "profile") {
       col = PROFILE;
     } else if (kinds === "executive") {
-      col = EXECUTIVE;
+      col = EXECUTIVE.doc(detail).collection('userList');
     } else if (kinds === "committee") {
       col = COMMITTEE;
     }
     // console.log("COCCLL", col);
-    col
-      .doc(id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          setDatas(doc.data());
-          setCurCheck(doc.data().check);
-          setStatus(1);
-          
-        } else {
-          setStatus(404);
-        }
-      });
+    col.doc(id).get().then((doc) => {
+      if (doc.exists) {
+        setDatas(doc.data());
+        setCurCheck(doc.data().check);
+        setStatus(1);
+        
+      } else {
+        setStatus(404);
+      }
+    });
+    
     setCollection(col);
   }, []);
-  // console.log("DATA", datas)
+  console.log("DATA", datas)
 
   if (kinds === "user") {
     HandleDetail = UserDetail;
@@ -161,31 +161,6 @@ export default function DataDetail({ kinds }) {
     }
   };
 
-  const executiveFileSave = async (file, key, udatas) => {
-    let downloadUrl = '';
-    const filename = `files/${kinds}/${id}/${uuidv4()}_${file[0].name}`;
-
-    if (datas.userList[key].filenames) {
-      const ref = storage.ref().child(datas.userList[key].filenames);
-      console.log("REFFF", ref);
-      await ref.delete();
-    }
-    const storageUrl = storage.ref().child(filename)
-
-    try {
-      await storageUrl.put(file[0])
-      downloadUrl = await storageUrl.getDownloadURL()
-      
-    } catch(err) {
-      window.alert("ERROR\n" + err);
-    }
-    udatas.userList[key] = {
-      ...udatas.userList[key],
-      files: downloadUrl,
-      filenames: filename 
-    }
-  }
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (doing) {
@@ -198,16 +173,11 @@ export default function DataDetail({ kinds }) {
     const { uploadFiles: files } = datas
     let udatas = {};
 
-    if (kinds === 'executive' && files) {
-      udatas = datas;
-      
-      const promises = Object.entries(files).map(([key, file]) => {
-        return executiveFileSave(file, key, udatas);
-      })
-      await Promise.all(promises);
-      
-      
-    }else if(files && files.length > 0){
+    if (datas.num) {
+      datas.num = parseInt(datas.num)
+    }
+
+    if(files && files.length > 0){
       let downloadUrl = '';
       const filename = `files/${kinds}/${uuidv4()}_${files[0].name}`;
       const storageUrl = await storage.ref().child(filename)
@@ -275,52 +245,19 @@ export default function DataDetail({ kinds }) {
     const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
     const time = new Date().toTimeString().split(" ")[0];
     let today = date + ' ' + time.substring(0,5);
-
-    // 임원단은 onChange 따로
-    if (kinds === 'executive'){
-      const num = classList[0];
-
-      if (files){
-        const uploadFiles = {
-          ...datas.uploadFiles,
-          [num]: files,
-        }
-        setDatas(() => ({
-          ...datas,
-          uploadFiles,
-          modifiedDate: today,
-        }));
-      } else {
-        const change = {
-          ...datas.userList[num],
-          [name]: value,
-        }
-        datas.userList[num] = change;
-        setDatas((cur) => ({
-          ...cur,
-          userList: datas.userList,
-          modifiedDate: today,
-        }));
-        
-      }
+    if (files){
+      setDatas(() => ({
+        ...datas,
+        uploadFiles: files,
+        modifiedDate: today,
+      }));
+    } else {
+      setDatas(() => ({
+        ...datas,
+        [name]: value,
+        modifiedDate: today,
+      }));
     }
-    else {
-      if (files){
-        setDatas(() => ({
-          ...datas,
-          uploadFiles: files,
-          modifiedDate: today,
-        }));
-      } else {
-        setDatas(() => ({
-          ...datas,
-          [name]: value,
-          modifiedDate: today,
-        }));
-      }
-    }
-
-    
     console.log("DDDDDDDDDDD", datas);
   };
 
@@ -358,7 +295,7 @@ export default function DataDetail({ kinds }) {
   if (status === 1) {
     return (
       <DataDetailForm title={title} onClickDel={onClickDel}>
-        <HandleDetail datas={datas} onChange={onChange} back={back} onSubmit={onSubmit} collection={collection} onClickFileDel={onClickFileDel} />
+        <HandleDetail detail={detail} datas={datas} onChange={onChange} back={back} onSubmit={onSubmit} collection={collection} onClickFileDel={onClickFileDel} />
       </DataDetailForm>
     );
   } else if (status === 404) {

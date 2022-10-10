@@ -28,10 +28,11 @@ function Root() {
         <Route path={routes.datasScheduleDetail()} element={<DataDetail kinds={"schedule"} />} />
         <Route path={routes.datasProfile} element={<DataTable kinds={"profile"} />} />
         <Route path={routes.datasProfileDetail()} element={<DataDetail kinds={"profile"} />} />
-        <Route path={routes.datasExecutive} element={<DataTable kinds={"executive"} />} />
-        <Route path={routes.datasExecutiveDetail()} element={<DataDetail kinds={"executive"} />} />
         <Route path={routes.datasCommittee} element={<DataTable kinds={"committee"} />} />
         <Route path={routes.datasCommitteeDetail()} element={<DataDetail kinds={"committee"} />} />
+        <Route path={routes.datasExecutive} element={<DataTable kinds={"executive"} />} />
+        <Route path={routes.datasExecutiveList()} element={<DataTable kinds={"executiveList"} />} />
+        <Route path={routes.datasExecutiveDetail()} element={<DataDetail kinds={"executive"} />} />
 
         <Route path={routes.reqUser} element={<DataTable kinds={"reqUser"} />} />
         <Route path={routes.reqProfile} element={<DataTable kinds={"reqProfile"} />} />
@@ -45,7 +46,7 @@ function Root() {
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
         <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
         <Route path={routes.uploadUser} element={<UploadUser />} />
-        <Route path={routes.createCommittee} element={<DataCreateForm kinds={"committee"} />} />
+        <Route path={routes.createExecutive()} element={<DataCreateForm kinds={"executive"} />} />
 
       </Route>
     </Routes>

@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
 import CreateSchedule from "../pages/create/CreateSchedule";
-import CreateCommittee from "../pages/create/CreateCommittee";
-import { useNavigate } from "react-router-dom";
+import CreateExecutive from "../pages/create/CreateExecutive";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {
   NOTICE,
@@ -12,11 +12,12 @@ import {
   USER,
   storage,
   COUNTER,
-  COMMITTEE
+  EXECUTIVE,
 } from "../utils/Firebase";
 import routes from "../utils/Routes";
 
 export default function DataCreateForm({ kinds }) {
+  const { id } = useParams();
   const [inputs, setInputs] = useState({creator: "관리자"});
   const navigate = useNavigate();
   let HandleCreate = '';
@@ -36,10 +37,10 @@ export default function DataCreateForm({ kinds }) {
     HandleCreate = CreateSchedule;
     title = "일정";
     collection = SCHEDULE;
-  } else if(kinds === "committee") {
-    HandleCreate = CreateCommittee;
-    title = "운영위원회";
-    collection = COMMITTEE;
+  } else if(kinds === "executive") {
+    HandleCreate = CreateExecutive;
+    title = id.substring(2,);
+    collection = EXECUTIVE.doc(id).collection('userList');
   } 
 
   const onClickBack = (e) => {
@@ -81,6 +82,13 @@ export default function DataCreateForm({ kinds }) {
     
     const { uploadFiles: files } = inputs
     let udatas = {};
+    if (inputs.num) {
+      inputs.num = parseInt(inputs.num)
+    }
+    if (kinds === 'executive') {
+      inputs.num = inputs.comPosition === '회장' ? 0 : 1;
+    }
+
     let field = '';
     if(files && files.length > 0){
       let filenames = [];
@@ -156,8 +164,21 @@ export default function DataCreateForm({ kinds }) {
             case "notice": 
               COUNTER.doc('counter').update({ notice: parseInt(doc.data().notice) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
-            case "committee": 
-              COUNTER.doc('counter').update({ committee: parseInt(doc.data().committee) +1 }).then(window.location.href = `/datas/${kinds}`);
+            case "executive": 
+              switch(id) {
+                case '01동창회회장':
+                  COUNTER.doc('counter').update({ executive01: parseInt(doc.data().executive01) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                  break;
+                case '02명예회장':
+                  COUNTER.doc('counter').update({ executive02: parseInt(doc.data().executive02) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                  break;
+                case '03자문위원':
+                  COUNTER.doc('counter').update({ executive03: parseInt(doc.data().executive03) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                  break;
+                case '04부회장이사':
+                  COUNTER.doc('counter').update({ executive04: parseInt(doc.data().executive04) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                  break;
+              }
               break;
             case "user": 
               COUNTER.doc('counter').update({ user: parseInt(doc.data().user) +1 }).then(() => {
@@ -189,7 +210,7 @@ export default function DataCreateForm({ kinds }) {
           <div class="col-md-12 col-sm-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>{title} 작성</h2>
+                <h2>{title} 등록</h2>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
@@ -198,7 +219,7 @@ export default function DataCreateForm({ kinds }) {
                   onSubmit={onSubmit}
                   class="form-horizontal form-label-left"
                 >
-                  <HandleCreate onChange={onChange} inputs={inputs} />
+                  <HandleCreate onChange={onChange} inputs={inputs} id={id}/>
                   <div class="ln_solid">
                     <div class="form-group">
                       <div class="col-md-2" style={{ marginTop: "20px" }}>

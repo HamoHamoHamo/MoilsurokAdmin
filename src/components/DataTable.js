@@ -7,13 +7,14 @@ import { profileDatas, profileTableDatas } from "../pages/datas/DatasProfile";
 import { noticeDatas, noticeTableDatas } from "../pages/datas/DatasNotice";
 import { answerDatas, answerTableDatas } from "../pages/datas/DatasAnswer";
 import { executiveDatas, executiveTableDatas } from "../pages/datas/DatasExecutive";
+import { executiveListDatas, executiveListTableDatas, executiveListTableDatas2 } from "../pages/datas/DatasExecutiveList";
 import { committeeDatas, committeeTableDatas } from "../pages/datas/DatasCommittee";
 
 import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
 import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import routes from "../utils/Routes";
 
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) {
@@ -89,6 +90,7 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) 
 
 // export function DataTable({  header, tableDatas }) {
 export function DataTable({ kinds }) {
+  const { id: urlId } = useParams();
 
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
@@ -332,17 +334,45 @@ export function DataTable({ kinds }) {
     title = "임원단";
     header = [
       '종류',
-      
     ]
     headerType = [
       'id',
-      
     ]
     noCheckbox = true
     filterData = executiveDatas;
     tableDatas = executiveTableDatas;
+  } else if (kinds === "executiveList") {
+    collection = EXECUTIVE.doc(urlId).collection('userList');
+    title = urlId.substring(2,);
+    header = [
+      '직책',
+      '이름',
+      '수정시간',
+    ]
+    headerType = [
+      'comPosition',
+      'name',
+      'modifiedDate',
+    ]
+    filterData = executiveListDatas;
+    tableDatas = executiveListTableDatas;
+    createLink = routes.createExecutive(urlId)
+    if (urlId === '04부회장이사') {
+      header = [
+        '기수',
+        '직책',
+        '이름',
+        '수정시간',
+      ]
+      headerType = [
+        'year',
+        'comPosition',
+        'name',
+        'modifiedDate',
+      ]
+      tableDatas = executiveListTableDatas2;
+    }
   } else if (kinds === "committee") {
-    createLink = routes.createCommittee
     collection = COMMITTEE;
     title = "운영위원회";
     header = [
@@ -358,7 +388,8 @@ export function DataTable({ kinds }) {
     filterData = committeeDatas;
     tableDatas = committeeTableDatas;
   }
-
+  console.log('datas', datas);
+  console.log('lastdoc', lastDoc);
   // 처음 데이터 15개 불러오기
   useEffect(() => {
     let list = [];
@@ -399,25 +430,44 @@ export function DataTable({ kinds }) {
             case 'reqQuestion':
               setCount(doc.data().question)
               break;
-            case 'executive':
-              setCount(doc.data().executive)
-              break;
             case 'committee':
               setCount(doc.data().committee)
               break;
           };
+          if (kinds === 'executiveList') {
+            switch (urlId) {
+              case '01동창회회장':
+                setCount(doc.data().executive01)
+                break;
+              case '02명예회장':
+                setCount(doc.data().executive02)
+                break;
+              case '03자문위원':
+                setCount(doc.data().executive03)
+                break;
+              case '04부회장이사':
+                setCount(doc.data().executive04)
+                break;
+            }
+          }
         };
       });
       if (req) {
         getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").limit(75).get()
       } else {
         if (kinds === 'executive' | kinds === 'committee'){
-          getDocs = collection.limit(75).get()
+          getDocs = collection.get()
+        } else if (kinds === 'executiveList'){
+          if (urlId === '04부회장이사') {
+            getDocs = collection.orderBy('year').orderBy('num').limit(75).get()
+          } else {
+            getDocs = collection.orderBy('num').get()
+          }
         } else {
           getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
         }
       }
-
+      
     } else {
       setDataList([]);
       if (req) {
@@ -426,6 +476,17 @@ export function DataTable({ kinds }) {
           setCount(docs.size);
         })
         getDocs = collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).limit(75).get()
+      } else if (kinds === 'executiveList') {
+        if (id === '04부회장이사') {
+          collection.orderBy('year').where(search.title, "==", search.input).get().then((docs) => {
+            setCount(docs.size);
+          })
+        } else {
+          collection.orderBy('num').where(search.title, "==", search.input).get().then((docs) => {
+            setCount(docs.size);
+          })
+          
+        }
       } else {
         collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
           // console.log("COUNT", docs.docs.length);
@@ -480,13 +541,20 @@ export function DataTable({ kinds }) {
         if (!search.input) {
           if (req) {
             getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").startAfter(lastDoc).limit(75).get()
+          } else if (urlId === '04부회장이사'){
+            getDocs = collection.orderBy("year").orderBy('num').startAfter(lastDoc).limit(75).get()
+          } else {
+            getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
           }
-          getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
         } else {
           if (req) {
             getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
+          } else if (urlId === '04부회장이사'){
+            getDocs = collection.orderBy("year").orderBy().where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
+          } else {
+            getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
+
           }
-          getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
         }
         getDocs.then((docs) => {
           setLastDoc(docs.docs[docs.docs.length - 1]);
@@ -562,9 +630,9 @@ export function DataTable({ kinds }) {
         <Link to={createLink} class="btn btn-primary pull-right">일정 등록</Link>
       )
     }
-    else if (kinds === 'committee'){
+    else if (kinds === 'executiveList'){
       return(
-        <Link to={createLink} class="btn btn-primary pull-right">운영위원회 등록</Link>
+        <Link to={createLink} class="btn btn-primary pull-right">임원단 등록</Link>
       )
     }
   }
@@ -605,6 +673,22 @@ export function DataTable({ kinds }) {
           break;
         case 'committee':
           COUNTER.doc('counter').update({ committee: newCnt });
+          break;
+        case 'executiveList':
+          switch (urlId) {
+            case '01동창회회장':
+              COUNTER.doc('counter').update({ executive01: newCnt });
+              break;
+            case '02명예회장':
+              COUNTER.doc('counter').update({ executive02: newCnt });
+              break;
+            case '03자문위원':
+              COUNTER.doc('counter').update({ executive03: newCnt });
+              break;
+            case '04부회장이사':
+              COUNTER.doc('counter').update({ executive04: newCnt });
+              break;
+          }
           break;
       }
       if (req) {
@@ -771,7 +855,7 @@ export function DataTable({ kinds }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {curDatas && tableDatas(curDatas, checkList, checkEach)}
+                        {curDatas && tableDatas(curDatas, checkList, checkEach, urlId)}
 
                       </tbody>
 

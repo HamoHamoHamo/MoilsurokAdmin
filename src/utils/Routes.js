@@ -10,7 +10,8 @@ const DATAS_PROFILE = "/datas/profile";
 const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
 const DATAS_EXECUTIVE = "/datas/executive";
-const DATAS_EXECUTIVE_DETAIL = "/datas/executive/:id";
+const DATAS_EXECUTIVE_LIST = "/datas/executive/:id";
+const DATAS_EXECUTIVE_DETAIL = "/datas/executive/:id/:detail";
 const DATAS_COMMITTEE = "/datas/committee";
 const DATAS_COMMITTEE_DETAIL = "/datas/committee/:id";
 
@@ -27,7 +28,7 @@ const CREATE_NOTICE = "/create/notice";
 const CREATE_SCHEDULE = "/create/schedule";
 const CREATE_ANSWER = "/create/answer";
 const UPLOAD_USER = "/create/upload/user";
-const CREATE_COMMITTEE = "/create/committee";
+const CREATE_EXECUTIVE = "/create/executive/:id/create";
 
 const routes = {
   home: HOME,
@@ -66,9 +67,16 @@ const routes = {
     }
   },
   datasExecutive: DATAS_EXECUTIVE,
-  datasExecutiveDetail : (id) => {
+  datasExecutiveList : (id) => {
     if(id) {
       return `/datas/executive/${id}`;
+    } else {
+      return DATAS_EXECUTIVE_LIST;
+    }
+  },
+  datasExecutiveDetail : (detail, id) => {
+    if(detail && id) {
+      return `/datas/executive/${detail}/${id}`;
     } else {
       return DATAS_EXECUTIVE_DETAIL;
     }
@@ -113,7 +121,15 @@ const routes = {
   createUser: CREATE_USER,
   createAnswer: CREATE_ANSWER,
   uploadUser: UPLOAD_USER,
-  createCommittee: CREATE_COMMITTEE,
+  createExecutive: CREATE_EXECUTIVE,
+  createExecutive : (id) => {
+    if(id) {
+      return `/create/executive/${id}/create`;
+    } else {
+      return CREATE_EXECUTIVE;
+    }
+  },
+
 };
 
 export default routes;

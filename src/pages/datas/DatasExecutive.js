@@ -24,6 +24,7 @@ export function executiveDatas(list, id, setDataList) {
 
 export const executiveTableDatas = (dataList, checkList, checkEach) => (
   
+
   dataList.map((obj, i) => {
     console.log("DATALIST", dataList)
     if (obj) {
@@ -34,7 +35,7 @@ export const executiveTableDatas = (dataList, checkList, checkEach) => (
       return(
         <tr key={i}>
           
-          <td style={{width: '15%'}}><Link to={routes.datasExecutiveDetail(id)}>{id.substr(2,)}</Link></td>
+          <td style={{width: '15%'}}><a href={routes.datasExecutiveList(id)}>{id.substr(2,)}</a></td>
           
         </tr>
       )
