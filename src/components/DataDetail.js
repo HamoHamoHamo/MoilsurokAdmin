@@ -155,7 +155,7 @@ export default function DataDetail({ kinds }) {
 
     const { uploadFiles: files } = datas
     let udatas = {};
-    if(files){
+    if(files && files.length > 0){
       let downloadUrl = '';
       const filename = `files/${kinds}/${uuidv4()}_${files[0].name}`;
       const storageUrl = await storage.ref().child(filename)

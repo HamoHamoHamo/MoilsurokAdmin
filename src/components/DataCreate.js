@@ -76,7 +76,7 @@ export default function DataCreateForm({ kinds }) {
     const { uploadFiles: files } = inputs
     let udatas = {};
     let field = '';
-    if(files){
+    if(files && files.length > 0){
       let filenames = [];
 			
       const fileList = files && await Promise.all(
