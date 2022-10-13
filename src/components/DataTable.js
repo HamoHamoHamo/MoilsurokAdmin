@@ -381,8 +381,8 @@ export function DataTable({ kinds }) {
       '수정시간',
     ]
     headerType = [
-      'id',
-      'content',
+      'comPosition',
+      'name',
       'modifiedDate',
     ]
     filterData = committeeDatas;
@@ -477,16 +477,30 @@ export function DataTable({ kinds }) {
         })
         getDocs = collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).limit(75).get()
       } else if (kinds === 'executiveList') {
-        if (id === '04부회장이사') {
-          collection.orderBy('year').where(search.title, "==", search.input).get().then((docs) => {
-            setCount(docs.size);
-          })
+        if (urlId === '04부회장이사') {
+          if (search.title === 'year') {
+            collection.where(search.title, "==", search.input).get().then((docs) => {
+              setCount(docs.size);
+            })
+            getDocs = collection.where(search.title, "==", search.input).limit(75).get()
+          } else {
+            collection.orderBy('year').where(search.title, "==", search.input).get().then((docs) => {
+              setCount(docs.size);
+            })
+            getDocs = collection.orderBy('year').where(search.title, "==", search.input).limit(75).get()
+          }
         } else {
           collection.orderBy('num').where(search.title, "==", search.input).get().then((docs) => {
             setCount(docs.size);
           })
+          getDocs = collection.orderBy('num').where(search.title, "==", search.input).limit(75).get()
           
         }
+      } else if (kinds === 'committee') {
+        collection.where(search.title, "==", search.input).get().then((docs) => {
+          setCount(docs.size);
+        })
+        getDocs = collection.where(search.title, "==", search.input).limit(75).get()
       } else {
         collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
           // console.log("COUNT", docs.docs.length);
