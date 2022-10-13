@@ -14,7 +14,7 @@ import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
 import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
 
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import routes from "../utils/Routes";
 
 export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) {
@@ -90,8 +90,12 @@ export function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) 
 
 // export function DataTable({  header, tableDatas }) {
 export function DataTable({ kinds }) {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const querySearch = searchParams.get('search');
+  const queryKinds = searchParams.get('kinds');
+  
   const { id: urlId } = useParams();
-
   const [checkList, setCheckList] = useState([]);
   const [idList, setIdList] = useState([]);
   const [filenameList, setFilenameList] = useState([]);
@@ -391,10 +395,22 @@ export function DataTable({ kinds }) {
     filterData = committeeDatas;
     tableDatas = committeeTableDatas;
   }
-  console.log('datas', datas);
-  console.log('lastdoc', lastDoc);
+  // console.log('datas', datas);
+  // console.log('lastdoc', lastDoc);
   // 처음 데이터 15개 불러오기
   useEffect(() => {
+    
+    console.log("query", querySearch, queryKinds);
+    console.log('kindss', kinds, header)
+    console.log('header', header[headerType.indexOf(queryKinds)])
+    search.title = queryKinds;
+    search.input = querySearch;
+    search.text = header[headerType.indexOf(queryKinds)];
+    setSearch({
+      title: queryKinds,
+      input: querySearch,
+      text: header[headerType.indexOf(queryKinds)],
+    })
     let list = [];
     let flist = [];
     let id = [];
@@ -661,7 +677,7 @@ export function DataTable({ kinds }) {
       window.alert("삭제할 항목을 골라 주세요");
       return
     };
-    console.log("checkList", checkFilenameList);
+    // console.log("checkList", checkFilenameList);
     if (window.confirm("삭제하시겠습니까?")) {
       // console.log("CHCCKLIST", checkList);
       const cntData = await COUNTER.doc('counter').get();
@@ -749,14 +765,12 @@ export function DataTable({ kinds }) {
             reqCnt = reqCnt - 1;
           }
         } else {
-          console.log("there is no collection")
+          window.alert("there is no collection")
         }
         await collection.doc(id).delete()
-        console.log("IDDD", id)
         if (kinds === 'reqQuestion'){
           ANSWER.where('question', '==', id).get().then(async(doc) => {
             if (doc.docs[0].exists) {
-              console.log("IFFF", doc)
               await ANSWER.doc(doc.docs[0].id).delete()
             }
           })
@@ -772,6 +786,7 @@ export function DataTable({ kinds }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    navigate(`?kinds=${search.title}&search=${search.input}`)
     setOnSearch(onSearch + 1);
   }
   const onClickSearchType = (e) => {
@@ -842,7 +857,7 @@ export function DataTable({ kinds }) {
                 <div class="col-sm-2" style={{ marginLeft: "-10px" }}>
                   <div id="datatable_filter" class="dataTables_filter">
                     <label>
-                      <input onChange={onChangeSearch} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
+                      <input value={search.input} onChange={onChangeSearch} name="search" type="search" class="form-control input-sm" placeholder="검색하기" aria-controls="datatable" />
                     </label>
                   </div>
                 </div>
