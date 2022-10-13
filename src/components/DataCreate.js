@@ -126,8 +126,9 @@ export default function DataCreateForm({ kinds }) {
     try{
       // // console.log("SDFSFDATAS", udatas);
       const update = await collection.add(udatas).then((res) => {
-        if (kinds === 'user'){
-          USER.doc(res.id).update({ uid: res.id }).catch((err) => {
+        if (kinds === 'user' || kinds === 'notice'){
+          console.log('uiddd', res.id)
+          collection.doc(res.id).update({ uid: res.id }).catch((err) => {
             window.alert('uid저장 에러');
             // console.log("ERRRROR", err);
           });
