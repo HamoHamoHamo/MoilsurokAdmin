@@ -657,6 +657,7 @@ export function DataTable({ kinds }) {
       window.alert("삭제할 항목을 골라 주세요");
       return
     };
+    console.log("checkList", checkFilenameList);
     if (window.confirm("삭제하시겠습니까?")) {
       // console.log("CHCCKLIST", checkList);
       const cntData = await COUNTER.doc('counter').get();

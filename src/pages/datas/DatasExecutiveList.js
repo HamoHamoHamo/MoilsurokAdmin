@@ -8,7 +8,7 @@ export function executiveListDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
       // // console.log("KEY", key, "\nval", val, "\nacc", acc);
-      if(key === 'modifiedDate' || key === 'name' || key === 'year' || key === 'num' || key === 'comPosition' || key === 'modifiedDate') {
+      if(key === 'filenames' || key === 'modifiedDate' || key === 'name' || key === 'year' || key === 'num' || key === 'comPosition' || key === 'modifiedDate') {
         acc = {
           ...acc,
           [key]: val
@@ -35,7 +35,6 @@ export const executiveListTableDatas2 = (dataList, checkList, checkEach, urlId) 
         filenames,
       } = obj
       const YearTd = '';
-
       return(
         <tr key={i}>
           <td style={{width: '2%'}}>
