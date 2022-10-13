@@ -112,6 +112,7 @@ export function DataTable({ kinds }) {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState();
   const [onSearch, setOnSearch] = useState(0);
+  const [authCnt, setAuthCnt] = useState(0);
 
   let title = '';
   let collection = '';
@@ -123,8 +124,10 @@ export function DataTable({ kinds }) {
   let createLink = '';
   let uploadBtn = '';
   let noCheckbox = false;
+  let showCountUser = false;
 
   if (kinds === "user") {
+    showCountUser = true;
     createLink = routes.createUser;
     uploadBtn = 'y'
     collection = USER;
@@ -405,6 +408,7 @@ export function DataTable({ kinds }) {
           switch (kinds) {
             case 'user':
               setCount(doc.data().user)
+              setAuthCnt(doc.data().auth)
               break;
             case 'notice':
               setCount(doc.data().notice)
@@ -810,6 +814,12 @@ export function DataTable({ kinds }) {
               <h2>
                 {title} 목록
               </h2>
+              {showCountUser &&
+                <div style={{marginTop: '5px', marginBottom: '6px'}} class="pull-right">
+                  활성화된 회원 수 : {authCnt}
+                </div>
+              }
+              
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -844,7 +854,7 @@ export function DataTable({ kinds }) {
                 {/* <div class="col-sm-5">
                   <button class="btn btn-primary pull-right" onClick={onClickCreate}>생성</button>
                 </div> */}
-                <div class="col-sm-5">
+                <div style={{paddingRight: '0'}} class="col-sm-5">
                   {uploadBtn && <Link to={routes.uploadUser} class="btn btn-success pull-right">일괄 회원 등록</Link>}
                   {createLink && <CreateButton/>}
                 </div>
