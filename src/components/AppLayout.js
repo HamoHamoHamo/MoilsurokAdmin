@@ -290,7 +290,7 @@ function AppLayout() {
                   <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
               <div class="header_title">{title}</div>
-              <div class="header_name">관리자 이름</div>
+              <div class="header_name"></div>
             </div>
           </div>
           {/* <!-- /top navigation --> */}
