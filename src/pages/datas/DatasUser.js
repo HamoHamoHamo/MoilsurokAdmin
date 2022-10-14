@@ -44,7 +44,7 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
           </td>
           <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
-          <td><Link to={routes.datasUserDetail(id)}>{birthdate}</Link></td>
+          {/* <td><Link to={routes.datasUserDetail(id)}>{birthdate}</Link></td> */}
           <td><Link to={routes.datasUserDetail(id)}>{phoneNum}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{email}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>

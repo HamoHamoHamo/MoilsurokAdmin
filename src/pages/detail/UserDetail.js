@@ -16,8 +16,19 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
     pubDate,
     modifiedDate,
     files,
-    filenames
+    filenames,
+    phoneNumCheck,
+    emailCheck,
     } = datas;
+    let emailChecked = false;
+    let phoneNumChecked = false;
+
+    if(emailCheck === "X") {
+      emailChecked = true;
+    }
+    if(phoneNumCheck === "X") {
+      phoneNumChecked = true;
+    }
   return (
     <form
       method="post"
@@ -48,7 +59,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           />
         </div>
       </div>
-      <div class="form-group row ">
+      {/* <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -59,7 +70,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             value={birthdate}
           />
         </div>
-      </div>
+      </div> */}
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
         <div class="col-md-4 col-sm-4 ">
@@ -188,6 +199,68 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           </div>
         </div>
       }
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">전화번호 숨기기</label>
+        <div class="col-md-4 col-sm-4 ">
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="phoneNumCheck"
+                type="radio"
+                checked={phoneNumCheck === "O"}
+                value="O"
+                id="optionsRadios1"
+              />{" "}
+              O
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="phoneNumCheck"
+                type="radio"
+                checked={phoneNumCheck === "X"}
+                value="X"
+                id="optionsRadios2"
+              />{" "}
+              X(숨기기)
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">이메일 숨기기</label>
+        <div class="col-md-4 col-sm-4 ">
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="emailCheck"
+                type="radio"
+                checked={emailCheck === "O"}
+                value="O"
+                id="optionsRadios1"
+              />{" "}
+              O
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="emailCheck"
+                type="radio"
+                checked={emailCheck === "X"}
+                value="X"
+                id="optionsRadios2"
+              />{" "}
+              X(숨기기)
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">

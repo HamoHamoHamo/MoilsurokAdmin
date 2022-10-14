@@ -131,7 +131,7 @@ export function DataTable({ kinds }) {
     header = [
       '이름',
       '기수',
-      '생년월일',
+      // '생년월일',
       '전화번호',
       '이메일',
       '회사명',
@@ -140,7 +140,7 @@ export function DataTable({ kinds }) {
     headerType = [
       'name',
       'year',
-      'birthdate',
+      // 'birthdate',
       'phoneNum',
       'email',
       'company',
