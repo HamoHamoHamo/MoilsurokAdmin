@@ -6,8 +6,6 @@ const DATAS_NOTICE = "/datas/notice";
 const DATAS_NOTICE_DETAIL = "/datas/notice/:id";
 const DATAS_SCHEDULE = "/datas/schedule";
 const DATAS_SCHEDULE_DETAIL = "/datas/schedule/:id";
-const DATAS_PROFILE = "/datas/profile";
-const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
 const DATAS_EXECUTIVE = "/datas/executive";
 const DATAS_EXECUTIVE_LIST = "/datas/executive/:id";
@@ -15,9 +13,7 @@ const DATAS_EXECUTIVE_DETAIL = "/datas/executive/:id/:detail";
 const DATAS_COMMITTEE = "/datas/committee";
 const DATAS_COMMITTEE_DETAIL = "/datas/committee/:id";
 
-const REQ_USER = "/req/user";
 const REQ_PROFILE = "/req/profile";
-const REQ_USER_DETAIL = "/req/user/:id";
 const REQ_PROFILE_DETAIL = "/req/profile/:id";
 
 const QUESTION = "/question";
@@ -57,15 +53,6 @@ const routes = {
       return DATAS_SCHEDULE_DETAIL;
     }
   },
-
-  datasProfile: DATAS_PROFILE,
-  datasProfileDetail : (id) => {
-    if(id) {
-      return `/datas/profile/${id}`;
-    } else {
-      return DATAS_PROFILE_DETAIL;
-    }
-  },
   datasExecutive: DATAS_EXECUTIVE,
   datasExecutiveList : (id) => {
     if(id) {
@@ -87,15 +74,6 @@ const routes = {
       return `/datas/committee/${id}`;
     } else {
       return DATAS_COMMITTEE_DETAIL;
-    }
-  },
-
-  reqUser: REQ_USER,
-  reqUserDetail : (id) => {
-    if(id) {
-      return `/req/user/${id}`;
-    } else {
-      return REQ_USER_DETAIL;
     }
   },
   reqProfile: REQ_PROFILE,

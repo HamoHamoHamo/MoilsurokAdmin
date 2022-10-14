@@ -10,7 +10,6 @@ import { executiveDatas, executiveTableDatas } from "../pages/datas/DatasExecuti
 import { executiveListDatas, executiveListTableDatas, executiveListTableDatas2 } from "../pages/datas/DatasExecutiveList";
 import { committeeDatas, committeeTableDatas } from "../pages/datas/DatasCommittee";
 
-import { reqUserDatas, reqUserTableDatas } from "../pages/req/ReqUser";
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
 import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
 
@@ -259,34 +258,6 @@ export function DataTable({ kinds }) {
     ]
     filterData = profileDatas;
     tableDatas = profileTableDatas;
-  } else if (kinds === "reqUser") {
-    req = true;
-    collection = USER;
-    title = "회원 승인"
-    header = [
-      '이름',
-      '기수',
-      '생년월일',
-      '전화번호',
-      '이메일',
-      '회사명',
-      '승인완료',
-      '수정시간',
-      '등록시간',
-    ];
-    headerType = [
-      'name',
-      'year',
-      'birthdate',
-      'phoneNum',
-      'email',
-      'company',
-      'check',
-      'modifiedDate',
-      'pubDate',
-    ]
-    filterData = reqUserDatas;
-    tableDatas = reqUserTableDatas;
   } else if (kinds === "reqProfile") {
     req = true;
     collection = PROFILE;
@@ -440,9 +411,6 @@ export function DataTable({ kinds }) {
               break;
             case 'schedule':
               setCount(doc.data().schedule)
-              break;
-            case 'reqUser':
-              setCount(doc.data().reqUser)
               break;
             case 'reqProfile':
               setCount(doc.data().reqProfile)
@@ -697,9 +665,6 @@ export function DataTable({ kinds }) {
         case 'answer':
           COUNTER.doc('counter').update({ answer: newCnt });
           break;
-        case 'reqUser':
-          COUNTER.doc('counter').update({ reqUser: newCnt });
-          break;
         case 'reqProfile':
           COUNTER.doc('counter').update({ reqProfile: newCnt });
           break;
@@ -729,19 +694,10 @@ export function DataTable({ kinds }) {
       if (req) {
         
         switch (kinds) {
-          case 'reqUser':
-            COUNTER.doc('counter').update({ user: cnt.user - checkList.length });
-            break;
           case 'reqProfile':
             COUNTER.doc('counter').update({ profile: cnt.profile - checkList.length });
             break;
         }
-      }
-      let reqCnt = '';
-      switch (kinds) {
-        case "user":
-          reqCnt = cnt.reqUser;
-          break;
       }
 
       const promises = checkList.map(async (id, i) => {
@@ -751,21 +707,6 @@ export function DataTable({ kinds }) {
           const ref = storage.ref().child(checkFilenameList[i]);
           ref.delete();
 
-        }
-        const doc = await collection.doc(id).get();
-        // console.log("DOOCCCCC", doc);
-        if(doc.exists) {
-          // console.log("DOCOCOCC", doc.data());
-          if (doc.data().check === "X") {
-            switch (kinds) {
-              case "user":
-                COUNTER.doc('counter').update({ reqUser: reqCnt - 1 });
-                break;
-            }
-            reqCnt = reqCnt - 1;
-          }
-        } else {
-          window.alert("there is no collection")
         }
         await collection.doc(id).delete()
         if (kinds === 'reqQuestion'){
