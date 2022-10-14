@@ -39,18 +39,15 @@ export default function ReqProfileDetail() {
   const {
     year,
     name,
-    birthdate,
     phoneNum,
     email,
     company,
-    department,
     comPosition,
     comTel,
     comAdr,
     faxNum,
     sector,
     check,
-    remark,
     pubDate,
     modifiedDate,
     files,
@@ -61,11 +58,9 @@ export default function ReqProfileDetail() {
   const {
     year: Uyear,
     name: Uname,
-    birthdate: Ubirthdate,
     phoneNum: UphoneNum,
     email: Uemail,
     company: Ucompany,
-    department: Udepartment,
     comPosition: UcomPosition,
     comTel: UcomTel,
     comAdr: UcomAdr,
@@ -73,7 +68,6 @@ export default function ReqProfileDetail() {
     sector: Usector,
     check: Ucheck,
     pubDate: UpubDate,
-    remark: Uremark,
     modifiedDate: UmodifiedDate,
     files: Ufiles,
     filenames: Ufilenames,
@@ -194,29 +188,6 @@ export default function ReqProfileDetail() {
             </div>
           </div>
           <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">생년월일</label>
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="birthdate"
-                type="text"
-                class="form-control"
-                value={Ubirthdate}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                
-                name="birthdate"
-                type="text"
-                class="form-control"
-                value={birthdate}
-                readOnly
-              />
-            </div>
-          </div>
-          <div class="form-group row ">
             <label class="control-label col-md-2 col-sm-2 ">전화번호</label>
             <div class="col-md-3 col-sm-3 ">
               <input
@@ -281,29 +252,6 @@ export default function ReqProfileDetail() {
                 type="text"
                 class="form-control"
                 value={company}
-                readOnly
-              />
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">부서</label>
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="department"
-                type="text"
-                class="form-control"
-                value={Udepartment}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                
-                name="department"
-                type="text"
-                class="form-control"
-                value={department}
                 readOnly
               />
             </div>
@@ -436,30 +384,6 @@ export default function ReqProfileDetail() {
               />
             </div>
           </div>
-          <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">비고</label>
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="sector"
-                type="text"
-                class="form-control"
-                value={Uremark}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="sector"
-                type="text"
-                class="form-control"
-                value={remark}
-                readOnly
-              />
-            </div>
-          </div>
-          
-          
         </form>
       </DataReqDetailForm>
     );

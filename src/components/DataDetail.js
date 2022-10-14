@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import AnswerDetail from "../pages/detail/AnswerDetail"
 import NoticeDetail from "../pages/detail/NoticeDetail"
-import ProfileDetail from "../pages/detail/ProfileDetail"
 import QuestionDetail from "../pages/detail/QuestionDetail"
 import ScheduleDetail from "../pages/detail/ScheduleDetail"
 import UserDetail from "../pages/detail/UserDetail"
@@ -43,8 +42,6 @@ export default function DataDetail({ kinds }) {
       col = QUESTION;
     } else if (kinds === "answer") {
       col = ANSWER;
-    } else if (kinds === "profile") {
-      col = PROFILE;
     }
     // console.log("COCCLL", col);
     col
@@ -79,9 +76,6 @@ export default function DataDetail({ kinds }) {
   } else if (kinds === "answer") {
     HandleDetail = AnswerDetail;
     title = "답변 데이터"
-  } else if (kinds === "profile") {
-    HandleDetail = ProfileDetail;
-    title = "프로필 수정 데이터"
   }
   
   const back = () => {
@@ -99,14 +93,8 @@ export default function DataDetail({ kinds }) {
         case 'schedule':
           COUNTER.doc('counter').update({ schedule: cnt.schedule - 1 });
           break;
-        case 'profile':
-          COUNTER.doc('counter').update({ profile: cnt.profile - 1 });
-          break;
         case 'notice':
           COUNTER.doc('counter').update({ notice: cnt.notice - 1 });
-          break;
-        case 'reqUser':
-          COUNTER.doc('counter').update({ reqUser: cnt.reqUser - 1 });
           break;
         case 'reqProfile':
           COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
@@ -125,9 +113,6 @@ export default function DataDetail({ kinds }) {
       }
       if (curCheck === "X") {
         switch (kinds) {
-          case "user":
-            COUNTER.doc('counter').update({ reqUser: cnt.reqUser - 1 });
-            break;
           case "profile":
             COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
             break;
@@ -185,43 +170,15 @@ export default function DataDetail({ kinds }) {
     } else {
       udatas = datas;
     }
-    // // console.log("FILELISTS", udatas.files);
+    
+    // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{
-      // console.log("SDFSFDATAS", udatas);
       const update = await collection.doc(id).update(udatas);
-      if (curCheck && curCheck !== udatas.check) {
-        const counter = await COUNTER.doc('counter').get();
-        if (udatas.check === "X") {
-          // console.log("XXXXXXXXXXXX")
-          // console.log("COUNTER", counter.data());
-          switch (kinds) {
-            case 'user':
-              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser + 1 });
-              break;
-            case 'profile':
-              COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile + 1 });
-              break;
-          }
-        } else if (udatas.check === "O") {
-          // console.log("OOOOOOOOOOOOOOO")
-          switch (kinds) {
-            case 'user':
-              COUNTER.doc('counter').update({ reqUser: counter.data().reqUser - 1 });
-              break;
-            case 'profile':
-              COUNTER.doc('counter').update({ reqProfile: counter.data().reqProfile - 1 });
-              break;
-
-          }
-        }
-      }
-      // console.log("After update");
-      navigate(-1);
     } catch(err) {
-      // console.log('ERROR', err);
+      window.alert('수정 실패');
     }
-
+    navigate(-1);
   };
 
   const onChange = (e) => {

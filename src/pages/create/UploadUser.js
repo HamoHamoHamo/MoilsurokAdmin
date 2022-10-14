@@ -94,7 +94,6 @@ export default function UploadUser() {
         // console.log("DOC>DATA", counter.data());
         
       };
-      await COUNTER.doc('counter').update({ reqUser: parseInt(counter.data().reqUser) + datas.length });
       await COUNTER.doc('counter').update({ user: parseInt(counter.data().user) + datas.length });
       // console.log("finish");
       navigate(routes.datasUser);

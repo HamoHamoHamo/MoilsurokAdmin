@@ -153,12 +153,8 @@ export default function DataCreateForm({ kinds }) {
               break;
             case "user": 
               COUNTER.doc('counter').update({ user: parseInt(doc.data().user) +1 }).then(() => {
-                if (udatas.check === "X") {
-                  COUNTER.doc('counter').update({ reqUser: parseInt(doc.data().reqUser) +1 }).then(window.location.href = `/datas/${kinds}`);
-                } else {
-                  // console.log("SSSSHREFTEST");
-                  window.location.href = `/datas/${kinds}`;
-                }
+                // console.log("SSSSHREFTEST");
+                window.location.href = `/datas/${kinds}`;
               });
               break;
             case "schedule": 

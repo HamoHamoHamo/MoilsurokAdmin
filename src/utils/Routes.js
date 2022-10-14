@@ -6,12 +6,8 @@ const DATAS_NOTICE = "/datas/notice";
 const DATAS_NOTICE_DETAIL = "/datas/notice/:id";
 const DATAS_SCHEDULE = "/datas/schedule";
 const DATAS_SCHEDULE_DETAIL = "/datas/schedule/:id";
-const DATAS_PROFILE = "/datas/profile";
-const DATAS_PROFILE_DETAIL = "/datas/profile/:id";
 
-const REQ_USER = "/req/user";
 const REQ_PROFILE = "/req/profile";
-const REQ_USER_DETAIL = "/req/user/:id";
 const REQ_PROFILE_DETAIL = "/req/profile/:id";
 
 const QUESTION = "/question";
@@ -51,23 +47,6 @@ const routes = {
     }
   },
 
-  datasProfile: DATAS_PROFILE,
-  datasProfileDetail : (id) => {
-    if(id) {
-      return `/datas/profile/${id}`;
-    } else {
-      return DATAS_PROFILE_DETAIL;
-    }
-  },
-
-  reqUser: REQ_USER,
-  reqUserDetail : (id) => {
-    if(id) {
-      return `/req/user/${id}`;
-    } else {
-      return REQ_USER_DETAIL;
-    }
-  },
   reqProfile: REQ_PROFILE,
   reqProfileDetail : (id) => {
     if(id) {
