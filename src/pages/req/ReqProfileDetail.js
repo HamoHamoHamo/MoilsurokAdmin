@@ -362,7 +362,7 @@ export default function ReqProfileDetail() {
               }
             </div>
           </div>
-          <div class="form-group row ">
+          {/* <div class="form-group row ">
             <label class="control-label col-md-2 col-sm-2 ">업종</label>
             <div class="col-md-3 col-sm-3 ">
               <input
@@ -383,7 +383,7 @@ export default function ReqProfileDetail() {
                 readOnly
               />
             </div>
-          </div>
+          </div> */}
         </form>
       </DataReqDetailForm>
     );

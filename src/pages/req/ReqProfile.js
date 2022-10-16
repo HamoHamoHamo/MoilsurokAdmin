@@ -46,13 +46,13 @@ export const reqProfileTableDatas = (dataList, checkList, checkEach) => (
           </td>
           <td><Link to={routes.reqProfileDetail(id)}>{name}</Link></td>
           <td><Link to={routes.reqProfileDetail(id)}>{year}</Link></td>
-          <td><Link to={routes.reqProfileDetail(id)}>{birthdate}</Link></td>
+          {/* <td><Link to={routes.reqProfileDetail(id)}>{birthdate}</Link></td> */}
           <td><Link to={routes.reqProfileDetail(id)}>{phoneNum}</Link></td>
           <td><Link to={routes.reqProfileDetail(id)}>{email}</Link></td>
           <td><Link to={routes.reqProfileDetail(id)}>{company}</Link></td>
           <td style={{width: "7%"}}><Link to={routes.reqProfileDetail(id)}>{check}</Link></td>
           <td><Link to={routes.reqProfileDetail(id)}>{modifiedDate}</Link></td>
-          <td><Link to={routes.reqProfileDetail(id)}>{pubDate}</Link></td>
+          {/* <td><Link to={routes.reqProfileDetail(id)}>{pubDate}</Link></td> */}
         </tr>
       )
     }
