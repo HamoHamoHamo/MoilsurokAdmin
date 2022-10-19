@@ -65,32 +65,50 @@ export default function UploadUser() {
         let obj = {};
         await dataList.map((data, i) => {
           switch (i) {
-            case 1:
-              obj.name = data;
+            case 0:
+              obj.year = data;
               break;
             case 2:
-              obj.company = data;
+              obj.name = data;
               break;
             case 3:
-              obj.comPosition = data;
+              obj.birthdate = data;
               break;
             case 4:
-              obj.phoneNum = data;
+              obj.lunarCalendar = data;
               break;
             case 5:
-              obj.comAdr = data;
+              obj.phoneNum = data;
               break;
             case 6:
-              obj.comTel = data;
-              break;
-            case 7:
-              obj.faxNum = data;
-              break;
-            case 8:
               obj.email = data;
               break;
+            case 7:
+              obj.company = data;
+              break;
+            case 8:
+              obj.department = data;
+              break;
+            case 9:
+              obj.comPosition = data;
+              break;
             case 10:
-              obj.year = data;
+              obj.comTel = data;
+              break;
+            case 11:
+              obj.comAdr = data;
+              break;
+            case 12:
+              obj.homeTel = data;
+              break;
+            case 13:
+              obj.homeAdr = data;
+              break;
+            case 14:
+              obj.faxNum = data;
+              break;
+            case 16:
+              obj.sector = data;
               break;
           }
         })
@@ -145,34 +163,42 @@ export default function UploadUser() {
   // console.log("DATAS", datas);
 
   function DataTable() {
+    
     return (
       <>
         {datas && datas.map((data, i) => {
-          const name = data[1]
-          const company = data[2]
-          const comPosition = data[3]
-          const phoneNum = data[4]
-          const comAdr = data[5]
-          const comTel = data[6]
-          const faxNum = data[7]
-          const email = data[8]
-          const year = data[10]
+          const year = data[0];
+          const name = data[2];
+          const birthdate = data[3];
+          const lunarCalendar = data[4];
+          const phoneNum = data[5];
+          const email = data[6];
+          const company = data[7];
+          const department = data[8];
+          const comPosition = data[9];
+          const comTel = data[10];
+          const comAdr = data[11];
+          const homeTel = data[12];
+          const homeAdr = data[13];
+          const faxNum = data[14];
+          const sector = data[16];
           
-
+          
           const filename = photos[name] ? photos[name].name : '';
-          // const name = data[2];
-          // const birthdate = data[3];
-          // const phoneNum = data[4];
-          // const email = data[5];
-          // const company = data[6];
-          // const department = data[7];
-          // const comPosition = data[8];
-          // const comTel = data[9];
-          // const comAdr = data[10];
-          // const faxNum = data[11];
 
           return (
             <div key={i}>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">기수</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={year}
+                    readOnly={true}
+                    class="form-control"
+                  />
+                </div>
+              </div>
               <div class="form-group row ">
                 <label class="control-label col-md-3 col-sm-3 ">이름</label>
                 <div class="col-md-4 col-sm-4 ">
@@ -185,11 +211,22 @@ export default function UploadUser() {
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">기수</label>
+                <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
-                    value={year}
+                    value={birthdate}
+                    readOnly={true}
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">음력/양력</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={lunarCalendar}
                     readOnly={true}
                     class="form-control"
                   />
@@ -203,7 +240,6 @@ export default function UploadUser() {
                     value={phoneNum}
                     readOnly={true}
                     class="form-control"
-
                   />
                 </div>
               </div>
@@ -232,6 +268,17 @@ export default function UploadUser() {
                 </div>
               </div>
               <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">부서</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={department}
+                    readOnly={true}
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
                 <label class="control-label col-md-3 col-sm-3 ">직위</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
@@ -239,7 +286,6 @@ export default function UploadUser() {
                     value={comPosition}
                     readOnly={true}
                     class="form-control"
-
                   />
                 </div>
               </div>
@@ -251,19 +297,39 @@ export default function UploadUser() {
                     value={comTel}
                     readOnly={true}
                     class="form-control"
-
                   />
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
+                <label class="control-label col-md-3 col-sm-3 ">직장 주소</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
                     value={comAdr}
                     readOnly={true}
                     class="form-control"
-
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">자택 전화</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={homeTel}
+                    readOnly={true}
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">자택 주소</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={homeAdr}
+                    readOnly={true}
+                    class="form-control"
                   />
                 </div>
               </div>
@@ -275,7 +341,17 @@ export default function UploadUser() {
                     value={faxNum}
                     readOnly={true}
                     class="form-control"
-
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">업종</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={sector}
+                    readOnly={true}
+                    class="form-control"
                   />
                 </div>
               </div>

@@ -2,14 +2,17 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
   const {
     year,
     name,
-    // birthdate,
+    birthdate,
+    lunarCalendar,
     phoneNum,
     email,
     company,
-    // department,
+    department,
     comPosition,
     comTel,
     comAdr,
+    homeTel,
+    homeAdr,
     faxNum,
     sector,
     remark,
@@ -25,6 +28,18 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
       class="form-horizontal form-label-left"
     >
       <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">기수</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="year"
+            type="text"
+            class="form-control"
+            value={year}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -37,29 +52,48 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="year"
-            type="text"
-            class="form-control"
-            value={year}
-          />
-        </div>
-      </div>
-      {/* <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
             name="birthdate"
-            type="date"
+            type="text"
             class="form-control"
             value={birthdate}
           />
         </div>
-      </div> */}
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">음력/양력</label>
+        <div class="col-md-4 col-sm-4 ">
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="lunarCalendar"
+                type="radio"
+                checked={lunarCalendar === "양력"}
+                value="양력"
+                id="optionsRadios1"
+              />{" "}
+              양력
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="lunarCalendar"
+                type="radio"
+                checked={lunarCalendar === "음력"}
+                value="음력"
+                id="optionsRadios2"
+              />{" "}
+              음력
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
         <div class="col-md-4 col-sm-4 ">
@@ -96,7 +130,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           />
         </div>
       </div>
-      {/* <div class="form-group row ">
+      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">부서</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -107,7 +141,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             value={department}
           />
         </div>
-      </div> */}
+      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">직위</label>
         <div class="col-md-4 col-sm-4 ">
@@ -133,7 +167,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
+        <label class="control-label col-md-3 col-sm-3 ">직장 주소</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -141,6 +175,30 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             type="text"
             class="form-control"
             value={comAdr}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">자택 전화</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="homeTel"
+            type="text"
+            class="form-control"
+            value={homeTel}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">자택 주소</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="homeAdr"
+            type="text"
+            class="form-control"
+            value={homeAdr}
           />
         </div>
       </div>

@@ -41,8 +41,8 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
           <td style={{ width: '2%' }}>
             <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)} />
           </td>
-          <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
+          <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{phoneNum}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{email}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>

@@ -136,16 +136,16 @@ export function DataTable({ kinds }) {
     collection = USER;
     title = "회원";
     header = [
-      '이름',
       '기수',
+      '이름',
       '전화번호',
       '이메일',
       '회사명',
       '수정시간',
     ];
     headerType = [
-      'name',
       'year',
+      'name',
       'phoneNum',
       'email',
       'company',
