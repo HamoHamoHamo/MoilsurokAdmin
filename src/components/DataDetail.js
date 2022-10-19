@@ -195,6 +195,12 @@ export default function DataDetail({ kinds }) {
     
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
+    try{
+      const update = await collection.doc(id).update(udatas);
+      window.alert('수정 완료')
+    } catch(err) {
+      window.alert('수정 실패');
+    }
     navigate(-1);
   };
 
