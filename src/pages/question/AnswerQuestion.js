@@ -142,6 +142,7 @@ export default function AnswerQuestion() {
                         class="form-control"
                         value={content}
                         readOnly={true}
+                        style={{height: '200px'}}
                       />
                     </div>
                   </div>
