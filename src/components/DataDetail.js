@@ -37,6 +37,24 @@ export default function DataDetail({ kinds }) {
   let title = '';
   let doing = false;
 
+  // useEffect(() => {
+  //   const getDocs = USER.get().then((docs) => {
+  //     docs.forEach((doc) => {
+  //       if (doc.exists) {
+  //         if (doc.data().phoneNum) {
+  //           console.log(doc.data().phoneNum)
+  //           console.log(doc.id)
+  //           const data = doc.data().phoneNum.split('/');
+  //           // certificatedPhoneNum
+  //           USER.doc(doc.id).update({certificatedPhoneNum: data}).then((update) => {
+  //             console.log("update", update);
+  //           })
+  //         }
+  //       }
+  //     })
+  //   })
+  // },[])
+
   useEffect(() => {
     if (kinds === "user") {
       col = USER;
