@@ -66,6 +66,13 @@ export default function DataCreateForm({ kinds }) {
         modifiedDate: today,
         pubDate: today,
       }));
+    } else if (name === 'year'){
+      setInputs(() => ({
+        ...inputs,
+        [name]: parseInt(value),
+        modifiedDate: today,
+        pubDate: today,
+      }));
     } else {
       setInputs(() => ({
         ...inputs,

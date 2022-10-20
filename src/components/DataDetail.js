@@ -225,6 +225,12 @@ export default function DataDetail({ kinds }) {
         uploadFiles: files,
         modifiedDate: today,
       }));
+    } else if (name === 'year'){
+      setDatas(() => ({
+        ...datas,
+        [name]: parseInt(value),
+        modifiedDate: today,
+      }));
     } else {
       setDatas(() => ({
         ...datas,

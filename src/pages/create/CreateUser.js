@@ -22,7 +22,7 @@ export default function CreateUser({ onChange, inputs}) {
           <input
             onChange={onChange}
             name="year"
-            type="text"
+            type="number"
             class="form-control"
             
           />

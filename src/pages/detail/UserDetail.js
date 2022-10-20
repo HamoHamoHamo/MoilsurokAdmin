@@ -33,7 +33,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           <input
             onChange={onChange}
             name="year"
-            type="text"
+            type="number"
             class="form-control"
             value={year}
           />
