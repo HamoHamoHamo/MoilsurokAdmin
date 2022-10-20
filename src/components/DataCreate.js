@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CreateNotice from "../pages/create/CreateNotice";
+import CreateGallery from "../pages/create/CreateGallery";
 import CreateUser from "../pages/create/CreateUser";
 import CreateSchedule from "../pages/create/CreateSchedule";
 import CreateExecutive from "../pages/create/CreateExecutive";
@@ -8,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {
   NOTICE,
+  GALLERY,
   SCHEDULE,
   USER,
   storage,
@@ -29,6 +31,10 @@ export default function DataCreateForm({ kinds }) {
     HandleCreate = CreateNotice;
     title = "공지사항";
     collection = NOTICE;
+  } else if(kinds === "gallery") {
+    HandleCreate = CreateGallery;
+    title = "행사앨범";
+    collection = GALLERY;
   } else if(kinds === "user") {
     HandleCreate = CreateUser;
     title = "회원";

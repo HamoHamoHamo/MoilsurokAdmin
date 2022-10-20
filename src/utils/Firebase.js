@@ -26,6 +26,7 @@ const auth = firebase.auth();
 
 const USER = firestore.collection('User');
 const NOTICE = firestore.collection('Notice');
+const GALLERY = firestore.collection('Gallery');
 const SCHEDULE = firestore.collection('Schedule');
 const QUESTION = firestore.collection('Question');
 const ANSWER = firestore.collection('Answer');
@@ -35,5 +36,5 @@ const EXECUTIVE = firestore.collection('Executive');
 const COMMITTEE = firestore.collection('Committee');
 
 // 필요한 곳에서 사용할 수 있도록 내보내기
-export { storage, firestore, auth, EXECUTIVE, COMMITTEE, USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, COUNTER };
+export { storage, firestore, auth, EXECUTIVE, COMMITTEE, USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, COUNTER };
 

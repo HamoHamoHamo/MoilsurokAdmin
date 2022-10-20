@@ -243,6 +243,9 @@ function AppLayout() {
                           <a href={routes.datasNotice}>공지사항</a>
                         </li>
                         <li>
+                          <a href={routes.datasGallery}>행사앨범</a>
+                        </li>
+                        <li>
                           <a href={routes.datasSchedule}>일정</a>
                         </li>
                       </ul>

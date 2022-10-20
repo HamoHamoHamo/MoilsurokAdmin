@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { USER, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, EXECUTIVE, COMMITTEE } from "../utils/Firebase";
+import { USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, EXECUTIVE, COMMITTEE } from "../utils/Firebase";
 import { userDatas, userTableDatas } from "../pages/datas/DatasUser";
 import { scheduleDatas, scheduleTableDatas } from "../pages/datas/DatasSchedule";
 import { questionDatas, questionTableDatas } from "../pages/datas/DatasQuestion";
 import { profileDatas, profileTableDatas } from "../pages/datas/DatasProfile";
 import { noticeDatas, noticeTableDatas } from "../pages/datas/DatasNotice";
+import { galleryDatas, galleryTableDatas } from "../pages/datas/DatasGallery";
 import { answerDatas, answerTableDatas } from "../pages/datas/DatasAnswer";
 import { executiveDatas, executiveTableDatas } from "../pages/datas/DatasExecutive";
 import { executiveListDatas, executiveListTableDatas, executiveListTableDatas2 } from "../pages/datas/DatasExecutiveList";
@@ -171,6 +172,24 @@ export function DataTable({ kinds }) {
     ];
     filterData = noticeDatas;
     tableDatas = noticeTableDatas;
+  } else if (kinds === "gallery") {
+    createLink = routes.createGallery;
+    collection = GALLERY;
+    title = "행사앨범"
+    header = [
+      '제목',
+      '내용',
+      '작성자',
+      '수정시간',
+    ];
+    headerType = [
+      'title',
+      'content',
+      'creator',
+      'modifiedDate',
+    ];
+    filterData = galleryDatas;
+    tableDatas = galleryTableDatas;
   } else if (kinds === "schedule") {
     createLink = routes.createSchedule;
     collection = SCHEDULE;
@@ -396,6 +415,9 @@ export function DataTable({ kinds }) {
             case 'user':
               setCount(doc.data().user)
               setAuthCnt(doc.data().auth)
+              break;
+            case 'gallery':
+              setCount(doc.data().gallery)
               break;
             case 'notice':
               setCount(doc.data().notice)
@@ -658,6 +680,9 @@ export function DataTable({ kinds }) {
           break;
         case 'schedule':
           COUNTER.doc('counter').update({ schedule: newCnt });
+          break;
+        case 'gallery':
+          COUNTER.doc('counter').update({ gallery: newCnt });
           break;
         case 'notice':
           COUNTER.doc('counter').update({ notice: newCnt });

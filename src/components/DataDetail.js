@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AnswerDetail from "../pages/detail/AnswerDetail"
 import NoticeDetail from "../pages/detail/NoticeDetail"
+import GalleryDetail from "../pages/detail/GalleryDetail"
 import QuestionDetail from "../pages/detail/QuestionDetail"
 import ScheduleDetail from "../pages/detail/ScheduleDetail"
 import UserDetail from "../pages/detail/UserDetail"
@@ -9,6 +10,7 @@ import CommitteeDetail from "../pages/detail/CommitteeDetail"
 import {
   USER,
   NOTICE,
+  GALLERY,
   SCHEDULE,
   QUESTION,
   ANSWER,
@@ -42,6 +44,8 @@ export default function DataDetail({ kinds }) {
       col = USER;
     } else if (kinds === "notice") {
       col = NOTICE;
+    } else if (kinds === "gallery") {
+      col = GALLERY;
     } else if (kinds === "schedule") {
       col = SCHEDULE;
     } else if (kinds === "question") {
@@ -81,6 +85,9 @@ export default function DataDetail({ kinds }) {
   } else if (kinds === "notice") {
     HandleDetail = NoticeDetail;
     title = "공지사항 데이터"
+  } else if (kinds === "gallery") {
+    HandleDetail = GalleryDetail;
+    title = "행사앨범 데이터"
   } else if (kinds === "schedule") {
     HandleDetail = ScheduleDetail;
     title = "일정 데이터"
@@ -109,6 +116,9 @@ export default function DataDetail({ kinds }) {
           break;
         case 'notice':
           COUNTER.doc('counter').update({ notice: cnt.notice - 1 });
+          break;
+        case 'gallery':
+          COUNTER.doc('counter').update({ gallery: cnt.gallery - 1 });
           break;
         case 'reqProfile':
           COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });

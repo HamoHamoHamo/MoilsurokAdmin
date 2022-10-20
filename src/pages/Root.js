@@ -23,6 +23,8 @@ function Root() {
         <Route path={routes.datasUserDetail()} element={<DataDetail kinds={"user"} />} />
         <Route path={routes.datasNotice} element={<DataTable kinds={"notice"} />} />
         <Route path={routes.datasNoticeDetail()} element={<DataDetail kinds={"notice"} />} />
+        <Route path={routes.datasGallery} element={<DataTable kinds={"gallery"} />} />
+        <Route path={routes.datasGalleryDetail()} element={<DataDetail kinds={"gallery"} />} />
         <Route path={routes.datasSchedule} element={<DataTable kinds={"schedule"} />} />
         <Route path={routes.datasScheduleDetail()} element={<DataDetail kinds={"schedule"} />} />
         <Route path={routes.datasCommittee} element={<DataTable kinds={"committee"} />} />
@@ -39,6 +41,7 @@ function Root() {
         <Route path={routes.answerQuestion()} element={<AnswerQuestion />} />
 
         <Route path={routes.createNotice} element={<DataCreateForm kinds={"notice"} />} />
+        <Route path={routes.createGallery} element={<DataCreateForm kinds={"gallery"} />} />
         <Route path={routes.createSchedule} element={<DataCreateForm kinds={"schedule"} />} />
         <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
         <Route path={routes.uploadUser} element={<UploadUser />} />
