@@ -20,8 +20,8 @@ export default function Login() {
     const { id, pw } = input
     try {
       await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-      const data = await auth.signInWithEmailAndPassword(id, pw);
-      // // console.log( "DATA", data);
+      const data = await auth.signInWithEmailAndPassword(`${id}@gmail.com`, pw);
+      console.log( "DATA", data);
       navigate(routes.home);
 
     } catch (err) {
