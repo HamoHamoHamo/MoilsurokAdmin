@@ -5215,3 +5215,7 @@ ul.notifications {
 .calendarFontSize{
   font-size: 14px;
 }
+
+.ql-editor {
+  height: 500px;
+}
