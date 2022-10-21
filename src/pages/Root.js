@@ -43,7 +43,7 @@ function Root() {
         <Route path={routes.createUser} element={<DataCreateForm kinds={"user"} />} />
         <Route path={routes.uploadUser} element={<UploadUser />} />
         <Route path={routes.createExecutive()} element={<DataCreateForm kinds={"executive"} />} />
-
+        <Route path={routes.createCommittee} element={<DataCreateForm kinds={"committee"} />} />
       </Route>
     </Routes>
   );

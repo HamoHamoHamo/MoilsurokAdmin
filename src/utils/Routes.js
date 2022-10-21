@@ -25,6 +25,7 @@ const CREATE_SCHEDULE = "/create/schedule";
 const CREATE_ANSWER = "/create/answer";
 const UPLOAD_USER = "/create/upload/user";
 const CREATE_EXECUTIVE = "/create/executive/:id/create";
+const CREATE_COMMITTEE = "/create/committee";
 
 const routes = {
   home: HOME,
@@ -99,7 +100,7 @@ const routes = {
   createUser: CREATE_USER,
   createAnswer: CREATE_ANSWER,
   uploadUser: UPLOAD_USER,
-  createExecutive: CREATE_EXECUTIVE,
+  createCommittee: CREATE_COMMITTEE,
   createExecutive : (id) => {
     if(id) {
       return `/create/executive/${id}/create`;

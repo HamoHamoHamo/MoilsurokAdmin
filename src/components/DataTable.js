@@ -351,6 +351,7 @@ export function DataTable({ kinds }) {
       tableDatas = executiveListTableDatas2;
     }
   } else if (kinds === "committee") {
+    createLink = routes.createCommittee;
     collection = COMMITTEE;
     title = "운영위원회";
     header = [
@@ -617,6 +618,7 @@ export function DataTable({ kinds }) {
     }
   }
   function CreateButton(){
+    console.log('teststtst')
     if (kinds === 'user'){
       return(
         <Link to={createLink} class="btn btn-primary pull-right">단일 회원 등록</Link>
@@ -635,6 +637,11 @@ export function DataTable({ kinds }) {
     else if (kinds === 'executiveList'){
       return(
         <Link to={createLink} class="btn btn-primary pull-right">임원단 등록</Link>
+      )
+    }
+    else if (kinds === 'committee'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">운영위원회 등록</Link>
       )
     }
   }

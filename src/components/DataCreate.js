@@ -4,11 +4,13 @@ import CreateNotice from "../pages/create/CreateNotice";
 import CreateUser from "../pages/create/CreateUser";
 import CreateSchedule from "../pages/create/CreateSchedule";
 import CreateExecutive from "../pages/create/CreateExecutive";
+import CreateCommittee from "../pages/create/CreateCommittee";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {
   NOTICE,
   SCHEDULE,
+  COMMITTEE,
   USER,
   storage,
   COUNTER,
@@ -41,7 +43,11 @@ export default function DataCreateForm({ kinds }) {
     HandleCreate = CreateExecutive;
     title = id.substring(2,);
     collection = EXECUTIVE.doc(id).collection('userList');
-  } 
+  } else if(kinds === "committee") {
+    HandleCreate = CreateCommittee;
+    title = "운영위원회";
+    collection = COMMITTEE;
+  }
 
   const onClickBack = (e) => {
     e.preventDefault();
@@ -123,9 +129,16 @@ export default function DataCreateForm({ kinds }) {
     // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
 		
-    try{
-      // // console.log("SDFSFDATAS", udatas);
-      const update = await collection.add(udatas).then((res) => {
+    if (kinds === 'committee') {
+      COUNTER.doc('counter').get().then((doc) => {
+        const count = parseInt(doc.data().committee) + 1;
+        collection.doc(count+udatas.comPosition).set(udatas).then((res) => {
+          window.alert("데이터 생성 완료");
+          COUNTER.doc('counter').update({ committee: parseInt(doc.data().committee) +1 }).then(window.location.href = `/datas/${kinds}`)
+        })
+      })
+    } else {
+      collection.add(udatas).then((res) => {
         if (kinds === 'user' || kinds === 'notice'){
           console.log('uiddd', res.id)
           collection.doc(res.id).update({ uid: res.id }).catch((err) => {
@@ -155,7 +168,7 @@ export default function DataCreateForm({ kinds }) {
           })  
         }
         
-
+  
         window.alert("데이터 생성 완료")
         
         // console.log("RES", res);
@@ -190,14 +203,16 @@ export default function DataCreateForm({ kinds }) {
             case "schedule": 
               COUNTER.doc('counter').update({ schedule: parseInt(doc.data().schedule) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
+            case "committee": 
+              COUNTER.doc('counter').update({ committee: parseInt(doc.data().committee) +1 }).then(window.location.href = `/datas/${kinds}`);
+              break;
           }
         })
         
       });
-    } catch(err) {
-      window.alert("ERROR", err);
-      // console.log('ERROR', err);
     }
+    // // console.log("SDFSFDATAS", udatas);
+    
 
   };
   if (!doing){
