@@ -649,6 +649,11 @@ export function DataTable({ kinds }) {
         <Link to={createLink} class="btn btn-primary pull-right">공지 등록</Link>
       )
     }
+    else if (kinds === 'gallery'){
+      return(
+        <Link to={createLink} class="btn btn-primary pull-right">행사앨범 등록</Link>
+      )
+    }
     else if (kinds === 'schedule'){
       return(
         <Link to={createLink} class="btn btn-primary pull-right">일정 등록</Link>
@@ -659,6 +664,7 @@ export function DataTable({ kinds }) {
         <Link to={createLink} class="btn btn-primary pull-right">임원단 등록</Link>
       )
     }
+    
   }
   const onClickDel = async (e) => {
     e.preventDefault();
@@ -728,9 +734,16 @@ export function DataTable({ kinds }) {
       const promises = checkList.map(async (id, i) => {
         // console.log("III", i);
         if (checkFilenameList[i]) {
-          // console.log("CHEKCFILIST", checkFilenameList[i]);
-          const ref = storage.ref().child(checkFilenameList[i]);
-          ref.delete();
+          if (kinds === 'gallery' || kinds === 'notice') {
+            checkFilenameList[i].map((file) => {
+              const ref = storage.ref().child(file);
+              ref.delete();
+            })
+          } else {
+            // console.log("CHEKCFILIST", checkFilenameList[i]);
+            const ref = storage.ref().child(checkFilenameList[i]);
+            ref.delete();
+          }
 
         }
         await collection.doc(id).delete()

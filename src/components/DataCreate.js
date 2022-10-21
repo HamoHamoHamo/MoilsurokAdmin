@@ -81,7 +81,7 @@ export default function DataCreateForm({ kinds }) {
         pubDate: today,
       }));
     }
-    // console.log('INPUTSSS', inputs);
+    console.log('INPUTSSS', inputs);
   };
     
   const onSubmit = async (e) => {
@@ -103,7 +103,30 @@ export default function DataCreateForm({ kinds }) {
     }
 
     let field = '';
-    if(files && files.length > 0){
+    if((kinds === 'gallery' && files) || (kinds === 'notice' && files)) {
+      let filenames = [];
+      const fileList = await Promise.all(
+        files.map(async(file, i) => {
+          const filename = `files/${kinds}/${uuidv4()}_${file.name}`;
+          const storageUrl = storage.ref().child(filename)
+          filenames.push(filename);
+          try {
+            await storageUrl.put(file)
+            const downloadUrl = await storageUrl.getDownloadURL()
+            // console.log("DOWNLAOTDURL", downloadUrl);
+            return downloadUrl;
+          } catch(err) {
+            // console.log("ERROR", err);
+          }
+          
+        }, [])
+      );
+      udatas = {
+        ...inputs,
+        files: inputs.files ? [...inputs.files, ...fileList] : fileList,
+        filenames: inputs.filenames ? [...inputs.filenames, ...filenames] : filenames
+      };
+    } else if(files && files.length > 0){
       let filenames = [];
 			
       const fileList = files && await Promise.all(
@@ -178,6 +201,9 @@ export default function DataCreateForm({ kinds }) {
             case "notice": 
               COUNTER.doc('counter').update({ notice: parseInt(doc.data().notice) +1 }).then(window.location.href = `/datas/${kinds}`);
               break;
+            case "gallery": 
+              COUNTER.doc('counter').update({ gallery: parseInt(doc.data().gallery) +1 }).then(window.location.href = `/datas/${kinds}`);
+              break;
             case "executive": 
               switch(id) {
                 case '01동창회회장':
@@ -229,7 +255,7 @@ export default function DataCreateForm({ kinds }) {
                   onSubmit={onSubmit}
                   class="form-horizontal form-label-left"
                 >
-                  <HandleCreate onChange={onChange} inputs={inputs} id={id}/>
+                  <HandleCreate setInputs={setInputs} onChange={onChange} inputs={inputs} id={id}/>
                   <div class="ln_solid">
                     <div class="form-group">
                       <div class="col-md-2" style={{ marginTop: "20px" }}>

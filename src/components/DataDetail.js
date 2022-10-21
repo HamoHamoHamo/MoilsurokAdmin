@@ -91,12 +91,6 @@ export default function DataDetail({ kinds }) {
   } else if (kinds === "schedule") {
     HandleDetail = ScheduleDetail;
     title = "일정 데이터"
-  } else if (kinds === "question") {
-    HandleDetail = QuestionDetail;
-    title = "문의 데이터"
-  } else if (kinds === "answer") {
-    HandleDetail = AnswerDetail;
-    title = "답변 데이터"
   }
   
   const back = () => {
@@ -120,37 +114,29 @@ export default function DataDetail({ kinds }) {
         case 'gallery':
           COUNTER.doc('counter').update({ gallery: cnt.gallery - 1 });
           break;
-        case 'reqProfile':
-          COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
-          break;
-        case 'reqQuestion':
-          COUNTER.doc('counter').update({ question: cnt.question - 1 });
-          break;
         case 'committee':
           COUNTER.doc('counter').update({ committee: cnt.committee - 1 });
           break;
       }
 
       if (datas.filenames) {
-
-        const ref = storage.ref().child(datas.filenames);
-        // console.log("REFFF", ref);
-        ref.delete();
-        
-      }
-      if (curCheck === "X") {
-        switch (kinds) {
-          case "profile":
-            COUNTER.doc('counter').update({ reqProfile: cnt.reqProfile - 1 });
-            break;
+        // 배열로 저장된 파일 삭제
+        if (kinds === 'gallery' || kinds === 'notice'){
+          datas.filenames.map(async (file) => {
+            const ref = storage.ref().child(file);
+            ref.delete();
+          })
+        } else {
+          const ref = storage.ref().child(datas.filenames);
+          ref.delete();
         }
       }
+      
       collection
         .doc(id)
         .delete()
         .then(() => {
           navigate(-1);
-          // // console.log("navigate");
         })
         .catch((res) => alert("DELETE ERROR\n", res));
     }
@@ -172,7 +158,31 @@ export default function DataDetail({ kinds }) {
       datas.num = parseInt(datas.num)
     }
 
-    if(files && files.length > 0){
+    if((kinds === 'gallery' && files) || (kinds === 'notice' && files)) {
+      let filenames = [];
+      const fileList = await Promise.all(
+        files.map(async(file, i) => {
+          const filename = `files/${kinds}/${uuidv4()}_${file.name}`;
+          const storageUrl = storage.ref().child(filename)
+          filenames.push(filename);
+          try {
+            await storageUrl.put(file)
+            const downloadUrl = await storageUrl.getDownloadURL()
+            // console.log("DOWNLAOTDURL", downloadUrl);
+            return downloadUrl;
+          } catch(err) {
+            // console.log("ERROR", err);
+          }
+          
+        }, [])
+      );
+      udatas = {
+        ...datas,
+        files: datas.files ? [...datas.files, ...fileList] : fileList,
+        filenames: datas.filenames ? [...datas.filenames, ...filenames] : filenames
+      };
+
+    } else if(files && files.length > 0){
       let downloadUrl = '';
       const filename = `files/${kinds}/${uuidv4()}_${files[0].name}`;
       const storageUrl = await storage.ref().child(filename)
@@ -210,6 +220,8 @@ export default function DataDetail({ kinds }) {
       window.alert('수정 완료')
     } catch(err) {
       window.alert('수정 실패');
+      console.log("err", err)
+      console.log('datass', udatas);
     }
     navigate(-1);
   };
@@ -246,12 +258,15 @@ export default function DataDetail({ kinds }) {
     if(window.confirm("파일을 삭제하시겠습니까>")){
       const ref = storage.ref().child(path);
       try {
-        
-        // const newFiles = datas.files.filter((f) => f !== file);
-        // const newFilenames = datas.filenames.filter((p) => p !== path);
-        
-        const newFiles = '';
-        const newFilenames = '';
+        let newFiles = '';
+        let newFilenames = '';
+
+        if (kinds === 'gallery' || kinds === 'notice') {
+          newFiles = datas.files.filter((f) => f !== file);
+          newFilenames = datas.filenames.filter((p) => p !== path);
+        }
+        console.log("NEWFILES", newFiles)
+        console.log("NEWFILESname", newFilenames)
         
         setDatas((cur) => ({
           ...cur,
@@ -263,11 +278,12 @@ export default function DataDetail({ kinds }) {
           files: newFiles,
           filenames: newFilenames
         }
+        delete udata.uploadFiles;
         // console.log("UUUUJDATA", udata);
         await ref.delete();
         await collection.doc(id).update(udata);
       } catch(err) {
-        // console.log("ERR", err);
+        console.log("ERR", err);
         alert("삭제 실패", err);
       }
     }
@@ -275,7 +291,7 @@ export default function DataDetail({ kinds }) {
   if (status === 1) {
     return (
       <DataDetailForm title={title} onClickDel={onClickDel}>
-        <HandleDetail detail={detail} datas={datas} onChange={onChange} back={back} onSubmit={onSubmit} collection={collection} onClickFileDel={onClickFileDel} />
+        <HandleDetail detail={detail} datas={datas} onChange={onChange} back={back} onSubmit={onSubmit} collection={collection} onClickFileDel={onClickFileDel} setDatas={setDatas} />
       </DataDetailForm>
     );
   } else if (status === 404) {

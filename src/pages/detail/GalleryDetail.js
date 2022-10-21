@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { today } from '../../utils/Routes';
 
-export default function GalleryDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
+export default function GalleryDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel, setDatas }) {
   const {
     title,
     content,
@@ -12,8 +13,9 @@ export default function GalleryDetail({ datas, onChange, back, onSubmit, collect
     modifiedDate,
     pubDate,
   } = datas;
-  const [value, setValue] = useState('');
-  const [cnt, setCnt] = useState([0]);
+  const [cnt, setCnt] = useState(0);
+  const [imgBase64, setImgBase64] = useState([]);
+  const fileInput = useRef();
 
   // 사용하고 싶은 옵션, 나열 되었으면 하는 순서대로 나열
   const toolbarOptions = [
@@ -54,39 +56,35 @@ export default function GalleryDetail({ datas, onChange, back, onSubmit, collect
       container: toolbarOptions,
     },
   };
-  console.log("CNTTT", cnt)
-  const addFile = (e) => {
-    e.preventDefault();
-    setCnt(cur => [...cur, 0])
 
+  const onRemove = (i) => {
+    setImgBase64(imgBase64.filter(cur => cur.count != i))
+    
+  }
+
+  const addFile = (e) => {
+    fileInput.current.value = "";
   }
 
   const onChangeFile = (e) => {
-    console.log("EEEEEEE", e.target.files[0].name);
-    e.target.files[0].name = 'test'
-  }
+    const { name, files } = e.target;
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(cur => [...cur, {count: parseInt(cnt) + 1, file: files[0], filename: files[0].name, src: base64.toString()}]); // 파일 base64 상태 업데이트
+        setCnt(cnt+1)
+      }      
+    }
+    reader.readAsDataURL(files[0])
+    console.log("TODAY", today);
+    setDatas((datas) => ({
+      ...datas,
+      uploadFiles: datas.uploadFiles ? [...datas.uploadFiles, files[0]] : [files[0]],
+      modifiedDate: today,
+    }))
 
-  const InputImages = () => {
-
-    return (
-      <>
-        {cnt && cnt.map((a, i) => (
-          <div class="form-group row" key={i}>
-            <label class="control-label col-md-3 col-sm-3 ">사진</label>
-              <div class="col-md-4 col-sm-4 ">
-              <input
-                onChange={onChangeFile}
-                name="files"
-                type="file"
-                class="form-control"
-              />
-              </div>
-          </div> 
-        ))
-        }
-
-      </>
-    )
   }
 
   return (
@@ -108,25 +106,48 @@ export default function GalleryDetail({ datas, onChange, back, onSubmit, collect
             />
           </div>
         </div>
-        <InputImages />
         <div class="form-group row">
-          <label class="control-label col-md-3 col-sm-3 "></label>
-          <div class="col-md-4 col-sm-4 ">
-            <button onClick={addFile} class="btn btn-primary">파일 추가</button>
+            <label class="control-label col-md-3 col-sm-3 ">사진</label>
+              <div class="col-md-4 col-sm-4 ">
+              <label style={{cursor: 'pointer'}} htmlFor='addFile' class="btn btn-primary">파일 추가</label>
+              <input
+                onChange={onChangeFile}
+                name="files"
+                type="file"
+                class="form-control"
+                id='addFile'
+                ref={fileInput}
+                style={{display: 'none'}}
+              />
+              </div>
           </div>
-        </div>
-        {files &&
-          <div class="form-group row">
+        {files && files.map((img, i) => (
+          <div class="form-group row" key={`files${i}`}>
             <label class="control-label col-md-3 col-sm-3 "></label>
             <div class="col-md-6 col-sm-6 " style={{display: "flex", flexDirection: "column", height: '400px', marginBottom: '50px'}}>
-              <img style={{border: '1px solid', objectFit: 'scale-down', height: '100%'}} src={files} />
-              <div>
-                <a href={files} target="_blank">{filenames.slice(filenames.indexOf("_") + 1)}</a>
-                <a onClick={() => onClickFileDel(filenames, files, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
+              <img style={{border: '1px solid', objectFit: 'scale-down', height: '100%'}} src={img} />
+              <div style={{fontSize: '16px'}}>
+                <a href={img} target="_blank">{filenames[i].slice(filenames[i].indexOf("_") + 1)}</a>
+                <a onClick={() => onClickFileDel(filenames[i], img, collection)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
               </div>
             </div>
           </div>
-        }
+        ))}
+        {imgBase64 && imgBase64.map((data,i) => (
+          <div class="form-group row" key={i}>
+            <label class="control-label col-md-3 col-sm-3 "></label>
+            <div class="col-md-6 col-sm-6 " style={{display: "flex", flexDirection: "column", height: '400px', marginBottom: '50px'}}>
+              <img style={{border: '1px solid', objectFit: 'scale-down', height: '100%'}} src={data.src} />
+              <div style={{fontSize: '16px'}}>
+                <span>{data.filename}</span>
+                <a onClick={() => onRemove(data.count)} style={{cursor: "pointer"}}><i style={{marginLeft: "20px"}} class="fa fa-close"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          
+        ))}
+        
         <div class="form-group row ">
           <label class="control-label col-md-3 col-sm-3 ">내용</label>
           <div class="col-md-6 col-sm-6 ">
