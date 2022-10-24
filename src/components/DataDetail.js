@@ -210,7 +210,11 @@ export default function DataDetail({ kinds }) {
     } else {
       udatas = datas;
     }
-    
+    // 유저 수정 시 certificatedPhoneNum 추가
+    if (kinds === 'user') {
+      udatas.certificatedPhoneNum = udatas.phoneNum.split('/')
+      console.log(udatas.certificatedPhoneNum)
+    }
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{

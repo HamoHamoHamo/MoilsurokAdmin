@@ -128,6 +128,12 @@ export default function DataCreateForm({ kinds }) {
     }
     // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
+
+    // 유저 생성 시 certificatedPhoneNum 추가
+    if (kinds === 'user') {
+      udatas.certificatedPhoneNum = udatas.phoneNum.split('/')
+      console.log(udatas.certificatedPhoneNum)
+    }
 		
     if (kinds === 'committee') {
       COUNTER.doc('counter').get().then((doc) => {
