@@ -10,7 +10,7 @@ export default function CreateUser({ onChange, inputs}) {
           <input
             onChange={onChange}
             name="year"
-            type="number"
+            type="text"
             class="form-control"
             
           />

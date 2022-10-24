@@ -27,6 +27,22 @@ export default function DataCreateForm({ kinds }) {
   let collection = '';
   let doing = false;
 
+  // 모든 회원 기수 데이터 숫자에서 문자 +'기' 붙이게 바꾸기
+  // useEffect(() => {
+  //   if (kinds === 'user') {
+  //     USER.get().then((res) => {
+  //       res.forEach((doc) => {
+  //         const data = doc.data();
+  //         const intYear = parseInt(data.year);
+  //         const year = intYear < 10 ? `0${intYear}기` : `${intYear}기`;
+  //         console.log("year", year)
+  //         console.log("id", doc.id)
+  //         USER.doc(doc.id).update({year: year});
+  //       });
+  //     })
+  //   }
+  // }, [])
+
   if(kinds === "notice") {
     HandleCreate = CreateNotice;
     title = "공지사항";
