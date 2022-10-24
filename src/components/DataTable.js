@@ -412,17 +412,26 @@ export function DataTable({ kinds }) {
           };
           if (kinds === 'executiveList') {
             switch (urlId) {
-              case '01동창회회장':
+              case '01회장단':
                 setCount(doc.data().executive01)
                 break;
               case '02명예회장':
                 setCount(doc.data().executive02)
                 break;
-              case '03자문위원':
+              case '03교수진':
                 setCount(doc.data().executive03)
                 break;
-              case '04부회장이사':
+              case '04집행부':
                 setCount(doc.data().executive04)
+                break;
+              case '05운영분과':
+                setCount(doc.data().executive05)
+                break;
+              case '06언론편집분과':
+                setCount(doc.data().executive06)
+                break;
+              case '07동호회':
+                setCount(doc.data().executive07)
                 break;
             }
           }

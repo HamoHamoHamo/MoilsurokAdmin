@@ -98,9 +98,6 @@ export default function DataCreateForm({ kinds }) {
     if (inputs.num) {
       inputs.num = parseInt(inputs.num)
     }
-    if (kinds === 'executive') {
-      inputs.num = inputs.comPosition === '회장' ? 0 : 1;
-    }
 
     let field = '';
     if((kinds === 'gallery' && files) || (kinds === 'notice' && files)) {
@@ -206,18 +203,27 @@ export default function DataCreateForm({ kinds }) {
               break;
             case "executive": 
               switch(id) {
-                case '01동창회회장':
-                  COUNTER.doc('counter').update({ executive01: parseInt(doc.data().executive01) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
-                  break;
-                case '02명예회장':
-                  COUNTER.doc('counter').update({ executive02: parseInt(doc.data().executive02) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
-                  break;
-                case '03자문위원':
-                  COUNTER.doc('counter').update({ executive03: parseInt(doc.data().executive03) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
-                  break;
-                case '04부회장이사':
-                  COUNTER.doc('counter').update({ executive04: parseInt(doc.data().executive04) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
-                  break;
+                case '01회장단':
+                COUNTER.doc('counter').update({ executive01: parseInt(doc.data().executive01) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '02명예회장':
+                COUNTER.doc('counter').update({ executive02: parseInt(doc.data().executive02) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '03교수진':
+                COUNTER.doc('counter').update({ executive03: parseInt(doc.data().executive03) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '04집행부':
+                COUNTER.doc('counter').update({ executive04: parseInt(doc.data().executive04) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '05운영분과':
+                COUNTER.doc('counter').update({ executive05: parseInt(doc.data().executive05) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '06언론편집분과':
+                COUNTER.doc('counter').update({ executive06: parseInt(doc.data().executive06) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
+              case '07동호회':
+                COUNTER.doc('counter').update({ executive07: parseInt(doc.data().executive07) +1 }).then(window.location.href = `/datas/${kinds}/${id}`);
+                break;
               }
               break;
             case "user": 

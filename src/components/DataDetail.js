@@ -107,6 +107,31 @@ export default function DataDetail({ kinds }) {
         case 'gallery':
           COUNTER.doc('counter').update({ gallery: cnt.gallery - 1 });
           break;
+        case 'executive':
+          switch(detail) {
+            case '01회장단':
+            COUNTER.doc('counter').update({ executive01: cnt.executive01 -1 });
+            break;
+          case '02명예회장':
+            COUNTER.doc('counter').update({ executive02: cnt.executive02 -1 });
+            break;
+          case '03교수진':
+            COUNTER.doc('counter').update({ executive03: cnt.executive03 -1 });
+            break;
+          case '04집행부':
+            COUNTER.doc('counter').update({ executive04: cnt.executive04 -1 });
+            break;
+          case '05운영분과':
+            COUNTER.doc('counter').update({ executive05: cnt.executive05 -1 });
+            break;
+          case '06언론편집분과':
+            COUNTER.doc('counter').update({ executive06: cnt.executive06 -1 });
+            break;
+          case '07동호회':
+            COUNTER.doc('counter').update({ executive07: cnt.executive07 -1 });
+            break;
+          }
+          break;
       }
 
       if (datas.filenames) {
