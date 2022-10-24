@@ -137,6 +137,22 @@ export default function DataDetail({ kinds }) {
         case 'committee':
           COUNTER.doc('counter').update({ committee: cnt.committee - 1 });
           break;
+        case 'executive':
+          switch(detail) {
+            case '01동창회회장':
+            COUNTER.doc('counter').update({ executive01: cnt.executive01 -1 });
+            break;
+          case '02명예회장':
+            COUNTER.doc('counter').update({ executive02: cnt.executive02 -1 });
+            break;
+          case '03자문위원':
+            COUNTER.doc('counter').update({ executive03: cnt.executive03 -1 });
+            break;
+          case '04부회장이사':
+            COUNTER.doc('counter').update({ executive04: cnt.executive04 -1 });
+            break;
+          }
+          break;
       }
 
       if (datas.filenames) {
