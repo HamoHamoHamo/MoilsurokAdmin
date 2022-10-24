@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css';
 import { today } from '../../utils/Routes';
 
 export default function CreateNotice({ onChange, inputs, setInputs}) {
@@ -8,45 +8,46 @@ export default function CreateNotice({ onChange, inputs, setInputs}) {
   const [imgBase64, setImgBase64] = useState([]);
   const fileInput = useRef();
   
-  // 사용하고 싶은 옵션, 나열 되었으면 하는 순서대로 나열
-  const toolbarOptions = [
-    ["link", "image", "video"],
-    [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
-  ]; 
+  // // 사용하고 싶은 옵션, 나열 되었으면 하는 순서대로 나열
+  // const toolbarOptions = [
+  //   ["link", "image", "video"],
+  //   [{ header: [1, 2, 3, false] }],
+  //   ["bold", "italic", "underline", "strike"],
+  //   ["blockquote"],
+  //   [{ list: "ordered" }, { list: "bullet" }],
+  //   [{ color: [] }, { background: [] }],
+  //   [{ align: [] }],
+  // ]; 
 
 
-  // 옵션에 상응하는 포맷, 추가해주지 않으면 text editor에 적용된 스타일을 볼수 없음
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "align",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "background",
-    "color",
-    "link",
-    "image",
-    "video",
-    "width",
-  ];
-  // text editor
-  const modules = {
-    toolbar: {
-      container: toolbarOptions,
-    },
-  };
+  // // 옵션에 상응하는 포맷, 추가해주지 않으면 text editor에 적용된 스타일을 볼수 없음
+  // const formats = [
+  //   "header",
+  //   "font",
+  //   "size",
+  //   "bold",
+  //   "italic",
+  //   "underline",
+  //   "strike",
+  //   "align",
+  //   "blockquote",
+  //   "list",
+  //   "bullet",
+  //   "indent",
+  //   "background",
+  //   "color",
+  //   "link",
+  //   "image",
+  //   "video",
+  //   "width",
+  // ];
+  // // text editor
+  // const modules = {
+  //   toolbar: {
+  //     container: toolbarOptions,
+  //   },
+  // };
+
   const onRemove = (i) => {
     setImgBase64(imgBase64.filter(cur => cur.count != i))
     
