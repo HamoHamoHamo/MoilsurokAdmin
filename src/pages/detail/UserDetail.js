@@ -156,7 +156,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           />
         </div>
       </div>
-      <div class="form-group row ">
+      {/* <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">업종</label>
         <div class="col-md-4 col-sm-4 ">
           <input
@@ -167,7 +167,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
             value={sector}
           />
         </div>
-      </div>
+      </div> */}
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
         <div class="col-md-4 col-sm-4 ">
