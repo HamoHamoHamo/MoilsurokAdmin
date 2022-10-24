@@ -340,7 +340,7 @@ export default function UploadUser() {
               obj.name = data;
               break;
             case 3:
-              obj.birthdate = data;
+              obj.birthdate = String(data);
               break;
             case 4:
               obj.lunarCalendar = data;
