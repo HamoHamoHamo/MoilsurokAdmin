@@ -6,7 +6,6 @@ import QuestionDetail from "../pages/detail/QuestionDetail"
 import ScheduleDetail from "../pages/detail/ScheduleDetail"
 import UserDetail from "../pages/detail/UserDetail"
 import ExecutiveDetail from "../pages/detail/ExecutiveDetail"
-import CommitteeDetail from "../pages/detail/CommitteeDetail"
 import {
   USER,
   NOTICE,
@@ -18,7 +17,6 @@ import {
   storage,
   COUNTER,
   EXECUTIVE,
-  COMMITTEE,
 } from "../utils/Firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
@@ -54,8 +52,6 @@ export default function DataDetail({ kinds }) {
       col = ANSWER;
     } else if (kinds === "executive") {
       col = EXECUTIVE.doc(detail).collection('userList');
-    } else if (kinds === "committee") {
-      col = COMMITTEE;
     }
     // console.log("COCCLL", col);
     col.doc(id).get().then((doc) => {
@@ -79,9 +75,6 @@ export default function DataDetail({ kinds }) {
   } else if (kinds === "executive") {
     HandleDetail = ExecutiveDetail;
     title = "임원단 데이터"
-  } else if (kinds === "committee") {
-    HandleDetail = CommitteeDetail;
-    title = "운영위원회 데이터"
   } else if (kinds === "notice") {
     HandleDetail = NoticeDetail;
     title = "공지사항 데이터"
@@ -113,9 +106,6 @@ export default function DataDetail({ kinds }) {
           break;
         case 'gallery':
           COUNTER.doc('counter').update({ gallery: cnt.gallery - 1 });
-          break;
-        case 'committee':
-          COUNTER.doc('counter').update({ committee: cnt.committee - 1 });
           break;
       }
 

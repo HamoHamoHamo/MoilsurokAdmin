@@ -33,8 +33,7 @@ const ANSWER = firestore.collection('Answer');
 const PROFILE = firestore.collection('Profile');
 const COUNTER = firestore.collection('Counter');
 const EXECUTIVE = firestore.collection('Executive');
-const COMMITTEE = firestore.collection('Committee');
 
 // 필요한 곳에서 사용할 수 있도록 내보내기
-export { storage, firestore, auth, EXECUTIVE, COMMITTEE, USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, COUNTER };
+export { storage, firestore, auth, EXECUTIVE, USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, COUNTER };
 

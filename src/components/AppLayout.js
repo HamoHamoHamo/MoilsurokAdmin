@@ -237,9 +237,6 @@ function AppLayout() {
                           <a href={routes.datasExecutive}>임원단</a>
                         </li>
                         <li>
-                          <a href={routes.datasCommittee}>운영위원회</a>
-                        </li>
-                        <li>
                           <a href={routes.datasNotice}>공지사항</a>
                         </li>
                         <li>

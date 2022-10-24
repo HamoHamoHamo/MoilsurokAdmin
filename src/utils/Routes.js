@@ -12,8 +12,6 @@ const DATAS_SCHEDULE_DETAIL = "/datas/schedule/:id";
 const DATAS_EXECUTIVE = "/datas/executive";
 const DATAS_EXECUTIVE_LIST = "/datas/executive/:id";
 const DATAS_EXECUTIVE_DETAIL = "/datas/executive/:id/:detail";
-const DATAS_COMMITTEE = "/datas/committee";
-const DATAS_COMMITTEE_DETAIL = "/datas/committee/:id";
 
 const REQ_PROFILE = "/req/profile";
 const REQ_PROFILE_DETAIL = "/req/profile/:id";
@@ -77,14 +75,6 @@ const routes = {
       return `/datas/executive/${detail}/${id}`;
     } else {
       return DATAS_EXECUTIVE_DETAIL;
-    }
-  },
-  datasCommittee: DATAS_COMMITTEE,
-  datasCommitteeDetail : (id) => {
-    if(id) {
-      return `/datas/committee/${id}`;
-    } else {
-      return DATAS_COMMITTEE_DETAIL;
     }
   },
   reqProfile: REQ_PROFILE,

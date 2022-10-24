@@ -27,8 +27,6 @@ function Root() {
         <Route path={routes.datasGalleryDetail()} element={<DataDetail kinds={"gallery"} />} />
         <Route path={routes.datasSchedule} element={<DataTable kinds={"schedule"} />} />
         <Route path={routes.datasScheduleDetail()} element={<DataDetail kinds={"schedule"} />} />
-        <Route path={routes.datasCommittee} element={<DataTable kinds={"committee"} />} />
-        <Route path={routes.datasCommitteeDetail()} element={<DataDetail kinds={"committee"} />} />
         <Route path={routes.datasExecutive} element={<DataTable kinds={"executive"} />} />
         <Route path={routes.datasExecutiveList()} element={<DataTable kinds={"executiveList"} />} />
         <Route path={routes.datasExecutiveDetail()} element={<DataDetail kinds={"executive"} />} />

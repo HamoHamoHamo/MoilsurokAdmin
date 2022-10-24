@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, EXECUTIVE, COMMITTEE } from "../utils/Firebase";
+import { USER, GALLERY, NOTICE, SCHEDULE, QUESTION, ANSWER, PROFILE, storage, COUNTER, EXECUTIVE } from "../utils/Firebase";
 import { userDatas, userTableDatas } from "../pages/datas/DatasUser";
 import { scheduleDatas, scheduleTableDatas } from "../pages/datas/DatasSchedule";
 import { questionDatas, questionTableDatas } from "../pages/datas/DatasQuestion";
@@ -9,7 +9,6 @@ import { galleryDatas, galleryTableDatas } from "../pages/datas/DatasGallery";
 import { answerDatas, answerTableDatas } from "../pages/datas/DatasAnswer";
 import { executiveDatas, executiveTableDatas } from "../pages/datas/DatasExecutive";
 import { executiveListDatas, executiveListTableDatas, executiveListTableDatas2 } from "../pages/datas/DatasExecutiveList";
-import { committeeDatas, committeeTableDatas } from "../pages/datas/DatasCommittee";
 
 import { reqProfileDatas, reqProfileTableDatas } from "../pages/req/ReqProfile";
 import { reqQuestionDatas, reqQuestionTableDatas } from "../pages/question/Question";
@@ -354,36 +353,6 @@ export function DataTable({ kinds }) {
     filterData = executiveListDatas;
     tableDatas = executiveListTableDatas;
     createLink = routes.createExecutive(urlId)
-    if (urlId === '04부회장이사') {
-      header = [
-        '기수',
-        '직책',
-        '이름',
-        '수정시간',
-      ]
-      headerType = [
-        'year',
-        'comPosition',
-        'name',
-        'modifiedDate',
-      ]
-      tableDatas = executiveListTableDatas2;
-    }
-  } else if (kinds === "committee") {
-    collection = COMMITTEE;
-    title = "운영위원회";
-    header = [
-      '직책',
-      '이름',
-      '수정시간',
-    ]
-    headerType = [
-      'comPosition',
-      'name',
-      'modifiedDate',
-    ]
-    filterData = committeeDatas;
-    tableDatas = committeeTableDatas;
   }
   // console.log('datas', datas);
   // console.log('lastdoc', lastDoc);
@@ -440,9 +409,6 @@ export function DataTable({ kinds }) {
             case 'reqQuestion':
               setCount(doc.data().question)
               break;
-            case 'committee':
-              setCount(doc.data().committee)
-              break;
           };
           if (kinds === 'executiveList') {
             switch (urlId) {
@@ -465,7 +431,7 @@ export function DataTable({ kinds }) {
       if (req) {
         getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").limit(75).get()
       } else {
-        if (kinds === 'executive' | kinds === 'committee'){
+        if (kinds === 'executive'){
           getDocs = collection.get()
         } else if (kinds === 'executiveList'){
           if (urlId === '04부회장이사') {
@@ -506,11 +472,6 @@ export function DataTable({ kinds }) {
           getDocs = collection.orderBy('num').where(search.title, "==", search.input).limit(75).get()
           
         }
-      } else if (kinds === 'committee') {
-        collection.where(search.title, "==", search.input).get().then((docs) => {
-          setCount(docs.size);
-        })
-        getDocs = collection.where(search.title, "==", search.input).limit(75).get()
       } else {
         collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
           // console.log("COUNT", docs.docs.length);
@@ -701,9 +662,6 @@ export function DataTable({ kinds }) {
           break;
         case 'reqQuestion':
           COUNTER.doc('counter').update({ question: newCnt });
-          break;
-        case 'committee':
-          COUNTER.doc('counter').update({ committee: newCnt });
           break;
         case 'executiveList':
           switch (urlId) {
