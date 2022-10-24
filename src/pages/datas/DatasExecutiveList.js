@@ -65,20 +65,11 @@ export const executiveListTableDatas = (dataList, checkList, checkEach, urlId) =
       } = obj
       const YearTd = '';
       
-      console.log('cur', urlId)
-      if (urlId == '04부회장이사') {
-        const YearTd = () => (
-          <td><Link to={routes.datasExecutiveDetail(urlId, id)}>{year}</Link></td>
-        )
-      }
       return(
         <tr key={i}>
           <td style={{width: '2%'}}>
             <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)}/>
           </td>
-          {YearTd &&
-          <YearTd></YearTd>
-          }
           <td><Link to={routes.datasExecutiveDetail(urlId, id)}>{comPosition}</Link></td>
           <td><Link to={routes.datasExecutiveDetail(urlId, id)}>{name}</Link></td>
           <td><Link to={routes.datasExecutiveDetail(urlId, id)}>{modifiedDate}</Link></td>

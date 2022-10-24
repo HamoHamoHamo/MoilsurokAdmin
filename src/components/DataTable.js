@@ -443,11 +443,7 @@ export function DataTable({ kinds }) {
         if (kinds === 'executive'){
           getDocs = collection.get()
         } else if (kinds === 'executiveList'){
-          if (urlId === '04부회장이사') {
-            getDocs = collection.orderBy('year').orderBy('num').limit(75).get()
-          } else {
-            getDocs = collection.orderBy('num').get()
-          }
+          getDocs = collection.orderBy('num').get()
         } else {
           getDocs = collection.orderBy("modifiedDate", "desc").limit(75).get()
         }
@@ -462,25 +458,10 @@ export function DataTable({ kinds }) {
         })
         getDocs = collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).limit(75).get()
       } else if (kinds === 'executiveList') {
-        if (urlId === '04부회장이사') {
-          if (search.title === 'year') {
-            collection.where(search.title, "==", search.input).get().then((docs) => {
-              setCount(docs.size);
-            })
-            getDocs = collection.where(search.title, "==", search.input).limit(75).get()
-          } else {
-            collection.orderBy('year').where(search.title, "==", search.input).get().then((docs) => {
-              setCount(docs.size);
-            })
-            getDocs = collection.orderBy('year').where(search.title, "==", search.input).limit(75).get()
-          }
-        } else {
-          collection.orderBy('num').where(search.title, "==", search.input).get().then((docs) => {
-            setCount(docs.size);
-          })
-          getDocs = collection.orderBy('num').where(search.title, "==", search.input).limit(75).get()
-          
-        }
+        collection.orderBy('num').where(search.title, "==", search.input).get().then((docs) => {
+          setCount(docs.size);
+        })
+        getDocs = collection.orderBy('num').where(search.title, "==", search.input).limit(75).get()
       } else {
         collection.orderBy('modifiedDate', 'desc').where(search.title, "==", search.input).get().then((docs) => {
           // console.log("COUNT", docs.docs.length);
@@ -535,16 +516,12 @@ export function DataTable({ kinds }) {
         if (!search.input) {
           if (req) {
             getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").startAfter(lastDoc).limit(75).get()
-          } else if (urlId === '04부회장이사'){
-            getDocs = collection.orderBy("year").orderBy('num').startAfter(lastDoc).limit(75).get()
           } else {
             getDocs = collection.orderBy("modifiedDate", "desc").startAfter(lastDoc).limit(75).get()
           }
         } else {
           if (req) {
             getDocs = collection.orderBy("modifiedDate", "desc").where("check", "==", "X").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
-          } else if (urlId === '04부회장이사'){
-            getDocs = collection.orderBy("year").orderBy().where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
           } else {
             getDocs = collection.orderBy("modifiedDate", "desc").where(search.title, "==", search.input).startAfter(lastDoc).limit(75).get()
 
@@ -674,17 +651,26 @@ export function DataTable({ kinds }) {
           break;
         case 'executiveList':
           switch (urlId) {
-            case '01동창회회장':
+            case '01회장단':
               COUNTER.doc('counter').update({ executive01: newCnt });
               break;
             case '02명예회장':
               COUNTER.doc('counter').update({ executive02: newCnt });
               break;
-            case '03자문위원':
+            case '03교수진':
               COUNTER.doc('counter').update({ executive03: newCnt });
               break;
-            case '04부회장이사':
+            case '04집행부':
               COUNTER.doc('counter').update({ executive04: newCnt });
+              break;
+            case '05운영분과':
+              COUNTER.doc('counter').update({ executive05: newCnt });
+              break;
+            case '06언론편집분과':
+              COUNTER.doc('counter').update({ executive06: newCnt });
+              break;
+            case '07동호회':
+              COUNTER.doc('counter').update({ executive07: newCnt });
               break;
           }
           break;

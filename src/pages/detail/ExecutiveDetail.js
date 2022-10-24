@@ -12,29 +12,13 @@ export default function ExecutiveDetail({ detail, datas, onChange, back, onSubmi
     pubDate,
   } = datas;
   let showYear = false;
-  if (detail === '04부회장이사') {
-    showYear = true;
-  }
+  
   return (
     <form
       method="post"
       onSubmit={onSubmit}
       class="form-horizontal form-label-left"
     >
-      {showYear && 
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="year"
-            type="text"
-            class="form-control"
-            value={year}
-          />
-        </div>
-      </div>
-      }
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">직책</label>
         <div class="col-md-4 col-sm-4 ">
@@ -47,7 +31,6 @@ export default function ExecutiveDetail({ detail, datas, onChange, back, onSubmi
           />
         </div>
       </div>
-      {!showYear &&
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">순서</label>
         <div class="col-md-4 col-sm-4 ">
@@ -60,7 +43,6 @@ export default function ExecutiveDetail({ detail, datas, onChange, back, onSubmi
           />
         </div>
       </div>
-      }
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">

@@ -5,19 +5,6 @@ export default function CreateExecutive({ onChange, inputs, id}) {
   }
   return (
     <>
-      {showYear &&
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="year"
-            type="text"
-            class="form-control"
-          />
-        </div>
-      </div>
-      }
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">직책</label>
         <div class="col-md-4 col-sm-4 ">
@@ -29,7 +16,6 @@ export default function CreateExecutive({ onChange, inputs, id}) {
           />
         </div>
       </div>
-      {!showYear && 
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">순서</label>
         <div class="col-md-4 col-sm-4 ">
@@ -41,7 +27,6 @@ export default function CreateExecutive({ onChange, inputs, id}) {
           />
         </div>
       </div>
-      }
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">
