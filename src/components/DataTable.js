@@ -111,7 +111,7 @@ export function DataTable({ kinds }) {
   const [dataList, setDataList] = useState([]);
   const [datas, setDatas] = useState([]);
   const [curDatas, setCurDatas] = useState([]);
-  const [search, setSearch] = useState({});
+  const [search, setSearch] = useState({input: ''});
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState();
   const [onSearch, setOnSearch] = useState(0);
@@ -363,21 +363,22 @@ export function DataTable({ kinds }) {
     console.log('kindss', kinds, header)
     console.log('header', header[headerType.indexOf(queryKinds)])
     search.title = queryKinds;
-    search.input = querySearch;
+    search.input = querySearch ? querySearch : '';
     search.text = header[headerType.indexOf(queryKinds)];
     setSearch({
       title: queryKinds,
-      input: querySearch,
+      input: querySearch ? querySearch : '',
       text: header[headerType.indexOf(queryKinds)],
     })
     let list = [];
     let flist = [];
     let id = [];
     let getDocs = '';
-
+    setDataList([]);
+    
     if (!search.input) {
       // console.log('search', search);
-      setSearch({ title: headerType[0], text: header[0] });
+      setSearch({ input: '', title: headerType[0], text: header[0] });
       COUNTER.doc('counter').get().then((doc) => {
         if (doc.exists) {
           switch (kinds) {
@@ -450,7 +451,7 @@ export function DataTable({ kinds }) {
       }
       
     } else {
-      setDataList([]);
+      
       if (req) {
         collection.orderBy('modifiedDate', 'desc').where("check", "==", "X").where(search.title, "==", search.input).get().then((docs) => {
           // console.log("COUNT", docs.docs.length);
@@ -718,7 +719,12 @@ export function DataTable({ kinds }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    navigate(`?kinds=${search.title}&search=${search.input}`)
+    if (search.input === '') {
+      setSearch({input: ''});
+      navigate('');
+    } else {
+      navigate(`?kinds=${search.title}&search=${search.input}`);
+    }
     setOnSearch(onSearch + 1);
   }
   const onClickSearchType = (e) => {
