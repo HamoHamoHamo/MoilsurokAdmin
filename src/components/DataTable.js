@@ -676,15 +676,6 @@ export function DataTable({ kinds }) {
           }
           break;
       }
-      if (req) {
-        
-        switch (kinds) {
-          case 'reqProfile':
-            COUNTER.doc('counter').update({ profile: cnt.profile - checkList.length });
-            break;
-        }
-      }
-
       const promises = checkList.map(async (id, i) => {
         // console.log("III", i);
         if (checkFilenameList[i]) {
