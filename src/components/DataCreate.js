@@ -108,9 +108,9 @@ export default function DataCreateForm({ kinds }) {
     }
     // // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
-		
+		udatas.phoneNum = udatas.phoneNum ? [udatas.phoneNum] : '';
     try{
-      // // console.log("SDFSFDATAS", udatas);
+      console.log("SDFSFDATAS", udatas);
       const update = await collection.add(udatas).then((res) => {
         if (kinds === 'user' || kinds === 'notice'){
           console.log('uiddd', res.id)
@@ -166,7 +166,7 @@ export default function DataCreateForm({ kinds }) {
       });
     } catch(err) {
       window.alert("ERROR", err);
-      // console.log('ERROR', err);
+      console.log('ERROR', err);
     }
 
   };

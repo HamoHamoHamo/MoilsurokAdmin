@@ -6,7 +6,7 @@ export function userDatas(list, id, setDataList) {
   const res = list.reduce((acc0, data, idx) => {
     const reduce = Object.entries(data).reduce((acc, [key, val], i) => {
       // // console.log("KEY", key, "\nval", val, "\nacc", acc);
-      if(key === 'filenames' || key === 'year' || key === 'name' || key === 'phoneNum' || key === 'birthdate' || key === 'email' || key === 'company' || key === 'modifiedDate') {
+      if(key === 'filenames' || key === 'num' || key === 'year' || key === 'name' || key === 'field' || key === 'occupation' || key === 'company' || key === 'modifiedDate') {
         acc = {
           ...acc,
           [key]: val
@@ -28,11 +28,11 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
       const {
         id,
         filenames,
+        num,
         year,
         name,
-        phoneNum,
-        birthdate,
-        email,
+        field,
+        occupation,
         company,
         modifiedDate,
       } = obj
@@ -42,11 +42,11 @@ export const userTableDatas = (dataList, checkList, checkEach) => (
           <td style={{ width: '2%' }}>
             <input type="checkbox" onChange={(e) => checkEach(e, id, filenames)} checked={checkList.includes(id)} />
           </td>
+          <td style={{ width: '7%' }}><Link to={routes.datasUserDetail(id)}>{num}</Link></td>
+          <td style={{ width: '7%' }}><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{name}</Link></td>
-          <td><Link to={routes.datasUserDetail(id)}>{year}</Link></td>
-          {/* <td><Link to={routes.datasUserDetail(id)}>{birthdate}</Link></td> */}
-          <td><Link to={routes.datasUserDetail(id)}>{phoneNum}</Link></td>
-          <td><Link to={routes.datasUserDetail(id)}>{email}</Link></td>
+          <td><Link to={routes.datasUserDetail(id)}>{field}</Link></td>
+          <td><Link to={routes.datasUserDetail(id)}>{occupation}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{company}</Link></td>
           <td><Link to={routes.datasUserDetail(id)}>{modifiedDate}</Link></td>
         </tr>

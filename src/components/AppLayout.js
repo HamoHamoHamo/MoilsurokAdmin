@@ -203,7 +203,7 @@ function AppLayout() {
               <div class="navbar nav_title flex_center" style={{ border: 0 }}>
                 <a href={routes.home} class="site_title" style={{ lineHeight: 'normal' }}>
                   {/* <img src="/images/title.png" /> */}
-                  부산중앙고
+                  대한민국명장회
                 </a>
               </div>
 

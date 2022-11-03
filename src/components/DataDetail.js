@@ -173,8 +173,22 @@ export default function DataDetail({ kinds }) {
     
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
+    
+    const phoneList = udatas.phoneNum.split(',');
+    const tempList = [];
+    if (phoneList.length > 1) {
+      phoneList.map((phone) => {
+        const data = phone.replace(/ /g,""); // 공백제거
+        tempList.push(data);
+      })
+      udatas.phoneNum = tempList;
+
+    } else {
+      udatas.phoneNum = udatas.phoneNum ? [udatas.phoneNum] : '';
+    }
     try{
       const update = await collection.doc(id).update(udatas);
+      window.alert('수정 완료')
     } catch(err) {
       window.alert('수정 실패');
     }

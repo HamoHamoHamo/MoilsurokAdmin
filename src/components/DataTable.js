@@ -129,20 +129,20 @@ export function DataTable({ kinds }) {
     collection = USER;
     title = "회원";
     header = [
+      '증서번호',
+      '선정년도',
       '이름',
-      '기수',
-      // '생년월일',
-      '전화번호',
-      '이메일',
-      '회사명',
+      '분야',
+      '직종',
+      '소속',
       '수정시간',
     ];
     headerType = [
-      'name',
+      'num',
       'year',
-      // 'birthdate',
-      'phoneNum',
-      'email',
+      'name',
+      'field',
+      'occupation',
       'company',
       'modifiedDate',
     ]

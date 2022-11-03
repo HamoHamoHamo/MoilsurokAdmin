@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import readXlsxFile from 'read-excel-file';
-import { COUNTER, USER } from '../../utils/Firebase';
+import { COUNTER, USER, storage } from '../../utils/Firebase';
 import { useNavigate } from "react-router-dom";
 import routes from '../../utils/Routes';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UploadUser() {
   const [datas, setDatas] = useState([]);
+  const [photos, setPhotos] = useState({});
+
   const navigate = useNavigate();
   const onUploadFile = (e) => {
     readXlsxFile(e.target.files[0]).then((rows) => {
@@ -17,22 +20,30 @@ export default function UploadUser() {
     })
   };
 
-  // const onChange = (e, i) => {
-  //   const { value, name } = e.target;
-  //   const copy = [...datas];
-  //   // copy[i][name] = value;
-  //   // changeDatas[name] = value
-  //   // // console.log("changeeDatas", changeDatas, name, value);
-  //   // copy.splice(i, 1, copy[i])
-  //   datas[i][name] = value
-  //   // console.log('splice', )
-  //   // copy[i] = changeDatas;
-  //   setDatas((cur) => {
-  //     cur.splice(i, 1, )
-  //     return cur;
-  //   });
-  // }
+  const onUploadPhoto = (e) => {
+    const { files } = e.target;
+    setPhotos({});
+
+    Object.entries(files).map(([key, file]) => {
+      setPhotos((cur) => {
+        let name = file.name.split('.')[0];
+        
+        name = name.replace(/[0-9]/g,""); // 숫자제거
+        name = name.replace(/ /g,""); // 공백제거
+
+        if (file.name.split('.').length > 2) {
+          console.log("NAME", file.name);
+        }
+        return ({
+          ...cur,
+          [name]: file,
+        })
+      })
+    })
+  }
+
   let saving = false;
+  console.log("photos", photos);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -43,48 +54,53 @@ export default function UploadUser() {
         let obj = {};
         await dataList.map((data, i) => {
           switch (i) {
+            case 0:
+              obj.num = `${data}`;
+              break;
             case 1:
-              obj.year = data;
+              obj.year = `${data}`;
               break;
             case 2:
               obj.name = data;
               break;
             case 3:
-              obj.birthdate = data;
+              obj.field = data;
               break;
             case 4:
-              obj.phoneNum = data;
+              obj.occupation = data;
               break;
             case 5:
-              obj.email = data;
-              break;
-            case 6:
               obj.company = data;
               break;
+            case 6:
+              obj.phoneNum = [data];
+              break;
             case 7:
-              obj.department = data;
-              break;
-            case 8:
-              obj.comPosition = data;
-              break;
-            case 9:
-              obj.comTel = data;
-              break;
-            case 10:
-              obj.comAdr = data;
-              break;
-            case 11:
-              obj.faxNum = data;
+              obj.email = data;
               break;
           }
-          const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
-          const time = new Date().toTimeString().split(" ")[0];
-          let today = date + ' ' + time.substring(0,5);
-          obj.modifiedDate = today;
-          obj.pubDate = today;
-          obj.check = "O";
         })
-        // console.log("INPUTSS", obj);
+        const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
+        const time = new Date().toTimeString().split(" ")[0];
+        let today = date + ' ' + time.substring(0,5);
+        obj.modifiedDate = today;
+        obj.pubDate = today;
+        
+        if (photos[obj.name]) {
+          const file = photos[obj.name];
+          const filename = `files/user/${uuidv4()}_${file.name}`;
+          const storageUrl = storage.ref().child(filename);
+          try {
+            await storageUrl.put(file)
+            const downloadUrl = await storageUrl.getDownloadURL()
+            // console.log("DOWNLAOTDURL", downloadUrl);
+            obj.files = downloadUrl;
+            obj.filenames = filename
+          } catch(err) {
+            console.log("ERROR", err);
+          }
+        }
+
         await USER.add(obj).then((res) => {
           USER.doc(res.id).update({ uid: res.id }).catch((err) => {
             window.alert('uid저장 에러');
@@ -115,20 +131,43 @@ export default function UploadUser() {
     return (
       <>
         {datas && datas.map((data, i) => {
+          const num = data[0];
           const year = data[1];
           const name = data[2];
-          const birthdate = data[3];
-          const phoneNum = data[4];
-          const email = data[5];
-          const company = data[6];
-          const department = data[7];
-          const comPosition = data[8];
-          const comTel = data[9];
-          const comAdr = data[10];
-          const faxNum = data[11];
+          const field = data[3];
+          const occupation = data[4];
+          const company = data[5];
+          const phoneNum = data[6];
+          const email = data[7];
+
+          const filename = photos[name] ? photos[name].name : '';
 
           return (
             <div key={i}>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">증서번호</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={num}
+                    readOnly={true}
+                    class="form-control"
+
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">선정년도</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={year}
+                    readOnly={true}
+                    class="form-control"
+
+                  />
+                </div>
+              </div>
               <div class="form-group row ">
                 <label class="control-label col-md-3 col-sm-3 ">이름</label>
                 <div class="col-md-4 col-sm-4 ">
@@ -141,29 +180,41 @@ export default function UploadUser() {
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">기수</label>
+                <label class="control-label col-md-3 col-sm-3 ">분야</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
-                    value={year}
+                    value={field}
                     readOnly={true}
                     class="form-control"
                   />
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
+                <label class="control-label col-md-3 col-sm-3 ">직종</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
-                    type="date"
-                    value={birthdate}
+                    type="text"
+                    value={occupation}
                     readOnly={true}
                     class="form-control"
                   />
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
+                <label class="control-label col-md-3 col-sm-3 ">소속</label>
+                <div class="col-md-4 col-sm-4 ">
+                  <input
+                    type="text"
+                    value={company}
+                    readOnly={true}
+                    class="form-control"
+
+                  />
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label class="control-label col-md-3 col-sm-3 ">연락처</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
@@ -187,71 +238,11 @@ export default function UploadUser() {
                 </div>
               </div>
               <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">회사명</label>
+                <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
                 <div class="col-md-4 col-sm-4 ">
                   <input
                     type="text"
-                    value={company}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">부서</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={department}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">직위</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={comPosition}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">근무처 전화</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={comTel}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={comAdr}
-                    readOnly={true}
-                    class="form-control"
-
-                  />
-                </div>
-              </div>
-              <div class="form-group row ">
-                <label class="control-label col-md-3 col-sm-3 ">팩스 번호</label>
-                <div class="col-md-4 col-sm-4 ">
-                  <input
-                    type="text"
-                    value={faxNum}
+                    value={filename}
                     readOnly={true}
                     class="form-control"
 
@@ -278,12 +269,24 @@ export default function UploadUser() {
           <div class="x_panel">
             <div class="x_title" style={{ display: "flex", flexDirection: "column" }}>
               <h2>회원 업로드</h2>
-              <input
-                type="file"
-                class="navbar-right panel_toolbox btn btn-primary"
-                style={{ width: '20%' }}
-                onChange={onUploadFile}
-              />
+              <div class='x_content'>
+                <input
+                  type="file"
+                  class="btn btn-primary"
+                  style={{ width: '20%' }}
+                  onChange={onUploadFile}
+                />
+              
+                <label htmlFor='inputPicture' class="btn btn-primary">사진선택</label>
+                <input
+                  type="file"
+                  class="btn btn-primary"
+                  style={{ width: '15%', visibility: 'hidden' }}
+                  id="inputPicture"
+                  multiple={true}
+                  onChange={onUploadPhoto}
+                />
+              </div>
               <a style={{ width: '20%' }} class="btn btn-success" href="/동창회 데이터 양식.xlsx" download>데이터 양식 다운</a>
               <div class="clearfix"></div>
             </div>

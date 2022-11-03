@@ -1,40 +1,49 @@
 export default function UserDetail({ datas, onChange, back, onSubmit, collection, onClickFileDel }) {
   const {
+    num,
     year,
     name,
-    birthdate,
+    field,
+    occupation,
+    company,
     phoneNum,
     email,
-    company,
-    department,
-    comPosition,
-    comTel,
-    comAdr,
-    faxNum,
-    sector,
-    remark,
     pubDate,
     modifiedDate,
     files,
     filenames,
-    phoneNumCheck,
-    emailCheck,
     } = datas;
-    let emailChecked = false;
-    let phoneNumChecked = false;
 
-    if(emailCheck === "X") {
-      emailChecked = true;
-    }
-    if(phoneNumCheck === "X") {
-      phoneNumChecked = true;
-    }
   return (
     <form
       method="post"
       onSubmit={onSubmit}
       class="form-horizontal form-label-left"
     >
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">증서번호</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="num"
+            type="text"
+            class="form-control"
+            value={num}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">선정년도</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="year"
+            type="text"
+            class="form-control"
+            value={year}
+          />
+        </div>
+      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">이름</label>
         <div class="col-md-4 col-sm-4 ">
@@ -48,31 +57,43 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">기수</label>
+        <label class="control-label col-md-3 col-sm-3 ">분야</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
-            name="year"
+            name="field"
             type="text"
             class="form-control"
-            value={year}
+            value={field}
           />
         </div>
       </div>
-      {/* <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">생년월일</label>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">직종</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
-            name="birthdate"
-            type="date"
+            name="occupation"
+            type="text"
             class="form-control"
-            value={birthdate}
+            value={occupation}
           />
         </div>
-      </div> */}
+      </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">전화번호</label>
+        <label class="control-label col-md-3 col-sm-3 ">소속</label>
+        <div class="col-md-4 col-sm-4 ">
+          <input
+            onChange={onChange}
+            name="company"
+            type="text"
+            class="form-control"
+            value={company}
+          />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">연락처</label>
         <div class="col-md-4 col-sm-4 ">
           <input
             onChange={onChange}
@@ -96,90 +117,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
         </div>
       </div>
       <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">회사명</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="company"
-            type="text"
-            class="form-control"
-            value={company}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">부서</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="department"
-            type="text"
-            class="form-control"
-            value={department}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">직위</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comPosition"
-            type="text"
-            class="form-control"
-            value={comPosition}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">근무처 전화</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comTel"
-            type="text"
-            class="form-control"
-            value={comTel}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">직장주소</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="comAdr"
-            type="text"
-            class="form-control"
-            value={comAdr}
-          />
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">팩스 번호</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="faxNum"
-            type="text"
-            class="form-control"
-            value={faxNum}
-          />
-        </div>
-      </div>
-      {/* <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">업종</label>
-        <div class="col-md-4 col-sm-4 ">
-          <input
-            onChange={onChange}
-            name="sector"
-            type="text"
-            class="form-control"
-            value={sector}
-          />
-        </div>
-      </div> */}
-      <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">프로필 사진</label>
         <div class="col-md-4 col-sm-4 ">
         <input
@@ -199,68 +136,6 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
           </div>
         </div>
       }
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">전화번호 숨기기</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="phoneNumCheck"
-                type="radio"
-                checked={phoneNumCheck === "O"}
-                value="O"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="phoneNumCheck"
-                type="radio"
-                checked={phoneNumCheck === "X"}
-                value="X"
-                id="optionsRadios2"
-              />{" "}
-              X(숨기기)
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row ">
-        <label class="control-label col-md-3 col-sm-3 ">이메일 숨기기</label>
-        <div class="col-md-4 col-sm-4 ">
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="emailCheck"
-                type="radio"
-                checked={emailCheck === "O"}
-                value="O"
-                id="optionsRadios1"
-              />{" "}
-              O
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input
-                onChange={onChange}
-                name="emailCheck"
-                type="radio"
-                checked={emailCheck === "X"}
-                value="X"
-                id="optionsRadios2"
-              />{" "}
-              X(숨기기)
-            </label>
-          </div>
-        </div>
-      </div>
       <div class="form-group row ">
         <label class="control-label col-md-3 col-sm-3 ">수정시간</label>
         <div class="col-md-4 col-sm-4 ">
