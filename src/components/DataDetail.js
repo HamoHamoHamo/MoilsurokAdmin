@@ -59,7 +59,7 @@ export default function DataDetail({ kinds }) {
       });
     setCollection(col);
   }, []);
-  // console.log("DATA", datas)
+  console.log("DATA", datas)
 
   if (kinds === "user") {
     HandleDetail = UserDetail;
@@ -173,18 +173,20 @@ export default function DataDetail({ kinds }) {
     
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
-    
-    const phoneList = udatas.phoneNum.split(',');
-    const tempList = [];
-    if (phoneList.length > 1) {
-      phoneList.map((phone) => {
-        const data = phone.replace(/ /g,""); // 공백제거
-        tempList.push(data);
-      })
-      udatas.phoneNum = tempList;
-
-    } else {
-      udatas.phoneNum = udatas.phoneNum ? [udatas.phoneNum] : '';
+    console.log('data', udatas);
+    if (typeof(udatas.phoneNum) === 'string') {
+      const phoneList = udatas.phoneNum.split(',');
+      const tempList = [];
+      if (phoneList.length > 1) {
+        phoneList.map((phone) => {
+          const data = phone.replace(/ /g,""); // 공백제거
+          tempList.push(data);
+        })
+        udatas.phoneNum = tempList;
+  
+      } else {
+        udatas.phoneNum = udatas.phoneNum ? [udatas.phoneNum] : '';
+      }
     }
     try{
       const update = await collection.doc(id).update(udatas);
