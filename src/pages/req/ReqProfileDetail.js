@@ -37,40 +37,35 @@ export default function ReqProfileDetail() {
 
   
   const {
-    year,
-    name,
-    phoneNum,
     email,
+    homeAdr,
+    homeTel,
     company,
     comPosition,
-    comTel,
+    department,
     comAdr,
-    faxNum,
-    sector,
+    comTel,
+    faxNum,    
     check,
     pubDate,
     modifiedDate,
-    files,
-    filenames,
-    user,
+    name,
+    year,
   } = datas;
 
   const {
-    year: Uyear,
-    name: Uname,
-    phoneNum: UphoneNum,
     email: Uemail,
+    homeAdr: UhomeAdr,
+    homeTel: UhomeTel,
     company: Ucompany,
     comPosition: UcomPosition,
-    comTel: UcomTel,
+    department: Udepartment,
     comAdr: UcomAdr,
+    comTel: UcomTel,
     faxNum: UfaxNum,
-    sector: Usector,
     check: Ucheck,
     pubDate: UpubDate,
     modifiedDate: UmodifiedDate,
-    files: Ufiles,
-    filenames: Ufilenames,
   } = userDatas;
 
   console.log("DATSAS", datas);
@@ -150,16 +145,6 @@ export default function ReqProfileDetail() {
                 name="name"
                 type="text"
                 class="form-control"
-                value={Uname}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="name"
-                type="text"
-                class="form-control"
                 value={name}
                 readOnly
               />
@@ -172,43 +157,11 @@ export default function ReqProfileDetail() {
                 name="year"
                 type="text"
                 class="form-control"
-                value={Uyear}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="year"
-                type="text"
-                class="form-control"
                 value={year}
                 readOnly
               />
             </div>
-          </div>
-          <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">전화번호</label>
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="phoneNum"
-                type="text"
-                class="form-control"
-                value={UphoneNum}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                
-                name="phoneNum"
-                type="text"
-                class="form-control"
-                value={phoneNum}
-                readOnly
-              />
-            </div>
+
           </div>
           <div class="form-group row ">
             <label class="control-label col-md-2 col-sm-2 ">이메일</label>
@@ -229,6 +182,52 @@ export default function ReqProfileDetail() {
                 type="text"
                 class="form-control"
                 value={email}
+                readOnly
+              />
+            </div>
+          </div>
+          <div class="form-group row ">
+            <label class="control-label col-md-2 col-sm-2 ">자택주소</label>
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                name="homeAdr"
+                type="text"
+                class="form-control"
+                value={UhomeAdr}
+                readOnly
+              />
+            </div>
+            <div class="reqChangeArrow">▶</div> 
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                
+                name="homeAdr"
+                type="text"
+                class="form-control"
+                value={homeAdr}
+                readOnly
+              />
+            </div>
+          </div>
+          <div class="form-group row ">
+            <label class="control-label col-md-2 col-sm-2 ">자택전화</label>
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                name="homeTel"
+                type="text"
+                class="form-control"
+                value={UhomeTel}
+                readOnly
+              />
+            </div>
+            <div class="reqChangeArrow">▶</div> 
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                
+                name="homeTel"
+                type="text"
+                class="form-control"
+                value={homeTel}
                 readOnly
               />
             </div>
@@ -280,24 +279,23 @@ export default function ReqProfileDetail() {
             </div>
           </div>
           <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">근무처 전화</label>
+            <label class="control-label col-md-2 col-sm-2 ">부서</label>
             <div class="col-md-3 col-sm-3 ">
               <input
-                name="comTel"
+                name="department"
                 type="text"
                 class="form-control"
-                value={UcomTel}
+                value={Udepartment}
                 readOnly
               />
             </div>
             <div class="reqChangeArrow">▶</div> 
             <div class="col-md-3 col-sm-3 ">
               <input
-                
-                name="comTel"
+                name="department"
                 type="text"
                 class="form-control"
-                value={comTel}
+                value={department}
                 readOnly
               />
             </div>
@@ -326,6 +324,29 @@ export default function ReqProfileDetail() {
             </div>
           </div>
           <div class="form-group row ">
+            <label class="control-label col-md-2 col-sm-2 ">근무처 전화</label>
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                name="comTel"
+                type="text"
+                class="form-control"
+                value={UcomTel}
+                readOnly
+              />
+            </div>
+            <div class="reqChangeArrow">▶</div> 
+            <div class="col-md-3 col-sm-3 ">
+              <input
+                
+                name="comTel"
+                type="text"
+                class="form-control"
+                value={comTel}
+                readOnly
+              />
+            </div>
+          </div>
+          <div class="form-group row ">
             <label class="control-label col-md-2 col-sm-2 ">팩스 번호</label>
             <div class="col-md-3 col-sm-3 ">
               <input
@@ -344,42 +365,6 @@ export default function ReqProfileDetail() {
                 type="text"
                 class="form-control"
                 value={faxNum}
-                readOnly
-              />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 ">프로필 사진</label>
-            <div class="col-md-3 col-sm-3 " style={{display: "flex", alignItems: "center"}}>
-              {Ufiles && 
-                <a  href={Ufiles} target="_blank">{Ufilenames.slice(Ufilenames.indexOf("_") + 1)}</a>
-              }
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 " style={{display: "flex", alignItems: "center"}}>
-              {files && 
-                <a href={files} target="_blank">{filenames.slice(filenames.indexOf("_") + 1)}</a>              
-              }
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="control-label col-md-2 col-sm-2 ">업종</label>
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="sector"
-                type="text"
-                class="form-control"
-                value={Usector}
-                readOnly
-              />
-            </div>
-            <div class="reqChangeArrow">▶</div> 
-            <div class="col-md-3 col-sm-3 ">
-              <input
-                name="sector"
-                type="text"
-                class="form-control"
-                value={sector}
                 readOnly
               />
             </div>
