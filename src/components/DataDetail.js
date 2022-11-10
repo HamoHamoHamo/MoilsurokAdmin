@@ -171,6 +171,10 @@ export default function DataDetail({ kinds }) {
       udatas = datas;
     }
     
+    if (udatas.companyCheck) {
+      udatas.comAdrCheck = udatas.companyCheck;
+      udatas.comTelCheck = udatas.companyCheck;
+    }
     // console.log("FILELISTS", udatas.files);
     delete udatas.uploadFiles;
     try{

@@ -19,6 +19,7 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
     filenames,
     phoneNumCheck,
     emailCheck,
+    companyCheck,
     } = datas;
     let emailChecked = false;
     let phoneNumChecked = false;
@@ -253,6 +254,37 @@ export default function UserDetail({ datas, onChange, back, onSubmit, collection
                 name="emailCheck"
                 type="radio"
                 checked={emailCheck === "X"}
+                value="X"
+                id="optionsRadios2"
+              />{" "}
+              X(숨기기)
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="control-label col-md-3 col-sm-3 ">회사정보 숨기기</label>
+        <div class="col-md-4 col-sm-4 ">
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="companyCheck"
+                type="radio"
+                checked={companyCheck === "O"}
+                value="O"
+                id="optionsRadios1"
+              />{" "}
+              O
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input
+                onChange={onChange}
+                name="companyCheck"
+                type="radio"
+                checked={companyCheck === "X"}
                 value="X"
                 id="optionsRadios2"
               />{" "}
