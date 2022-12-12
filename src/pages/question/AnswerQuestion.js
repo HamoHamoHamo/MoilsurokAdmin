@@ -268,7 +268,7 @@ export default function AnswerQuestion() {
                           취소
                         </button>
                       </div>
-                      {curAnswer.content &&
+                      {curAnswer &&
                         <div class="col-md-6" style={{ marginTop: "20px" }}>
                           <button class="btn btn-danger pull-right" onClick={delAnswer}>
                             답변삭제
