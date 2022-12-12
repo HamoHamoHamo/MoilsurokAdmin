@@ -57,7 +57,7 @@ export default function AnswerQuestion() {
 
   const delAnswer = (e) => {
     e.preventDefault();
-    if(window.confirm("답변을 삭제하시겠습니까>")){      
+    if(window.confirm("답변을 삭제하시겠습니까?")){      
       ANSWER.doc(curAnswerId).delete().then(() => {
         QUESTION.doc(id).update({ check: 'X' }).then(() => navigate(-1));
       })
