@@ -75,6 +75,7 @@ export default function UploadUser() {
               obj.comPosition = data;
               break;
             case 4:
+              obj.certificatedPhoneNum = [data];
               obj.phoneNum = data;
               break;
             case 5:
